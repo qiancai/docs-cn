@@ -1543,7 +1543,25 @@ set tidb_slow_log_threshold = 200;
 
 - 作用域：GLOBAL
 - 默认值：`ON`
-- 这个变量用控制是否开启 [Top SQL 特性](/dashboard/top-sql.md)。
+- 这个变量用于控制是否开启 [Top SQL 特性](/dashboard/top-sql.md)。
+
+### `tidb_top_sql_max_meta_count` <span class="version-mark">从 v6.0.0 版本开始引入</span>
+
+- 作用域：GLOBAL
+- 默认值：`5000`
+- 范围：`[1, 10000]`
+- 这个变量用于控制 [Top SQL](/dashboard/top-sql.md) 每分钟最多收集 SQL 语句类型的数量。
+
+### `tidb_top_sql_max_time_series_count` <span class="version-mark">从 v6.0.0 版本开始引入</span>
+
+- 作用域：GLOBAL
+- 默认值：`100`
+- 范围：`[1, 5000]`
+- 这个变量用于控制 [Top SQL](/dashboard/top-sql.md) 每分钟保留消耗负载最大的前多少条 SQL（即 Top N) 的数据。
+
+> **注意：**
+>
+> TiDB Dashboard 中的 Top SQL 页面目前只显示消耗负载最多的 5 类 SQL 查询，这与 `tidb_top_sql_max_time_series_count` 的配置无关。
 
 ### `tidb_store_limit` <span class="version-mark">从 v3.0.4 和 v4.0 版本开始引入</span>
 
@@ -1551,6 +1569,12 @@ set tidb_slow_log_threshold = 200;
 - 默认值：`0`
 - 范围：`[0, 9223372036854775807]`
 - 这个变量用于限制 TiDB 同时向 TiKV 发送的请求的最大数量，0 表示没有限制。
+
+### `tidb_sysdate_is_now`（从 v6.0.0 版本开始引入）
+
+- 作用域：SESSION | GLOBAL
+- 默认值：`OFF`
+- 这个变量用于控制 `SYSDATE` 函数能否替换为 `NOW` 函数，其效果与 MYSQL 中的 [`sysdate-is-now`](https://dev.mysql.com/doc/refman/8.0/en/server-options.html#option_mysqld_sysdate-is-now) 一致。
 
 ### `tidb_table_cache_lease`（从 v6.0.0 版本开始引入）
 
@@ -1702,9 +1726,3 @@ set tidb_slow_log_threshold = 200;
 - 作用域：SESSION | GLOBAL
 - 默认值：`ON`
 - 这个变量用于控制计算窗口函数时是否采用高精度模式。
-
-### `tidb_sysdate_is_now`（从 v6.0.0 版本开始引入）
-
-- 作用域：SESSION | GLOBAL
-- 默认值：`OFF`
-- 这个变量用于控制 `SYSDATE` 函数能否替换为 `NOW` 函数，其效果与 MYSQL 中的 [`sysdate-is-now`](https://dev.mysql.com/doc/refman/8.0/en/server-options.html#option_mysqld_sysdate-is-now) 一致。
