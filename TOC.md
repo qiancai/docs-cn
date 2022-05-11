@@ -105,8 +105,8 @@
     - [从大数据量分库分表 MySQL 合并迁移数据到 TiDB](/migrate-large-mysql-shards-to-tidb.md)
     - [从 CSV 文件迁移数据到 TiDB](/migrate-from-csv-files-to-tidb.md)
     - [从 SQL 文件迁移数据到 TiDB](/migrate-from-sql-files-to-tidb.md)
-    - [从 TiDB 集群迁移至另一 TiDB 集群](/migrate-from-tidb-to-tidb.md)
-    - [从 TiDB 集群同步增量数据至 Kafka](/replicate-incremental-data-to-kafka.md)
+    - [从 TiDB 集群迁移数据至另一 TiDB 集群](/migrate-from-tidb-to-tidb.md)
+    - [从 TiDB 同步数据至 Apache Kafka](/replicate-data-to-kafka.md)
   - 复杂迁移场景
     - [上游使用 pt/gh-ost 工具的持续同步场景](/migrate-with-pt-ghost.md)
     - [下游存在更多列的迁移场景](/migrate-with-more-columns-downstream.md)
@@ -156,16 +156,20 @@
   - [TiFlash 常见问题](/tiflash/troubleshoot-tiflash.md)
   - [数据索引不一致报错](/troubleshoot-data-inconsistency-errors.md)
 - 性能调优
-  - 系统调优
-    - [操作系统性能参数调优](/tune-operating-system.md)
-  - 软件调优
-    - 配置
-      - [TiDB 内存调优](/configure-memory-usage.md)
-      - [TiKV 线程调优](/tune-tikv-thread-performance.md)
-      - [TiKV 内存调优](/tune-tikv-memory-performance.md)
-      - [TiKV Follower Read](/follower-read.md)
-      - [TiFlash 调优](/tiflash/tune-tiflash-performance.md)
-    - [下推计算结果缓存](/coprocessor-cache.md)
+  - 优化手册
+    - [优化概述](/performance-tuning-overview.md)
+    - [优化方法](/performance-tuning-methods.md)
+  - 配置优化
+    - 系统调优
+      - [操作系统性能参数调优](/tune-operating-system.md)
+    - 软件调优
+      - 配置
+        - [TiDB 内存调优](/configure-memory-usage.md)
+        - [TiKV 线程调优](/tune-tikv-thread-performance.md)
+        - [TiKV 内存调优](/tune-tikv-memory-performance.md)
+        - [TiKV Follower Read](/follower-read.md)
+        - [TiFlash 调优](/tiflash/tune-tiflash-performance.md)
+      - [下推计算结果缓存](/coprocessor-cache.md)
   - SQL 性能调优
     - [SQL 性能调优概览](/sql-tuning-overview.md)
     - 理解 TiDB 执行计划
@@ -441,14 +445,14 @@
       - [自动调节](/br/br-auto-tune.md)
       - [批量建表](/br/br-batch-create-table.md)
     - 参考指南
-     - [BR 设计原理](/br/backup-and-restore-design.md)
-     - [BR 命令行介绍](/br/use-br-command-line-tool.md)
-     - [外部存储](/br/backup-and-restore-storages.md)
-     - [使用 BR 在 Amazon S3 备份和恢复数据](/br/backup-storage-S3.md)
-     - [使用 BR 在 Azure Blob Storage 备份和恢复数据](/br/backup-storage-azblob.md)
-     - [使用 BR 在 Google Cloud Storage 备份和恢复数据](/br/backup-storage-gcs.md)
-     - [RawKV 备份和恢复](/br/rawkv-backup-and-restore.md)
-     - [BR 常见问题](/br/backup-and-restore-faq.md)
+      - [BR 设计原理](/br/backup-and-restore-design.md)
+      - [BR 命令行介绍](/br/use-br-command-line-tool.md)
+      - [外部存储](/br/backup-and-restore-storages.md)
+      - [使用 BR 在 Amazon S3 备份和恢复数据](/br/backup-storage-S3.md)
+      - [使用 BR 在 Azure Blob Storage 备份和恢复数据](/br/backup-storage-azblob.md)
+      - [使用 BR 在 Google Cloud Storage 备份和恢复数据](/br/backup-storage-gcs.md)
+      - [RawKV 备份和恢复](/br/rawkv-backup-and-restore.md)
+      - [BR 常见问题](/br/backup-and-restore-faq.md)
   - TiDB Binlog
     - [概述](/tidb-binlog/tidb-binlog-overview.md)
     - [快速上手](/tidb-binlog/get-started-with-tidb-binlog.md)
@@ -497,6 +501,7 @@
     - [调度](/tidb-scheduling.md)
   - 监控指标
     - [Overview 面板](/grafana-overview-dashboard.md)
+    - [Performance Overview 面板](/grafana-performance-overview-dashboard.md)
     - [TiDB 面板](/grafana-tidb-dashboard.md)
     - [PD 面板](/grafana-pd-dashboard.md)
     - [TiKV 面板](/grafana-tikv-dashboard.md)
@@ -824,10 +829,10 @@
   - [集群管理 FAQ](/faq/manage-cluster-faq.md)
   - [高可用 FAQ](/faq/high-availability-faq.md)
   - [高可靠 FAQ](/faq/high-reliability-faq.md)
-- [术语表](/glossary.md)
 - 版本发布历史
   - [发布版本汇总](/releases/release-notes.md)
   - [版本发布时间线](/releases/release-timeline.md)
+  - [TiDB 版本规则](/releases/versioning.md)
   - v6.0
     - [6.0.0-DMR](/releases/release-6.0.0-dmr.md)
   - v5.4
@@ -968,3 +973,4 @@
     - [RC3](/releases/release-rc.3.md)
     - [RC2](/releases/release-rc.2.md)
     - [RC1](/releases/release-rc.1.md)
+- [术语表](/glossary.md)

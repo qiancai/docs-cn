@@ -215,9 +215,9 @@ URI 中可配置的的参数如下：
 | `ca`       | 连接下游 Kafka 实例所需的 CA 证书文件路径（可选） |
 | `cert`     | 连接下游 Kafka 实例所需的证书文件路径（可选） |
 | `key`      | 连接下游 Kafka 实例所需的证书密钥文件路径（可选） |
-| `sasl-user` | 连接下游 Kafka 实例所需的 SASL/PLAIN 或 SASL/SCRAM 验证的用户名（authcid）（可选） |
-| `sasl-password` | 连接下游 Kafka 实例所需的 SASL/PLAIN 或 SASL/SCRAM 验证的密码（可选） |
-| `sasl-mechanism` | 连接下游 Kafka 实例所需的 SASL/PLAIN 或 SASL/SCRAM 验证的名称（可选） |
+| `sasl-user` | 连接下游 Kafka 实例所需的 SASL/SCRAM 验证的用户名（authcid）（可选） |
+| `sasl-password` | 连接下游 Kafka 实例所需的 SASL/SCRAM 验证的密码（可选） |
+| `sasl-mechanism` | 连接下游 Kafka 实例所需的 SASL/SCRAM 验证的名称（可选） |
 | `dial-timeout` | 和下游 Kafka 建立连接的超时时长，默认值为 `10s` |
 | `read-timeout` | 读取下游 Kafka 返回的 response 的超时时长，默认值为 `10s` |
 | `write-timeout`| 向下游 Kafka 发送 request 的超时时长，默认值为 `10s` |
@@ -243,7 +243,7 @@ URI 中可配置的的参数如下：
 {{< copyable "shell-regular" >}}
 
 ```shell
---sink-uri="kafka://127.0.0.1:9092/topic-name?protocol=canal-json&kafka-version=2.4.0&protocol=avro&partition-num=6&max-message-bytes=67108864&replication-factor=1"
+--sink-uri="kafka://127.0.0.1:9092/topic-name?kafka-version=2.4.0&protocol=avro&partition-num=6&max-message-bytes=67108864&replication-factor=1"
 --opts registry="http://127.0.0.1:8081"
 ```
 

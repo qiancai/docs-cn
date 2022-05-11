@@ -94,7 +94,7 @@ SELECT
     max(t.id) AS end_key,
     count(*) AS page_size
 FROM (
-    SELECT *, row_number () OVER (ORDER BY id) AS row_num
+    SELECT id, row_number() OVER (ORDER BY id) AS row_num
     FROM books
 ) t
 GROUP BY page_num
@@ -167,7 +167,7 @@ public class BookDAO {
                 max(t.id) AS end_key,
                 count(*) AS page_size
             FROM (
-                SELECT *, row_number () OVER (ORDER BY id) AS row_num
+                SELECT id, row_number() OVER (ORDER BY id) AS row_num
                 FROM books
             ) t
             GROUP BY page_num
@@ -233,9 +233,9 @@ pageMetaList.forEach((pageMeta) -> {
 
 对于非聚簇索引表（又被称为“非索引组织表”）而言，可以使用隐藏字段 `_tidb_rowid` 作为分页的 key，分页的方法与单列主键表中所介绍的方法相同。
 
-> **提示：**
+> **建议：**
 >
-> 你可以通过 `SHOW CREATE TABLE books;` 语句查看表主键是否使用了[聚簇索引](https://docs.pingcap.com/zh/tidb/stable/clustered-indexes)。
+> 你可以通过 `SHOW CREATE TABLE users;` 语句查看表主键是否使用了[聚簇索引](/clustered-indexes.md)。
 
 例如：
 
@@ -248,11 +248,31 @@ SELECT
     max(t._tidb_rowid) AS end_key,
     count(*) AS page_size
 FROM (
-    SELECT *, row_number () OVER (ORDER BY _tidb_rowid) AS row_num
-    FROM books
+    SELECT _tidb_rowid, row_number() OVER (ORDER BY _tidb_rowid) AS row_num
+    FROM users
 ) t
 GROUP BY page_num
 ORDER BY page_num;
+```
+
+查询结果如下：
+
+```
++----------+-----------+---------+-----------+
+| page_num | start_key | end_key | page_size |
++----------+-----------+---------+-----------+
+|        1 |         1 |    1000 |      1000 |
+|        2 |      1001 |    2000 |      1000 |
+|        3 |      2001 |    3000 |      1000 |
+|        4 |      3001 |    4000 |      1000 |
+|        5 |      4001 |    5000 |      1000 |
+|        6 |      5001 |    6000 |      1000 |
+|        7 |      6001 |    7000 |      1000 |
+|        8 |      7001 |    8000 |      1000 |
+|        9 |      8001 |    9000 |      1000 |
+|       10 |      9001 |    9990 |       990 |
++----------+-----------+---------+-----------+
+10 rows in set (0.00 sec)
 ```
 
 ### 聚簇索引表
