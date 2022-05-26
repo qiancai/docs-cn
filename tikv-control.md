@@ -373,6 +373,7 @@ DebugClient::check_region_consistency: RpcFailure(RpcStatus { status: Unknown, d
 
 > **注意：**
 >
+> - 目前 consistency-check 与 TiDB GC 操作不兼容，存在误报错误的可能，因此不建议使用该命令。
 > - **该命令只支持远程模式**。
 > - 即使该命令返回了成功信息，也需要检查是否有 TiKV panic 了。因为该命令只是向 Leader 请求进行一致性检查，但整个检查流程是否成功并不能在客户端知道。
 
@@ -630,7 +631,9 @@ Type "I consent" to continue, anything else to exit: I consent
 
 ### 打印损坏的 SST 文件信息
 
-TiKV 中损坏的 SST 文件会导致 TiKV 进程崩溃。为了清理掉这些文件，你可以使用 `bad-ssts` 命令打印出损坏的 SST 文件信息。
+TiKV 中损坏的 SST 文件会导致 TiKV 进程崩溃。在 TiDB v6.1.0 之前，损坏的 SST 文件会导致 TiKV 进程立即崩溃。从 TiDB v6.1.0 起，TiKV 进程会在 SST 文件损坏 1 小时后崩溃。
+
+为了方便清理掉这些 SST 文件，你可以先使用 `bad-ssts` 命令打印出损坏的 SST 文件信息。
 
 > **注意：**
 >
