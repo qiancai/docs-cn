@@ -390,21 +390,6 @@ TiKV 配置文件比命令行参数支持更多的选项。你可以在 [etc/con
 + 如果恢复操作未能在该时间窗口内完成，TiKV 会崩溃。
 + 默认值：1h
 
-## storage.block-cache
-
-RocksDB 多个 CF 之间共享 block cache 的配置选项。当开启时，为每个 CF 单独配置的 block cache 将无效。
-
-### `shared`
-
-+ 是否开启共享 block cache。
-+ 默认值：true
-
-### `capacity`
-
-+ 共享 block cache 的大小。
-+ 默认值：系统总内存大小的 45%
-+ 单位：KB|MB|GB
-
 ### `api-version` <span class="version-mark">从 v6.1.0 版本开始引入</span>
 
 + TiKV 作为 Raw Key Value 存储数据时使用的存储格式与接口版本。
@@ -422,6 +407,21 @@ RocksDB 多个 CF 之间共享 block cache 的配置选项。当开启时，为�
 > - API V2 是 TiKV 在 v6.1.0 中引入的实验特性，不建议在生产环境中使用。
 > - **只能**在部署新的 TiKV 集群时将 `api-version` 的值设置为 `2`，**不能**在已有的 TiKV 集群中修改该配置项的值。由于 API V1 和 API V2 存储的数据格式不相同，如果在已有的 TiKV 集群中修改该配置项，会造成不同格式的数据存储在同一个集群，导致数据损坏。这种情况下，启动 TiKV 集群时会报 "unable to switch storage.api_version" 错误。
 > - 启用 API V2 后，**不能**将 TiKV 集群回退到 v6.1.0 之前的版本，否则可能导致数据损坏。
+
+## storage.block-cache
+
+RocksDB 多个 CF 之间共享 block cache 的配置选项。当开启时，为每个 CF 单独配置的 block cache 将无效。
+
+### `shared`
+
++ 是否开启共享 block cache。
++ 默认值：true
+
+### `capacity`
+
++ 共享 block cache 的大小。
++ 默认值：系统总内存大小的 45%
++ 单位：KB|MB|GB
 
 ## storage.flow-control
 
@@ -896,6 +896,19 @@ coprocessor 相关的配置项。
 
 + 设置 `enable-region-bucket` 启用时 bucket 的预期大小。
 + 默认值：96MiB
+
+> **警告：**
+>
+> `region-bucket-size` 是 TiDB 在 v6.1.0 中引入的实验特性，不建议在生产环境中使用。
+
+### `report-region-buckets-tick-interval` <span class="version-mark">从 v6.1.0 版本开始引入</span>
+
+> **警告：**
+>
+> `report-region-buckets-tick-interval` 是 TiDB 在 v6.1.0 中引入的实验特性，不建议在生产环境中使用。
+
++ 启用 `enable-region-bucket` 后，该配置项设置 TiKV 向 PD 上报 bucket 信息的间隔时间。
++ 默认值：10s
 
 ## rocksdb
 
@@ -1647,7 +1660,7 @@ Raft Engine 相关的配置项。
 
 用于前台限流 (Quota Limiter) 相关的配置项。
 
-当 TiKV 部署的机型资源有限（如 4v CPU，16 G 内存）时，如果 TiKV 前台处理的读写请求量过大，会占用 TiKV 后台处理请求所需的 CPU 资源，最终影响 TiKV 性能的稳定性。此时，你可以使用前台限流相关的 quota 配置项以限制前台各类请求占用的 CPU 资源。触发该限制的请求会被强制等待一段时间以让出 CPU 资源。具体等待时间与新增请求量相关，最多不超过 [`max-delay-duration`](#max-delay-duration从-v600-版本开始引入) 的值。
+当 TiKV 部署的机型资源有限（如 4v CPU，16 G 内存）时，如果 TiKV 前台处理的读写请求量过大，以至于占用 TiKV 后台处理请求所需的 CPU 资源，最终影响 TiKV 性能的稳定性。此时，你可以使用前台限流相关的 quota 配置项以限制前台各类请求占用的 CPU 资源。触发该限制的请求会被强制等待一段时间以让出 CPU 资源。具体等待时间与新增请求量相关，最多不超过 [`max-delay-duration`](#max-delay-duration从-v600-版本开始引入) 的值。
 
 > **警告：**
 >
