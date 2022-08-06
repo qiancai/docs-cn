@@ -55,7 +55,7 @@ sorted-kv-dir = "/mnt/ssd/sorted-kv-dir"
 
 [mydumper]
 # 源数据目录。
-data-source-dir = "${data-path}" # 本地或 S3 路径，例如：'s3://my-bucket/sql-backup?region=us-west-2'
+data-source-dir = "${data-path}" # 本地或 S3 路径，例如：'s3://my-bucket/sql-backup'
 
 # 定义 CSV 格式
 [mydumper.csv]
@@ -181,4 +181,4 @@ trim-last-separator = true
 
 ## 探索更多
 
-- [CSV 支持与限制](/tidb-lightning/migrate-from-csv-using-tidb-lightning.md)
+- [CSV 支持与限制](/tidb-lightning/tidb-lightning-data-source.md#csv)
