@@ -100,6 +100,15 @@ mysql> SELECT * FROM t1;
 - 默认值：`ON`
 - 用于设置在非显式事务时是否自动提交事务。更多信息，请参见[事务概述](/transaction-overview.md#自动提交)。
 
+### `block_encryption_mode`
+
+- 作用域：SESSION | GLOBAL
+- 是否持久化到集群：是
+- 类型：枚举型
+- 默认值：`aes-128-ecb`
+- 可选值：`aes-128-ecb`、`aes-192-ecb`、`aes-256-ecb`、`aes-128-cbc`、`aes-192-cbc`、`aes-256-cbc`、`aes-128-ofb`、`aes-192-ofb`、`aes-256-ofb`、`aes-128-cfb`、`aes-192-cfb`、`aes-256-cfb`
+- 该变量用于设置 `AES_ENCRYPT()` 和 `AES_DECRYPT()` 函数的加密模式。
+
 ### character_set_client
 
 - 作用域：SESSION | GLOBAL
@@ -188,12 +197,48 @@ mysql> SELECT * FROM t1;
 - 服务器和客户端建立连接时，这个变量用于设置服务器对外通告的默认身份验证方式。如要了解该变量的其他可选值，参见[可用的身份验证插件](/security-compatibility-with-mysql.md#可用的身份验证插件)。
 - 若要在用户登录时使用 `tidb_sm3_password` 插件，需要使用 [TiDB-JDBC](https://github.com/pingcap/mysql-connector-j/tree/release/8.0-sm3) 进行连接。
 
+### `default_week_format`
+
+- 作用域：SESSION | GLOBAL
+- 是否持久化到集群：是
+- 类型：整数
+- 默认值：`0`
+- 取值范围：`[0, 7]`
+- 设置 `WEEK()` 函数使用的周格式。
+
+### `error_count`
+
+- 作用域：NONE
+- 类型：整数
+- 表示上一条生成消息的 SQL 语句中的错误数。该变量为只读变量。
+
 ### `foreign_key_checks`
 
 - 作用域：SESSION | GLOBAL
 - 是否持久化到集群：是
 - 默认值：`OFF`
 - 为保持兼容，TiDB 对外键检查返回 `OFF`。
+
+### `group_concat_max_len`
+
+- 作用域：SESSION | GLOBAL
+- 是否持久化到集群：是
+- 类型：整数
+- 默认值：`1024`
+- 取值范围：`[4, 18446744073709551615]`
+- 表示 `GROUP_CONCAT()` 函数中，项目的最大缓冲区大小。
+
+### `have_openssl`
+
+- 作用域：NONE
+- 默认值：`DISABLED`
+- 用于 MySQL 兼容性的只读变量。当服务器启用 TLS 时，服务器将其设置为 `YES`。
+
+### `have_ssl`
+
+- 作用域：NONE
+- 默认值：`DISABLED`
+- 用于 MySQL 兼容性的只读变量。当服务器启用 TLS 时，服务器将其设置为 `YES`。
 
 ### `hostname`
 
@@ -253,6 +298,23 @@ mysql> SELECT * FROM t1;
 - 作用域：NONE
 - 默认值：`Apache License 2.0`
 - 这个变量表示 TiDB 服务器的安装许可证。
+
+### `log_bin`
+
+- 作用域：NONE
+- 类型：布尔型
+- 默认值：`OFF`
+- 该变量表示是否使用 [TiDB Binlog](/tidb-binlog/tidb-binlog-overview.md)。
+
+### `max_connections`
+
+- 作用域：GLOBAL
+- 是否持久化到集群：否
+- 类型：整数
+- 默认值：`0`
+- 取值范围：`[0, 100000]`
+- 该变量表示 TiDB 实例允许的最大连接数。
+- 该变量值为 `0` 时表示无限制。
 
 ### `max_execution_time`
 
@@ -337,7 +399,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 - 该变量用于为 SQL 函数 `RAND()` 中使用的随机值生成器添加种子。
 - 该变量的行为与 MySQL 兼容。
 
-### rand_seed2
+### `rand_seed2`
 
 - 作用域：SESSION
 - 默认值：`0`
@@ -345,7 +407,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 - 该变量用于为 SQL 函数 `RAND()` 中使用的随机值生成器添加种子。
 - 该变量的行为与 MySQL 兼容。
 
-### require_secure_transport <span class="version-mark">从 v6.1.0 版本开始引入</span>
+### `require_secure_transport` <span class="version-mark">从 v6.1.0 版本开始引入</span>
 
 - 作用域：GLOBAL
 - 是否持久化到集群：是
@@ -354,7 +416,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 - 该变量设置为 `ON` 时，必须使用开启 TLS 的会话连接到 TiDB，防止在 TLS 配置不正确时出现锁定的情况。
 - 在 v6.1.0 之前这个开关通过 TiDB 配置文件 (`security.require-secure-transport`) 进行配置，升级到 v6.1.0 时会自动继承原有设置。
 
-### skip_name_resolve <span class="version-mark">从 v5.2.0 版本开始引入</span>
+### `skip_name_resolve` <span class="version-mark">从 v5.2.0 版本开始引入</span>
 
 - 作用域：GLOBAL
 - 是否持久化到集群：是
@@ -377,6 +439,18 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 - 作用域：NONE
 - 默认值：""
 - 使用 MySQL 协议时，tidb-server 所监听的本地 unix 套接字文件。
+
+### `sql_log_bin`
+
+- 作用域：SESSION | GLOBAL
+- 是否持久化到集群：是
+- 类型：布尔型
+- 默认值：`ON`
+- 表示是否将更改写入 TiDB Binlog。
+
+> **注意：**
+>
+> 不建议将 `sql_log_bin` 设置为全局变量，因为 TiDB 的未来版本可能只允许将其设置为会话变量。
 
 ### `sql_mode`
 
@@ -402,6 +476,24 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 - 默认值：`18446744073709551615`
 - 范围：`[0, 18446744073709551615]`
 - `SELECT` 语句返回的最大行数。
+
+### `ssl_ca`
+
+- 作用域：NONE
+- 默认值：""
+- 证书颁发机构 (CA) 文件的位置。若文件不存在，则变量值为空。该变量的值由 TiDB 配置项 [`ssl-ca`](/tidb-configuration-file.md#ssl-ca) 定义。
+
+### `ssl_cert`
+
+- 作用域：NONE
+- 默认值：""
+- 用于 SSL/TLS 连接的证书文件的位置。若文件不存在，则变量值为空。该变量的值由 TiDB 配置项 [`ssl-cert`](/tidb-configuration-file.md#ssl-cert) 定义。
+
+### `ssl_key`
+
+- 作用域：NONE
+- 默认值：""
+- 用于 SSL/TLS 连接的私钥文件的位置。若文件不存在，则变量值为空。该变量的值由 TiDB 配置项 [`ssl-key`](/tidb-configuration-file.md#ssl-cert) 定义。
 
 ### `system_time_zone`
 
@@ -498,6 +590,22 @@ MPP 是 TiFlash 引擎提供的分布式计算框架，允许节点之间的数�
     - `tidb_auto_analyze_start_time='01:00 +0000'`
     - `tidb_auto_analyze_end_time='03:00 +0000'`
 
+### `tidb_auth_signing_cert`
+
+- 作用域：GLOBAL
+- 是否持久化到集群：是
+- 类型：字符串
+- 默认值：`""`
+- 该变量与一个未发布的特性相关。**请勿**设置该变量。
+
+### `tidb_auth_signing_key`
+
+- 作用域：GLOBAL
+- 是否持久化到集群：是
+- 类型：字符串
+- 默认值：`""`
+- 该变量与一个未发布的特性相关。**请勿**设置该变量。
+
 ### `tidb_max_auto_analyze_time` <span class="version-mark">从 v6.1.0 版本开始引入</span>
 
 - 作用域：GLOBAL
@@ -526,6 +634,42 @@ MPP 是 TiFlash 引擎提供的分布式计算框架，允许节点之间的数�
     例如，TiDB 向 PD 取 TSO 的基础超时时间是 15 秒，当 `tidb_backoff_weight = 2` 时，取 TSO 的最大超时时间为：基础时间 \* 2 等于 30 秒。
 
     在网络环境较差的情况下，适当增大该变量值可以有效缓解因为超时而向应用端报错的情况；而如果应用端希望更快地接到报错信息，则应该尽量减小该变量的值。
+
+### `tidb_batch_commit`
+
+> **警告：**
+>
+> **不建议**开启此变量。
+
+- 作用域：SESSION
+- 是否持久化到集群：否
+- 类型：布尔型
+- 默认值：`OFF`
+- 该变量控制是否启用已废弃的 batch-commit 特性。当该变量开启时，事务可能会通过分组一些语句被拆分为多个事务，并被非原子地提交。不推荐使用这种方式。
+
+### `tidb_batch_delete`
+
+> **警告：**
+>
+> 该变量与废弃的 batch-dml 特性相关，可能会导致数据损坏。因此，不建议开启该变量来使用 batch-dml。作为替代，请使用[非事务 DML 语句](/non-transactional-dml.md)。
+
+- 作用域：SESSION
+- 是否持久化到集群：否
+- 类型：布尔型
+- 默认值：`OFF`
+- 该变量控制是否启用已废弃的 batch-dml 特性中的 batch-delete 特性。当该变量开启时，`DELETE` 语句可能会被拆分为多个事务，并被非原子地提交。要使该特性生效，还需要开启 `tidb_enable_batch_dml` 并将 `tidb_dml_batch_size` 的值设置为正数。不推荐使用这种方式。
+
+### `tidb_batch_insert`
+
+> **警告：**
+>
+> 该变量与废弃的 batch-dml 特性相关，可能会导致数据损坏。因此，不建议开启该变量来使用 batch-dml。作为替代，请使用[非事务 DML 语句](/non-transactional-dml.md)。
+
+- 作用域：SESSION
+- 是否持久化到集群：否
+- 类型：布尔型
+- 默认值：`OFF`
+- 该变量控制是否启用已废弃的 batch-dml 特性中的 batch-insert 特性。当该变量开启时，`INSERT` 语句可能会被拆分为多个事务，并被非原子地提交。要使该特性生效，还需要开启 `tidb_enable_batch_dml` 并将 `tidb_dml_batch_size` 的值设置为正数。不推荐使用这种方式。
 
 ### `tidb_batch_pending_tiflash_count` <span class="version-mark">从 v6.0 版本开始引入</span>
 
@@ -590,7 +734,7 @@ MPP 是 TiFlash 引擎提供的分布式计算框架，允许节点之间的数�
 
 - 作用域：SESSION
 - 默认值：`4`
-- 这个变量用来设置 `ADMIN CHECKSUM TABLE` 语句执行时扫描索引的并发度。当这个变量被设置得更大时，会对其它的查询语句执行性能产生一定影响。
+- 这个变量用来设置 [`ADMIN CHECKSUM TABLE`](/sql-statements/sql-statement-admin-checksum-table.md) 语句执行时扫描索引的并发度。当这个变量被设置得更大时，会对其它的查询语句执行性能产生一定影响。
 
 ### `tidb_config`
 
@@ -823,12 +967,17 @@ MPP 是 TiFlash 引擎提供的分布式计算框架，允许节点之间的数�
 
 ### `tidb_dml_batch_size`
 
+> **警告：**
+>
+> 该变量与废弃的 batch-dml 特性相关，可能会导致数据损坏。因此，不建议开启该变量来使用 batch-dml。作为替代，请使用[非事务 DML 语句](/non-transactional-dml.md)。
+
 - 作用域：SESSION | GLOBAL
 - 是否持久化到集群：是
 - 默认值：`0`
 - 范围：`[0, 2147483647]`
 - 这个变量的值大于 `0` 时，TiDB 会将 `INSERT` 或 `LOAD DATA` 等语句在更小的事务中批量提交。这样可减少内存使用，确保大批量修改时事务大小不会达到 `txn-total-size-limit` 限制。
 - 只有变量值为 `0` 时才符合 ACID 要求。否则无法保证 TiDB 的原子性和隔离性要求。
+- 要使该特性生效，还需要开启 `tidb_enable_batch_dml`，以及至少开启 `tidb_batch_insert` 和 `tidb_batch_delete` 中的一个。
 
 ### `tidb_enable_1pc` <span class="version-mark">从 v5.0 版本开始引入</span>
 
@@ -898,6 +1047,18 @@ MPP 是 TiFlash 引擎提供的分布式计算框架，允许节点之间的数�
 - 默认值：`OFF`
 - 这个变量用于控制是否允许在创建生成列或者表达式索引时引用自增列。
 
+### `tidb_enable_batch_dml`
+
+> **警告：**
+>
+> 该变量与废弃的 batch-dml 特性相关，可能会导致数据损坏。因此，不建议开启该变量来使用 batch-dml。作为替代，请使用[非事务 DML 语句](/non-transactional-dml.md)。
+
+- 作用域：GLOBAL
+- 是否持久化到集群：是
+- 类型：布尔型
+- 默认值：`OFF`
+- 该变量控制是否启用废弃的 batch-dml 特性。启用该变量后，部分语句可能会被拆分为多个事务执行，这是非原子性的，使用时需谨慎。使用 batch-dml 时，必须确保正在操作的数据没有并发操作。要使该变量生效，还需要为 `tidb_batch_dml_size` 指定一个正值，并启用 `tidb_batch_insert` 和 `tidb_batch_delete` 中的至少一个。
+
 ### `tidb_enable_cascades_planner`
 
 > **警告：**
@@ -919,7 +1080,7 @@ MPP 是 TiFlash 引擎提供的分布式计算框架，允许节点之间的数�
 
 - 作用域：SESSION | GLOBAL
 - 是否持久化到集群：是
-- 默认值：`ON`
+- 默认值：`INT_ONLY`
 - 可选值：`OFF`，`ON`，`INT_ONLY`
 - 这个变量用于控制默认情况下表的主键是否使用[聚簇索引](/clustered-indexes.md)。“默认情况”即不显式指定 `CLUSTERED`/`NONCLUSTERED` 关键字的情况。可设置为 `OFF`/`ON`/`INT_ONLY`。
     - `OFF` 表示所有主键默认使用非聚簇索引。
@@ -1021,6 +1182,18 @@ MPP 是 TiFlash 引擎提供的分布式计算框架，允许节点之间的数�
 - 是否持久化到集群：是
 - 默认值：`OFF`
 - 这个变量用于控制是否开启 `FOREIGN KEY` 特性。
+
+### `tidb_enable_gc_aware_memory_track`
+
+> **警告：**
+>
+> 该变量为 TiDB 内部调试变量，可能会在未来版本中删除，**请勿**设置该变量。
+
+- 作用域：GLOBAL
+- 是否持久化到集群：是
+- 类型：布尔型
+- 默认值：`ON`
+- 这个变量用于控制是否开启可感知到垃圾回收的内存追踪 (GC-Aware memory track)。
 
 ### `tidb_enable_general_plan_cache` <span class="version-mark">从 v6.3.0 版本开始引入</span>
 
@@ -2038,6 +2211,15 @@ mysql> desc select count(distinct a) from test.t;
     select t.* from t, t1 where t.a=t1.aa;
     ```
 
+### `tidb_opt_join_reorder_threshold`
+
+- 作用域: SESSION | GLOBAL
+- 是否持久化到集群：是
+- 默认值：`0`
+- 范围：`[0, 2147483647]`
+- 这个变量用来控制 TiDB Join Reorder 算法的选择。当参与 Join Reorder 的节点个数大于该阈值时，TiDB 选择贪心算法，小于该阈值时 TiDB 选择动态规划 (dynamic programming) 算法。
+- 目前对于 OLTP 的查询，推荐保持默认值。对于 OLAP 的查询，推荐将变量值设为 10~15 来获得 AP 场景下更好的连接顺序。
+
 ### `tidb_opt_limit_push_down_threshold`
 
 - 作用域：SESSION | GLOBAL
@@ -2729,7 +2911,9 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
 ### `timestamp`
 
 - 作用域：SESSION
+- 类型：浮点数
 - 默认值：`0`
+- 取值范围：`[0, 2147483647]`
 - 一个 Unix 时间戳。变量值非空时，表示 `CURRENT_TIMESTAMP()`、`NOW()` 等函数的时间戳。该变量通常用于数据恢复或数据复制。
 
 ### `transaction_isolation`
@@ -2743,6 +2927,14 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
 ### `tx_isolation`
 
 这个变量是 `transaction_isolation` 的别名。
+
+### `tx_isolation_one_shot`
+
+> **注意：**
+>
+> 该变量仅用于 TiDB 内部实现，不推荐设置该变量。
+
+在 TiDB 内部实现中，TiDB 解释器会将 `SET TRANSACTION ISOLATION LEVEL [READ COMMITTED| REPEATABLE READ | ...]` 语句转化为 `SET @@SESSION.TX_ISOLATION_ONE_SHOT = [READ COMMITTED| REPEATABLE READ | ...]`。
 
 ### `tx_read_ts`
 
