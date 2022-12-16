@@ -341,6 +341,7 @@ v6.5.0 版本开始废弃 v4.0.7 版本引入的 [`AMEND TRANSACTION`](/system-v
 + TiDB
 
     - 对于 `BIT` 和 `CHAR` 类型的列，使 `INFORMATION_SCHEMA.COLUMNS` 的显示结果与 MySQL 一致 [#25472](https://github.com/pingcap/tidb/issues/25472) @[hawkingrei](https://github.com/hawkingrei)
+    - 优化 TiDB 在 TiFlash MPP 模式下对 TiFlash 节点的探活机制 [#39932](https://github.com/pingcap/tidb/pull/39932) @[hackersean](https://github.com/hackersean)
 
 + TiKV
 
