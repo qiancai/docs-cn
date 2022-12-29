@@ -15,7 +15,7 @@ summary: 介绍 TiDB 中的单表查询功能。
 
 在阅读本章节之前，你需要做以下准备工作：
 
-1. 构建 TiDB 集群（推荐使用 [TiDB Cloud](/develop/dev-guide-build-cluster-in-cloud.md) 或 [TiUP](/production-deployment-using-tiup.md)）。
+1. 构建 TiDB 集群（推荐使用 [TiDB Cloud](/develop/dev-guide-build-cluster-in-cloud.md) 或 TiUP）。
 2. [导入 Bookshop 应用程序的表结构和示例数据](/develop/dev-guide-bookshop-schema-design.md#导入表结构和数据)。
 3. [连接到 TiDB](/develop/dev-guide-connect-to-tidb.md)。
 
@@ -56,7 +56,7 @@ SELECT id, name FROM authors;
 </div>
 <div label="Java" value="java">
 
-在 Java 语言当中，可以通过声明一个 `Author` 类来定义如何存放作者的基础信息，根据数据的[类型](/data-type-overview.md)和[取值范围](/data-type-numeric.md)从 Java 语言当中选择合适的数据类型来存放对应的数据，例如：
+在 Java 语言当中，可以通过声明一个 `Author` 类来定义如何存放作者的基础信息，根据数据的类型和取值范围从 Java 语言当中选择合适的数据类型来存放对应的数据，例如：
 
 - 使用 `Int` 类型变量存放 `int` 类型的数据。
 - 使用 `Long` 类型变量存放 `bigint` 类型的数据。
@@ -289,7 +289,7 @@ public List<Author> getAuthorsWithLimit(Integer limit) throws SQLException {
 10 rows in set (0.11 sec)
 ```
 
-通过观察查询结果你会发现，在使用 `LIMIT` 语句之后，查询的时间明显缩短，这是 TiDB 对 `LIMIT` 子句进行优化后的结果，你可以通过 [TopN 和 Limit 下推](/topn-limit-push-down.md)章节了解更多细节。
+通过观察查询结果你会发现，在使用 `LIMIT` 语句之后，查询的时间明显缩短，这是 TiDB 对 `LIMIT` 子句进行优化后的结果，你可以通过 TopN 和 Limit 下推章节了解更多细节。
 
 ## 聚合查询
 
@@ -367,4 +367,4 @@ public List<AuthorCount> getAuthorCountsByBirthYear() throws SQLException {
 71 rows in set (0.00 sec)
 ```
 
-除了 `COUNT` 函数外，TiDB 还支持了其他聚合函数。详情请参考 [GROUP BY 聚合函数](/functions-and-operators/aggregate-group-by-functions.md)。
+除了 `COUNT` 函数外，TiDB 还支持了其他聚合函数。详情请参考 GROUP BY 聚合函数。

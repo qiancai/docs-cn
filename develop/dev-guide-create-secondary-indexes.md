@@ -18,11 +18,11 @@ summary: 创建二级索引的方法、规范及例子。
 
 ## 什么是二级索引
 
-二级索引是集群中的逻辑对象，你可以简单地认为它就是一种对数据的排序，TiDB 使用这种有序性来加速查询。TiDB 的创建二级索引的操作为在线操作，不会阻塞表中的数据读写。TiDB 会创建表中各行的引用，并按选择的列进行排序。而并非对表本身的数据进行排序。可在[二级索引](/best-practices/tidb-best-practices.md#二级索引)中查看更多信息。二级索引可[跟随表进行创建](#新建表的同时创建二级索引)，也可[在已有的表上进行添加](#在已有表中添加二级索引)。
+二级索引是集群中的逻辑对象，你可以简单地认为它就是一种对数据的排序，TiDB 使用这种有序性来加速查询。TiDB 的创建二级索引的操作为在线操作，不会阻塞表中的数据读写。TiDB 会创建表中各行的引用，并按选择的列进行排序。而并非对表本身的数据进行排序。可在二级索引中查看更多信息。二级索引可[跟随表进行创建](#新建表的同时创建二级索引)，也可[在已有的表上进行添加](#在已有表中添加二级索引)。
 
 ## 在已有表中添加二级索引
 
-如果需要对已有表中添加二级索引，可使用 [CREATE INDEX](/sql-statements/sql-statement-create-index.md) 语句。在 TiDB 中，`CREATE INDEX` 为在线操作，不会阻塞表中的数据读写。二级索引创建一般如以下形式：
+如果需要对已有表中添加二级索引，可使用 CREATE INDEX 语句。在 TiDB 中，`CREATE INDEX` 为在线操作，不会阻塞表中的数据读写。二级索引创建一般如以下形式：
 
 {{< copyable "sql" >}}
 
@@ -38,7 +38,7 @@ CREATE INDEX {index_name} ON {table_name} ({column_names});
 
 ## 新建表的同时创建二级索引
 
-如果你希望在创建表的同时，同时创建二级索引，可在 [CREATE TABLE](/sql-statements/sql-statement-create-table.md) 的末尾使用包含 `KEY` 关键字的子句来创建二级索引：
+如果你希望在创建表的同时，同时创建二级索引，可在 CREATE TABLE 的末尾使用包含 `KEY` 关键字的子句来创建二级索引：
 
 {{< copyable "sql" >}}
 
@@ -90,7 +90,7 @@ CREATE TABLE `bookshop`.`books` (
 SELECT * FROM `bookshop`.`books` WHERE `published_at` >= '2022-01-01 00:00:00' AND `published_at` < '2023-01-01 00:00:00';
 ```
 
-可以使用 [EXPLAIN](/sql-statements/sql-statement-explain.md) 进行 SQL 语句的执行计划检查：
+可以使用 EXPLAIN 进行 SQL 语句的执行计划检查：
 
 {{< copyable "sql" >}}
 
@@ -138,13 +138,13 @@ CREATE INDEX `idx_book_published_at` ON `bookshop`.`books` (`bookshop`.`books`.`
 
 > **注意：**
 >
-> 上方执行计划中的的 **TableFullScan**、**IndexRangeScan** 等在 TiDB 内被称为[算子](/explain-overview.md#算子简介)。这里对执行计划的解读及算子等不做进一步的展开，若你对此感兴趣，可前往 [TiDB 执行计划概览](/explain-overview.md)文档查看更多关于执行计划与 TiDB 算子的相关知识。
+> 上方执行计划中的的 **TableFullScan**、**IndexRangeScan** 等在 TiDB 内被称为算子。这里对执行计划的解读及算子等不做进一步的展开，若你对此感兴趣，可前往 TiDB 执行计划概览文档查看更多关于执行计划与 TiDB 算子的相关知识。
 >
-> 执行计划并非每次返回使用的算子都相同，这是由于 TiDB 使用的优化方式为 **基于代价的优化方式 (CBO)**，执行计划不仅与规则相关，还和数据分布相关。你可以前往 [SQL 性能调优](/sql-tuning-overview.md)文档查看更多 TiDB SQL 性能的描述。
+> 执行计划并非每次返回使用的算子都相同，这是由于 TiDB 使用的优化方式为 **基于代价的优化方式 (CBO)**，执行计划不仅与规则相关，还和数据分布相关。你可以前往 SQL 性能调优文档查看更多 TiDB SQL 性能的描述。
 >
-> TiDB 在查询时，还支持显式地使用索引，你可以使用 [Optimizer Hints](/optimizer-hints.md) 或 [执行计划管理 (SPM)](/sql-plan-management.md) 来人为的控制索引的使用。但如果你不了解它内部发生了什么，请你**_暂时先不要使用它_**。
+> TiDB 在查询时，还支持显式地使用索引，你可以使用 Optimizer Hints 或 [执行计划管理 (SPM)](/sql-plan-management.md) 来人为的控制索引的使用。但如果你不了解它内部发生了什么，请你**_暂时先不要使用它_**。
 
-可以使用 [SHOW INDEXES](/sql-statements/sql-statement-show-indexes.md) 语句查询表中的索引：
+可以使用 SHOW INDEXES 语句查询表中的索引：
 
 {{< copyable "sql" >}}
 

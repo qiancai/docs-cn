@@ -7,7 +7,7 @@ summary: 介绍在测试中发现的 TiDB 与第三方工具的兼容性问题�
 
 > **注意：**
 >
-> TiDB 已列举[不支持的功能特性](/mysql-compatibility.md#不支持的功能特性)，典型的不支持特性有：
+> TiDB 已列举不支持的功能特性，典型的不支持特性有：
 >
 > - 存储过程与函数
 > - 触发器
@@ -17,7 +17,7 @@ summary: 介绍在测试中发现的 TiDB 与第三方工具的兼容性问题�
 > - 空间类型的函数、数据类型和索引
 > - `XA` 语法
 >
-> 这些不支持的功能不兼容将被视为预期行为，不再重复叙述。关于更多 TiDB 与 MySQL 的兼容性对比，你可以查看[与 MySQL 兼容性对比](/mysql-compatibility.md)。
+> 这些不支持的功能不兼容将被视为预期行为，不再重复叙述。关于更多 TiDB 与 MySQL 的兼容性对比，你可以查看与 MySQL 兼容性对比。
 
 ## 通用
 
@@ -39,7 +39,7 @@ MySQL 维护了一系列 [`Com_` 开头的服务端变量](https://dev.mysql.com
 
 **规避方法**
 
-请勿使用这样的变量。在 MySQL 中 `Com_*` 常见的使用场景之一是监控。TiDB 的可观测性较为完善，无需从服务端变量进行查询。如需定制监控工具，可阅读 [TiDB 监控框架概述](/tidb-monitoring-framework.md)来获得更多信息。
+请勿使用这样的变量。在 MySQL 中 `Com_*` 常见的使用场景之一是监控。TiDB 的可观测性较为完善，无需从服务端变量进行查询。如需定制监控工具，可阅读 TiDB 监控框架概述来获得更多信息。
 
 ### TiDB 错误日志区分 `TIMESTAMP` 与 `DATETIME` 类型
 
@@ -49,7 +49,7 @@ TiDB 错误日志区分 `TIMESTAMP` 与 `DATETIME`，而 MySQL 不区分，全�
 
 **规避方法**
 
-请勿使用错误日志进行字符串匹配，要使用[错误码](/error-codes.md)进行故障诊断。
+请勿使用错误日志进行字符串匹配，要使用错误码进行故障诊断。
 
 ### TiDB 不支持 `CHECK TABLE` 语句
 
@@ -167,7 +167,7 @@ TiDB 对其进行了两个维度的修复：
 - [不支持 `GEOMETRY`](https://github.com/pingcap/tidb/issues/6347) 相关。
 - 不支持修改整数主键。
 - 不支持 `PROCEDURE` 相关。
-- 不支持 `READ-UNCOMMITTED` 和 `SERIALIZABLE` [隔离级别](/system-variables.md#transaction_isolation)。
+- 不支持 `READ-UNCOMMITTED` 和 `SERIALIZABLE` 隔离级别。
 - 默认不允许修改列的 `AUTO_INCREMENT` 属性。
 - 不支持 `FULLTEXT`、`HASH` 和 `SPATIAL` 索引。
 
@@ -175,7 +175,7 @@ TiDB 对其进行了两个维度的修复：
 
 **描述**
 
-不支持修改整数类型的主键，这是由于当主键为整数类型时，TiDB 使用其作为数据组织的索引。你可以在此 [Issue](https://github.com/pingcap/tidb/issues/18090) 或[聚簇索引](/clustered-indexes.md)一节中获取更多信息。
+不支持修改整数类型的主键，这是由于当主键为整数类型时，TiDB 使用其作为数据组织的索引。你可以在此 [Issue](https://github.com/pingcap/tidb/issues/18090) 或聚簇索引一节中获取更多信息。
 
 ### 不支持 `READ-UNCOMMITTED` 和 `SERIALIZABLE` 隔离级别
 

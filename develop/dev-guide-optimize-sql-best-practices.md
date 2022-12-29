@@ -154,8 +154,8 @@ DELETE FROM t;
 
 TiDB 支持在线添加索引操作，可通过 [`ADD INDEX`](/sql-statements/sql-statement-add-index.md) 或 [`CREATE INDEX`](/sql-statements/sql-statement-create-index.md) 完成索引添加操作。添加索引不会阻塞表中的数据读写。可以通过修改下面的系统变量来调整 DDL 操作 `re-organize` 阶段的并行度与回填索引的单批数量大小：
 
-- [tidb_ddl_reorg_worker_cnt](/system-variables.md#tidb_ddl_reorg_worker_cnt)
-- [tidb_ddl_reorg_batch_size](/system-variables.md#tidb_ddl_reorg_batch_size)
+- tidb_ddl_reorg_worker_cnt
+- tidb_ddl_reorg_batch_size
 
 为了减少对在线业务的影响，添加索引的默认速度会比较保守。当添加索引的目标列仅涉及查询负载，或者与线上负载不直接相关时，可以适当调大上述变量来加速添加索引：
 
@@ -177,7 +177,7 @@ SET @@global.tidb_ddl_reorg_batch_size = 128;
 
 ## 事务冲突
 
-关于如何定位和解决事务冲突，请参考[TiDB 锁冲突问题处理](/troubleshoot-lock-conflicts.md)。
+关于如何定位和解决事务冲突，请参考TiDB 锁冲突问题处理。
 
 ## Java 数据库应用开发最佳实践
 

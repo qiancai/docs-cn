@@ -9,7 +9,7 @@ summary: 创建数据库的方法、规范及例子。
 
 > **注意：**
 >
-> 此处仅对 `CREATE DATABASE` 语句进行简单描述，详细参考文档（包含其他示例），可参阅 [CREATE DATABASE](/sql-statements/sql-statement-create-database.md) 文档。
+> 此处仅对 `CREATE DATABASE` 语句进行简单描述，详细参考文档（包含其他示例），可参阅 CREATE DATABASE 文档。
 
 ## 在开始之前
 
@@ -75,7 +75,7 @@ mysql
 ## 数据库创建时应遵守的规则
 
 - 遵循[数据库命名规范](/develop/dev-guide-object-naming-guidelines.md#数据库命名规范)，给你的数据库起一个有意义的名字。
-- `test` 数据库是 TiDB 提供的一个默认数据库。如果没有必要，尽量不要在生产环境使用它。你可以自行使用 `CREATE DATABASE` 语句来创建数据库，并且在 SQL 会话中使用 `USE {databasename};` 语句来[更改当前数据库](/sql-statements/sql-statement-use.md)。
+- `test` 数据库是 TiDB 提供的一个默认数据库。如果没有必要，尽量不要在生产环境使用它。你可以自行使用 `CREATE DATABASE` 语句来创建数据库，并且在 SQL 会话中使用 `USE {databasename};` 语句来更改当前数据库。
 - 使用 root 用户创建数据库、角色、用户等，并只赋予必要的权限。
 - 作为通用的规则，不推荐使用 Driver、ORM 进行数据库模式的定义与更改。相反，请使用 **MySQL 命令行客户端**或其他你喜欢的 **MySQL GUI 客户端**来进行操作。
 

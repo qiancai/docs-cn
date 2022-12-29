@@ -34,3 +34,5 @@ pandoc -N --toc --smart --latex-engine=xelatex \
 -V geometry:margin=1in \
 -V include-after="\\input{templates/copyright.tex}" \
 "doc.md" -s -o "output.pdf"
+
+printf "The PDF is ready."

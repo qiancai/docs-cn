@@ -5,7 +5,7 @@ summary: 删除数据、批量删除数据的方法、最佳实践及例子。
 
 # 删除数据
 
-此页面将使用 [DELETE](/sql-statements/sql-statement-delete.md) SQL 语句，对 TiDB 中的数据进行删除。如果需要周期性地删除过期数据，可以考虑使用 TiDB 的 [TTL 功能](/time-to-live.md)。
+此页面将使用 DELETE SQL 语句，对 TiDB 中的数据进行删除。如果需要周期性地删除过期数据，可以考虑使用 TiDB 的 [TTL 功能](/time-to-live.md)。
 
 ## 在开始之前
 
@@ -30,7 +30,7 @@ DELETE FROM {table} WHERE {filter}
 | `{table}`  |      表名      |
 | `{filter}` | 过滤器匹配条件 |
 
-此处仅展示 `DELETE` 的简单用法，详细文档可参考 TiDB 的 [DELETE 语法](/sql-statements/sql-statement-delete.md)。
+此处仅展示 `DELETE` 的简单用法，详细文档可参考 TiDB 的 DELETE 语法。
 
 ## 最佳实践
 
@@ -38,7 +38,7 @@ DELETE FROM {table} WHERE {filter}
 
 - 始终在删除语句中指定 `WHERE` 子句。如果 `DELETE` 没有 `WHERE` 子句，TiDB 将删除这个表内的**_所有行_**。
 - 需要删除大量行(数万或更多)的时候，使用[批量删除](#批量删除)，这是因为 TiDB 单个事务大小限制为 [txn-total-size-limit](/tidb-configuration-file.md#txn-total-size-limit)（默认为 100MB）。
-- 如果你需要删除表内的所有数据，请勿使用 `DELETE` 语句，而应该使用 [TRUNCATE](/sql-statements/sql-statement-truncate.md) 语句。
+- 如果你需要删除表内的所有数据，请勿使用 `DELETE` 语句，而应该使用 TRUNCATE 语句。
 - 查看 [性能注意事项](#性能注意事项)。
 - 在需要大批量删除数据的场景下，[非事务批量删除](#非事务批量删除)对性能的提升十分明显。但与之相对的，这将丢失删除的事务性，因此**无法**进行回滚，请务必正确进行操作选择。
 
@@ -165,7 +165,7 @@ with connection:
 
 > **注意：**
 >
-> `rated_at` 字段为[日期和时间类型](/data-type-date-and-time.md) 中的 `DATETIME` 类型，你可以认为它在 TiDB 保存时，存储为一个字面量，与时区无关。而 `TIMESTAMP` 类型，将会保存一个时间戳，从而在不同的[时区配置](/configure-time-zone.md)时，展示不同的时间字符串。
+> `rated_at` 字段为日期和时间类型 中的 `DATETIME` 类型，你可以认为它在 TiDB 保存时，存储为一个字面量，与时区无关。而 `TIMESTAMP` 类型，将会保存一个时间戳，从而在不同的时区配置时，展示不同的时间字符串。
 >
 > 另外，和 MySQL 一样，`TIMESTAMP` 数据类型受 [2038 年问题](https://zh.wikipedia.org/wiki/2038%E5%B9%B4%E9%97%AE%E9%A2%98)的影响。如果存储的值大于 2038，建议使用 `DATETIME` 类型。
 
@@ -177,11 +177,11 @@ with connection:
 
 GC 在默认配置中，为 10 分钟触发一次，每次 GC 都会计算出一个名为 **safe_point** 的时间点，这个时间点前的数据，都不会再被使用到，因此，TiDB 可以安全的对数据进行清除。
 
-GC 的具体实现方案和细节此处不再展开，请参考 [GC 机制简介](/garbage-collection-overview.md) 了解更详细的 GC 说明。
+GC 的具体实现方案和细节此处不再展开，请参考 GC 机制简介 了解更详细的 GC 说明。
 
 ### 更新统计信息
 
-TiDB 使用[统计信息](/statistics.md)来决定索引的选择，因此，在大批量的数据删除之后，很有可能会导致索引选择不准确的情况发生。你可以使用[手动收集](/statistics.md#手动收集)的办法，更新统计信息。用以给 TiDB 优化器以更准确的统计信息来提供 SQL 性能优化。
+TiDB 使用统计信息来决定索引的选择，因此，在大批量的数据删除之后，很有可能会导致索引选择不准确的情况发生。你可以使用手动收集的办法，更新统计信息。用以给 TiDB 优化器以更准确的统计信息来提供 SQL 性能优化。
 
 ## 批量删除
 
@@ -366,11 +366,11 @@ with connection:
 
 > **注意：**
 >
-> TiDB 从 v6.1.0 版本开始支持[非事务 DML 语句](/non-transactional-dml.md)特性。在 TiDB v6.1.0 以下版本中无法使用此特性。
+> TiDB 从 v6.1.0 版本开始支持非事务 DML 语句特性。在 TiDB v6.1.0 以下版本中无法使用此特性。
 
 ### 使用前提
 
-在使用非事务批量删除前，请先**仔细**阅读[非事务 DML 语句](/non-transactional-dml.md)。非事务批量删除，本质是以牺牲事务的原子性、隔离性为代价，增强批量数据处理场景下的性能和易用性。
+在使用非事务批量删除前，请先**仔细**阅读非事务 DML 语句。非事务批量删除，本质是以牺牲事务的原子性、隔离性为代价，增强批量数据处理场景下的性能和易用性。
 
 因此在使用过程中，需要极为小心，否则，因为操作的非事务特性，在误操作时会导致严重的后果（如数据丢失等）。
 
@@ -390,7 +390,7 @@ BATCH ON {shard_column} LIMIT {batch_size} {delete_statement};
 | `{batch_size}` | 非事务批量删除的每批大小 |
 | `{delete_statement}` | 删除语句 |
 
-此处仅展示非事务批量删除的简单用法，详细文档可参考 TiDB 的[非事务 DML 语句](/non-transactional-dml.md)。
+此处仅展示非事务批量删除的简单用法，详细文档可参考 TiDB 的非事务 DML 语句。
 
 ### 非事务批量删除使用示例
 

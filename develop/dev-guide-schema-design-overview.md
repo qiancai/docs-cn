@@ -25,7 +25,7 @@ TiDB 集群包含一个名为 `test` 的数据库。但建议你自行创建数�
 
 TiDB 语境中的 Table 或者说表，从属于某个[数据库](#数据库-database)。
 
-表包含数据**行**。每行数据中的每个值都属于一个特定的**列**。每列都只允许单一数据类型的数据值。列可添加[约束](/constraints.md)来进一步限定。你还可以添加[生成列（实验特性）](/generated-columns.md)用于计算。
+表包含数据**行**。每行数据中的每个值都属于一个特定的**列**。每列都只允许单一数据类型的数据值。列可添加约束来进一步限定。你还可以添加[生成列（实验特性）](/generated-columns.md)用于计算。
 
 ## 索引 Index
 
@@ -40,7 +40,7 @@ TiDB 语境中的 Table 或者说表，从属于某个[数据库](#数据库-dat
 >
 > TiDB 中，关于 **Primary Key** 的默认定义与 MySQL 常用存储引擎 [InnoDB](https://mariadb.com/kb/en/innodb/) 不一致。**InnoDB** 中，**Primary Key** 的语义为：唯一，不为空，**且为聚簇索引**。
 >
-> 而在 TiDB 中，**Primary Key** 的定义为：唯一，不为空。但主键不保证为**聚簇索引**。而是由另一组关键字 `CLUSTERED`、`NONCLUSTERED` 额外控制 **Primary Key** 是否为聚簇索引，若不指定，则由系统变量 `@@global.tidb_enable_clustered_index` 影响，具体说明请看[聚簇索引](/clustered-indexes.md)。
+> 而在 TiDB 中，**Primary Key** 的定义为：唯一，不为空。但主键不保证为**聚簇索引**。而是由另一组关键字 `CLUSTERED`、`NONCLUSTERED` 额外控制 **Primary Key** 是否为聚簇索引，若不指定，则由系统变量 `@@global.tidb_enable_clustered_index` 影响，具体说明请看聚簇索引。
 
 ### 专用索引
 
@@ -48,27 +48,27 @@ TiDB 支持一些特殊场景专用的索引，用以提高特定用例中的查
 
 |                                                           索引和约束                                                           |   5.4    |   5.3    |   5.2    |   5.1    |   5.0    |   4.0    |
 | :----------------------------------------------------------------------------------------------------------------------------: | :------: | :------: | :------: | :------: | :------: | :------: |
-| [表达式索引](/sql-statements/sql-statement-create-index.md#表达式索引) | 实验特性 | 实验特性 | 实验特性 | 实验特性 | 实验特性 | 实验特性 |
+| 表达式索引 | 实验特性 | 实验特性 | 实验特性 | 实验特性 | 实验特性 | 实验特性 |
 |                         [列式存储 (TiFlash)](/tiflash/tiflash-overview.md)                         |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
-|                            [RocksDB 引擎](/storage-engine/rocksdb-overview.md)                            |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
-|                              [Titan 插件](/storage-engine/titan-overview.md)                              |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
-|                         [不可见索引](/sql-statements/sql-statement-add-index.md)                          |    Y     |    Y     |    Y     |    Y     |    Y     |    N     |
-|              [复合主键](/constraints.md#主键约束)              |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
-|              [唯一约束](/constraints.md#唯一约束)              |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
-|                          [整型主键上的聚簇索引](/constraints.md)                           |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
-|                      [复合或非整型主键上的聚簇索引](/constraints.md)                       |    Y     |    Y     |    Y     |    Y     |    Y     |    N     |
+|                            RocksDB 引擎                            |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
+|                              Titan 插件                              |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
+|                         不可见索引                          |    Y     |    Y     |    Y     |    Y     |    Y     |    N     |
+|              复合主键              |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
+|              唯一约束              |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
+|                          整型主键上的聚簇索引                           |    Y     |    Y     |    Y     |    Y     |    Y     |    Y     |
+|                      复合或非整型主键上的聚簇索引                       |    Y     |    Y     |    Y     |    Y     |    Y     |    N     |
 
 ## 其他对象
 
 TiDB 支持一些和**表**同级的对象：
 
-- [视图](/views.md): 视图是一张虚拟表，该虚拟表的结构由创建视图时的 `SELECT` 语句定义，TiDB 目前不支持物化视图。
-- [序列](/sql-statements/sql-statement-create-sequence.md): 创建和存储顺序数据。
-- [临时表](/temporary-tables.md): 临时表是数据不持久化的表。
+- 视图: 视图是一张虚拟表，该虚拟表的结构由创建视图时的 `SELECT` 语句定义，TiDB 目前不支持物化视图。
+- 序列: 创建和存储顺序数据。
+- 临时表: 临时表是数据不持久化的表。
 
 ## 访问控制
 
-TiDB 支持基于用户或角色的访问控制。你可以通过[角色](/role-based-access-control.md)或直接指向[用户](/user-account-management.md)，从而授予**用户**查看、修改或删除 数据对象和数据模式的[权限](/privilege-management.md)。
+TiDB 支持基于用户或角色的访问控制。你可以通过角色或直接指向用户，从而授予**用户**查看、修改或删除 数据对象和数据模式的权限。
 
 ## 执行数据库模式更改
 
@@ -76,7 +76,7 @@ TiDB 支持基于用户或角色的访问控制。你可以通过[角色](/role-
 
 ## 对象大小限制
 
-此处摘录一些常见的对象大小限制，详细使用限制请查阅[此文档](/tidb-limitations.md)。
+此处摘录一些常见的对象大小限制，详细使用限制请查阅此文档。
 
 ### 标识符长度限制
 
@@ -112,4 +112,4 @@ TiDB 支持基于用户或角色的访问控制。你可以通过[角色](/role-
 
 ### 行数
 
-TiDB 可通过增加集群的节点数来支持任意数量的行，原理可阅读 [TiDB 最佳实践](/best-practices/tidb-best-practices.md)
+TiDB 可通过增加集群的节点数来支持任意数量的行，原理可阅读 TiDB 最佳实践

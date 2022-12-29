@@ -15,7 +15,7 @@ Bookshop 是一个虚拟的在线书店应用，你可以在 Bookshop 当中便�
 
 ### 方法一：通过 `tiup demo` 命令行
 
-如果你使用 [TiUP](/tiup/tiup-reference.md#tiup-命令概览) 部署 TiDB 集群或者你可以直接连接到你的 TiDB 服务器，你可以通过如下命令快速生成并导入 Bookshop 应用的示例数据：
+如果你使用 TiUP 部署 TiDB 集群或者你可以直接连接到你的 TiDB 服务器，你可以通过如下命令快速生成并导入 Bookshop 应用的示例数据：
 
 {{< copyable "shell-regular" >}}
 

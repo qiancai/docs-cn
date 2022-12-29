@@ -83,7 +83,7 @@ TTL 设计的目标是在不影响在线读写负载的前提下，帮助用户�
 
 ### TTL 和数据类型的默认值
 
-TTL 可以和[数据类型的默认值](/data-type-default-values.md)一起使用。以下是两种常见的用法示例：
+TTL 可以和数据类型的默认值一起使用。以下是两种常见的用法示例：
 
 * 使用 `DEFAULT CURRENT_TIMESTAMP` 来指定某一列的默认值为该行的创建时间，并用这一列作为 TTL 的时间列，创建时间超过 3 个月的数据将被标记为过期：
 
@@ -105,7 +105,7 @@ TTL 可以和[数据类型的默认值](/data-type-default-values.md)一起使�
 
 ### TTL 和生成列
 
-TTL 可以和[生成列](/generated-columns.md)（实验特性）一起使用，用来表达更加复杂的过期规则。例如：
+TTL 可以和生成列（实验特性）一起使用，用来表达更加复杂的过期规则。例如：
 
 ```sql
 CREATE TABLE message (
@@ -121,7 +121,7 @@ CREATE TABLE message (
 
 上述语句的消息以 `expire_at` 列来作为过期时间，并按照消息类型来设定。如果是图片，则 5 天后过期，不然就 30 天后过期。
 
-TTL 还可以和 [JSON 类型](/data-type-json.md) 一起使用。例如：
+TTL 还可以和 JSON 类型 一起使用。例如：
 
 ```sql
 CREATE TABLE orders (
@@ -156,7 +156,7 @@ SET @@global.tidb_ttl_job_schedule_window_end_time = '05:00 +0000';
 
 ## 监控与图表
 
-TiDB 会定时采集 TTL 的运行时信息，并在 Grafana 中提供了相关指标的可视化图表。你可以在 TiDB -> TTL 的面板下看到这些信息。指标详情见 [TiDB 重要监控指标详解](/grafana-tidb-dashboard.md) 中的 `TTL` 部分。
+TiDB 会定时采集 TTL 的运行时信息，并在 Grafana 中提供了相关指标的可视化图表。你可以在 TiDB -> TTL 的面板下看到这些信息。指标详情见 TiDB 重要监控指标详解 中的 `TTL` 部分。
 
 ## 工具兼容性
 

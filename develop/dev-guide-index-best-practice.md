@@ -105,7 +105,7 @@ CREATE TABLE `books` (
 
     > **注意：**
     >
-    > 表达式索引目前是 TiDB 的实验特性，需要在 TiDB 配置文件中开启表达式索引特性，详情可以参考 [表达式索引文档](/sql-statements/sql-statement-create-index.md#表达式索引)。
+    > 表达式索引目前是 TiDB 的实验特性，需要在 TiDB 配置文件中开启表达式索引特性，详情可以参考 表达式索引文档。
 
 - 尽量使用覆盖索引，即索引列包含查询列，避免总是 `SELECT *` 查询所有列的语句。
 
@@ -141,7 +141,7 @@ CREATE TABLE `books` (
     SELECT * FROM books WHERE title LIKE '%database';
     ```
 
-- 当查询条件有多个索引可供使用，但你知道用哪一个索引是最优的时，推荐使用 [优化器 Hint](/optimizer-hints.md) 来强制优化器使用这个索引，这样可以避免优化器因为统计信息不准或其他问题时，选错索引。
+- 当查询条件有多个索引可供使用，但你知道用哪一个索引是最优的时，推荐使用 优化器 Hint 来强制优化器使用这个索引，这样可以避免优化器因为统计信息不准或其他问题时，选错索引。
 
     例如下面查询中，假设在列 `id` 和 列 `title` 上都各自有索引 `id_idx` 和 `title_idx`，你知道 `id_idx` 的过滤性更好，就可以在 SQL 中使用 `USE INDEX` Hint 来强制优化器使用 `id_idx` 索引。
 

@@ -7,7 +7,7 @@ summary: 介绍 TiDB 与 ProxySQL 集成的方法。
 
 本文以 CentOS 7 为例，简单介绍 **TiDB** 与 **ProxySQL** 的集成方法。如果你有其他系统的集成需求，可参考[快速体验](#4-快速体验)使用 Docker 及 Docker Compose 部署测试集成环境。你也可以参考以下链接，以获得更多信息：
 
-- [TiDB 文档](/overview.md)
+- TiDB 文档
 - [TiDB 应用开发文档](/develop/dev-guide-overview.md)
 - [ProxySQL 官方文档](https://proxysql.com/documentation/)
 - [TiDB 与 ProxySQL 的集成测试](https://github.com/Icemap/tidb-proxysql-integration-test)
@@ -50,7 +50,7 @@ summary: 介绍 TiDB 与 ProxySQL 集成的方法。
 
 <div label="TiUP" value="tiup">
 
-[TiUP](/tiup/tiup-overview.md) 在 TiDB 中承担着包管理器的角色，管理着 TiDB 生态下众多的组件，如 TiDB、PD、TiKV 等。
+TiUP 在 TiDB 中承担着包管理器的角色，管理着 TiDB 生态下众多的组件，如 TiDB、PD、TiKV 等。
 
 1. 安装 TiUP
 
@@ -80,7 +80,7 @@ summary: 介绍 TiDB 与 ProxySQL 集成的方法。
 
 <div label="TiUP 本地安装" value="tiup">
 
-正式环境相对测试环境会复杂许多，建议参考[使用 TiUP 部署 TiDB 集群](/production-deployment-using-tiup.md)并根据硬件条件部署。
+正式环境相对测试环境会复杂许多，建议参考使用 TiUP 部署 TiDB 集群并根据硬件条件部署。
 
 </div>
 

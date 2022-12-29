@@ -125,12 +125,12 @@ DROP VIEW book_with_ratings;
 
 ## 局限性
 
-关于局限性，你可以通过阅读参考文档当中的[视图](/views.md#局限性)章节进行了解。
+关于局限性，你可以通过阅读参考文档当中的视图章节进行了解。
 
 ## 扩展阅读
 
-- [视图](/views.md)
-- [CREATE VIEW 语句](/sql-statements/sql-statement-create-view.md)
-- [DROP VIEW 语句](/sql-statements/sql-statement-drop-view.md)
-- [用 EXPLAIN 查看带视图的 SQL 执行计划](/explain-views.md)
+- 视图
+- CREATE VIEW 语句
+- DROP VIEW 语句
+- 用 EXPLAIN 查看带视图的 SQL 执行计划
 - [TiFlink: 使用 TiKV 和 Flink 实现强一致的物化视图](https://github.com/tiflink/tiflink)

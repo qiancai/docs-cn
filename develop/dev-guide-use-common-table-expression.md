@@ -225,4 +225,4 @@ SELECT * FROM fibonacci;
 
 ## 扩展阅读
 
-- [WITH](/sql-statements/sql-statement-with.md)
+- WITH
