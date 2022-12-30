@@ -55551,7 +55551,7 @@ TiCDC 集群由多个 TiCDC 对等节点组成，是一种分布式无状态的�
 
 为了实现高可用，每个 TiCDC 集群都包含多个 TiCDC 节点，这些节点定期向 PD 集群中的 etcd 集群汇报自己的状态，并选举出其中一个节点作为 TiCDC 集群的 Owner。Owner 采用 etcd 统一存储状态来进行调度，并将调度结果直接写入 etcd。Processor 按照状态完成对应的任务，如果 Processor 所在节点出现异常，集群会将表调度到其他节点。如果 Owner 节点出现异常，其他节点的 Capture 进程会选举出新的 Owner，如下图所示：
 
-![TiCDC architecture](/media/ticdc/ticdc-architecture-3.png)
+![TiCDC architecture](./media/ticdc/ticdc-architecture-3.png)
 
 ##### Changefeed 和 Task
 
@@ -64272,7 +64272,7 @@ TiSpark 是 Spark 的第三方 jar 包，提供读写 TiKV 的能力。
 
 你能用以下方式获取 jar 包：
 
-- 从 [maven 中央仓库](https://search.maven.org/)获取，你可以[搜索 `pingcap`](https://search.maven.org/search?q=pingcap) 。
+- 从 [maven 中央仓库](https://search.maven.org/)获取，你可以[搜索 `pingcap`](http://search.maven.org/#search%7Cga%7C1%7Cpingcap) 。
 - 从 [TiSpark releases](https://github.com/pingcap/tispark/releases) 获取。
 - 通过以下步骤从源码构建：
 
