@@ -80,7 +80,7 @@ TiDB 兼容 MySQL 的错误码，在大多数情况下，返回和 MySQL 一样�
 
 * Error Number: 8028
 
-    TiDB v6.3.0 引入了[元数据锁](/metadata-lock.md)特性。在关闭元数据锁的情况下，当事务执行时，事务无法感知到 TiDB 的表结构发生了变化。因此，TiDB 在事务提交时，会对事务涉及表的结构进行检查。如果事务执行中表结构发生了变化，则事务将提交失败，并返回该错误。遇到该错误，应用程序可以安全地重新执行整个事务。
+    TiDB v6.3.0 引入了元数据锁特性。在关闭元数据锁的情况下，当事务执行时，事务无法感知到 TiDB 的表结构发生了变化。因此，TiDB 在事务提交时，会对事务涉及表的结构进行检查。如果事务执行中表结构发生了变化，则事务将提交失败，并返回该错误。遇到该错误，应用程序可以安全地重新执行整个事务。
 
     在打开元数据锁的情况下，非 RC 隔离级别中，如果从事务开始到初次访问一个表之间，该表进行了有损的列类型变更操作（例如 `INT` 类型变成 `CHAR` 类型是有损的，`TINYINT` 类型变成 `INT` 类型这种不需要重写数据的则是无损的），则访问该表的语句报错，事务不会自动回滚。用户可以继续执行其他语句，并决定是否回滚或者提交事务。
 
@@ -132,7 +132,7 @@ TiDB 兼容 MySQL 的错误码，在大多数情况下，返回和 MySQL 一样�
 
 * Error Number: 8050
 
-    设置了不支持的权限类型，遇到该错误请参考 [TiDB 权限说明](/privilege-management.md#tidb-各操作需要的权限)进行调整。
+    设置了不支持的权限类型，遇到该错误请参考 TiDB 权限说明进行调整。
 
 * Error Number: 8051
 
@@ -150,7 +150,7 @@ TiDB 兼容 MySQL 的错误码，在大多数情况下，返回和 MySQL 一样�
 
 * Error Number: 8059
 
-    自动随机量可用次数用尽无法进行分配。当前没有恢复这类错误的方法。建议在使用 auto random 功能时使用 bigint 以获取最大的可分配次数，并尽量避免手动给 auto random 列赋值。相关的介绍和使用建议可以参考 [auto random 功能文档](/auto-random.md)。
+    自动随机量可用次数用尽无法进行分配。当前没有恢复这类错误的方法。建议在使用 auto random 功能时使用 bigint 以获取最大的可分配次数，并尽量避免手动给 auto random 列赋值。相关的介绍和使用建议可以参考 auto random 功能文档。
 
 * Error Number: 8060
 
@@ -286,15 +286,15 @@ TiDB 兼容 MySQL 的错误码，在大多数情况下，返回和 MySQL 一样�
 
 * Error Number: 8143
 
-    非事务 DML 语句的一个 batch 报错，语句中止，请参考[非事务 DML 语句](/non-transactional-dml.md)
+    非事务 DML 语句的一个 batch 报错，语句中止，请参考非事务 DML 语句
 
 * Error Number: 8147
 
-   当 [`tidb_constraint_check_in_place_pessimistic`](/system-variables.md#tidb_constraint_check_in_place_pessimistic-从-v630-版本开始引入) 设置为 `OFF` 时，为保证事务的正确性，SQL 语句执行时产生的任何错误都可能导致 TiDB 返回 `8147` 报错并中止当前事务。具体的错误原因，请参考对应的报错信息。详见[约束](/constraints.md#悲观事务)。
+   当 [`tidb_constraint_check_in_place_pessimistic`](/system-variables.md#tidb_constraint_check_in_place_pessimistic-从-v630-版本开始引入) 设置为 `OFF` 时，为保证事务的正确性，SQL 语句执行时产生的任何错误都可能导致 TiDB 返回 `8147` 报错并中止当前事务。具体的错误原因，请参考对应的报错信息。详见约束。
 
 * Error Number: 8200
 
-    尚不支持的 DDL 语法。请参考[与 MySQL DDL 的兼容性](/mysql-compatibility.md#ddl-的限制)。
+    尚不支持的 DDL 语法。请参考与 MySQL DDL 的兼容性。
 
 * Error Number: 8214
 
@@ -306,7 +306,7 @@ TiDB 兼容 MySQL 的错误码，在大多数情况下，返回和 MySQL 一样�
 
 * Error Number: 8216
 
-    自动随机列使用的方法不正确，请参考 [auto random 功能文档](/auto-random.md)进行修改。
+    自动随机列使用的方法不正确，请参考 auto random 功能文档进行修改。
 
 * Error Number: 8223
 
@@ -326,11 +326,11 @@ TiDB 兼容 MySQL 的错误码，在大多数情况下，返回和 MySQL 一样�
 
 * Error Number: 8227
 
-    创建 Sequence 时使用了不支持的选项，支持的选项的列表可以参考 [Sequence 使用文档](/sql-statements/sql-statement-create-sequence.md#参数说明)。
+    创建 Sequence 时使用了不支持的选项，支持的选项的列表可以参考 Sequence 使用文档。
 
 * Error Number: 8228
 
-    在 Sequence 上使用 `setval` 时指定了不支持的类型，该函数的示例可以在 [Sequence 使用文档](/sql-statements/sql-statement-create-sequence.md#示例)中找到。
+    在 Sequence 上使用 `setval` 时指定了不支持的类型，该函数的示例可以在 Sequence 使用文档中找到。
 
 * Error Number: 8229
 
@@ -386,7 +386,7 @@ TiDB 兼容 MySQL 的错误码，在大多数情况下，返回和 MySQL 一样�
 
     报错信息以 `ERROR 9007 (HY000) : Write conflict` 开头。
 
-    如果报错信息中含有 "reason=LazyUniquenessCheck"，说明是悲观事务并且设置了 `@@tidb_constraint_check_in_place_pessimistic=OFF`，业务中存在唯一索引上的写冲突，此时悲观事务不能保证执行成功。可以在应用测重试事务，或将该变量设置成 `ON` 绕过。详见[约束](/constraints.md#悲观事务)。
+    如果报错信息中含有 "reason=LazyUniquenessCheck"，说明是悲观事务并且设置了 `@@tidb_constraint_check_in_place_pessimistic=OFF`，业务中存在唯一索引上的写冲突，此时悲观事务不能保证执行成功。可以在应用测重试事务，或将该变量设置成 `ON` 绕过。详见约束。
 
 * Error Number: 9008
 

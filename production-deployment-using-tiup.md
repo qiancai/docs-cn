@@ -11,7 +11,7 @@ summary: 了解如何使用 TiUP 部署 TiDB 集群。
 
 > **注意：**
 >
-> TiDB、TiUP 及 TiDB Dashboard 默认会收集使用情况信息，并将这些信息分享给 PingCAP 用于改善产品。若要了解所收集的信息详情及如何禁用该行为，请参见[遥测](/telemetry.md)。
+> TiDB、TiUP 及 TiDB Dashboard 默认会收集使用情况信息，并将这些信息分享给 PingCAP 用于改善产品。若要了解所收集的信息详情及如何禁用该行为，请参见遥测。
 
 ## 第 1 步：软硬件环境需求及前置检查
 
@@ -389,7 +389,7 @@ tiup cluster display tidb-test
 >
 > - 使用安全启动方式后，不能通过无密码的 root 用户登录数据库，你需要记录命令行返回的密码进行后续操作。
 >
-> - 该自动生成的密码只会返回一次，如果没有记录或者忘记该密码，请参照[忘记 root 密码](/user-account-management.md#忘记-root-密码)修改密码。
+> - 该自动生成的密码只会返回一次，如果没有记录或者忘记该密码，请参照忘记 root 密码修改密码。
 
 方式一：安全启动
 
@@ -433,9 +433,9 @@ tiup cluster display tidb-test
 
 ## 探索更多
 
-如果你已同时部署了 [TiFlash](/tiflash/tiflash-overview.md)，接下来可参阅以下文档：
+如果你已同时部署了 TiFlash，接下来可参阅以下文档：
 
-- [使用 TiFlash](/tiflash/tiflash-overview.md#使用-tiflash)
+- 使用 TiFlash
 - [TiFlash 集群运维](/tiflash/maintain-tiflash.md)
 - [TiFlash 报警规则与处理方法](/tiflash/tiflash-alert-rules.md)
 - [TiFlash 常见问题](/tiflash/troubleshoot-tiflash.md)

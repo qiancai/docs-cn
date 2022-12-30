@@ -421,7 +421,7 @@ tikv_grpc_msg_duration_seconds{type="kv_pessimistic_lock"} =
     lock write duration
 ```
 
-- 自 TiDB v6.0 起，TiKV 默认使用[内存悲观锁](/pessimistic-transaction.md#内存悲观锁)。内存悲观锁会跳过异步写入的过程。
+- 自 TiDB v6.0 起，TiKV 默认使用内存悲观锁。内存悲观锁会跳过异步写入的过程。
 - `tikv_storage_engine_async_request_duration_seconds{type="snapshot"}`是快照类型耗时，详情请参考 [TiKV 快照](#tikv-快照)小节.
 - `lock in-mem key count` 和 `lock on-disk key count` 使用如下方式计算：
 

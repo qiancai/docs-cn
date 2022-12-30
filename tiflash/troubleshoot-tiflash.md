@@ -37,7 +37,7 @@ summary: 介绍 TiFlash 的常见问题、原因及解决办法。
 
 该问题一般由于配置错误或者环境问题导致 TiFlash 处于异常状态，可以先通过以下步骤定位问题组件：
 
-1. 使用 pd-ctl 检查 PD 的 [Placement Rules](/configure-placement-rules.md) 功能是否开启：
+1. 使用 pd-ctl 检查 PD 的 Placement Rules 功能是否开启：
 
     {{< copyable "shell-regular" >}}
 
@@ -46,7 +46,7 @@ summary: 介绍 TiFlash 的常见问题、原因及解决办法。
     ```
 
     - 如果返回 `true`，进入下一步。
-    - 如果返回 `false`，你需要先[开启 Placement Rules 特性](/configure-placement-rules.md#开启-placement-rules-特性) 后再进入下一步。
+    - 如果返回 `false`，你需要先开启 Placement Rules 特性 后再进入下一步。
 
 2. 通过 TiFlash-Summary 监控面板下的 UpTime 检查操作系统中 TiFlash 进程是否正常。
 
@@ -135,7 +135,7 @@ show warnings;
     - 如果有变化，说明 TiFlash 同步正常，进入下一步。
     - 如果没有变化，说明 TiFlash 同步异常，在 `tidb.log` 中，搜索 `Tiflash replica is not available` 相关日志。检查对应表的 `region have` 是否更新。如果无更新，请通过 `tiflash` 日志进一步排查。
 
-3. 使用 pd-ctl 检查 PD 的 [Placement Rules](/configure-placement-rules.md) 功能是否开启：
+3. 使用 pd-ctl 检查 PD 的 Placement Rules 功能是否开启：
 
     {{< copyable "shell-regular" >}}
 
@@ -144,7 +144,7 @@ show warnings;
     ```
 
     - 如果返回 `true`，进入下一步。
-    - 如果返回 `false`，你需要先[开启 Placement Rules 特性](/configure-placement-rules.md#开启-placement-rules-特性)，然后进入下一步。
+    - 如果返回 `false`，你需要先开启 Placement Rules 特性，然后进入下一步。
 
 4. 检查集群副本数 `max-replicas` 配置是否合理。
 

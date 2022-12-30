@@ -289,7 +289,7 @@ ANALYZE TABLE TableName INDEX [IndexNameList] [WITH NUM BUCKETS|TOPN|CMSKETCH DE
 
 ##### 动态裁剪模式下的分区表统计信息
 
-分区表在开启[动态裁剪模式](/partitioned-table.md#动态裁剪模式)的情况下，TiDB 将收集表级别的汇总统计信息，以下称 GlobalStats。 目前 GlobalStats 由分区统计信息合并汇总得到。在动态裁剪模式开启的情况下，任一分区上的统计信息更新都会触发 GlobalStats 的更新。
+分区表在开启动态裁剪模式的情况下，TiDB 将收集表级别的汇总统计信息，以下称 GlobalStats。 目前 GlobalStats 由分区统计信息合并汇总得到。在动态裁剪模式开启的情况下，任一分区上的统计信息更新都会触发 GlobalStats 的更新。
 
 > **注意：**
 >
@@ -418,7 +418,7 @@ TiDB 支持持久化的配置项包括：
 - ANALYZE TABLE ... PARTITION ... WITH ... 所指定的分区配置只持久化到分区级别，不会影响表级别的持久化配置
 - 当 ANALYZE 语句指定了配置，且同时存在持久化配置时，按照 语句 > 分区 > 表 的优先级继承和重写配置信息
 
-在[动态裁剪模式](/partitioned-table.md#动态裁剪模式)下 ANALYZE 分区表时，配置持久化遵守：
+在动态裁剪模式下 ANALYZE 分区表时，配置持久化遵守：
 
 - ANALYZE TABLE 时只持久化表级别的配置
 - 分区的统计信息会继承使用表级别的持久化配置
@@ -808,8 +808,8 @@ mysql> show warnings;
 
 ## 另请参阅
 
-* [LOAD STATS](/sql-statements/sql-statement-load-stats.md)
-* [DROP STATS](/sql-statements/sql-statement-drop-stats.md)
-* [LOCK STATS](/sql-statements/sql-statement-lock-stats.md)
-* [UNLOCK STATS](/sql-statements/sql-statement-unlock-stats.md)
-* [SHOW STATS_LOCKED](/sql-statements/sql-statement-show-stats-locked.md)
+* LOAD STATS
+* DROP STATS
+* LOCK STATS
+* UNLOCK STATS
+* SHOW STATS_LOCKED

@@ -26,7 +26,7 @@ summary: 了解 TiDB 快照备份与恢复功能的架构设计。
 
 2. BR 调度备份数据。
     * **Pause GC**：配置 TiDB GC，防止要备份的数据被 [TiDB GC 机制](/garbage-collection-overview.md)回收。
-    * **Fetch TiKV and Region info**：访问 PD，获取所有 TiKV 节点访问地址以及数据的 [Region](/tidb-storage.md#region) 分布信息。
+    * **Fetch TiKV and Region info**：访问 PD，获取所有 TiKV 节点访问地址以及数据的 Region 分布信息。
     * **Request TiKV to back up data**：创建备份请求，发送给 TiKV 节点，备份请求包含 backup ts、需要备份的 region、备份存储地址。
 
 3. TiKV 接受备份请求，初始化 backup worker。
@@ -68,7 +68,7 @@ summary: 了解 TiDB 快照备份与恢复功能的架构设计。
 
 4. TiKV 恢复数据。
     * **Download SST**：restore worker 从备份存储中下载相应的备份数据到本地。
-    * **Rewrite KVs**：restore worker 根据新建表 table ID，对备份数据 kv 进行重写，即将原有的 [kv 编码](/tidb-computing.md#表数据与-key-value-的映射关系)中的 table ID 替换为新创建的 table ID。对 index ID，restore worker 也进行相同处理。
+    * **Rewrite KVs**：restore worker 根据新建表 table ID，对备份数据 kv 进行重写，即将原有的 kv 编码中的 table ID 替换为新创建的 table ID。对 index ID，restore worker 也进行相同处理。
     * **Ingest SST**：restore worker 将处理好的 SST 文件 ingest 到 RocksDB 中。
     * **Report restore result**：restore worker 返回恢复结果给 BR。
 

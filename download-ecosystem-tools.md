@@ -4,7 +4,7 @@ title: TiDB 工具下载
 
 # TiDB 工具下载
 
-本文介绍如何下载 TiDB 工具包以及 [TiUniManager](/tiunimanager/tiunimanager-overview.md)。关于 TiDB 工具包的内容，请查看 [TiDB 离线包](/binary-package.md)。
+本文介绍如何下载 TiDB 工具包以及 [TiUniManager](/tiunimanager/tiunimanager-overview.md)。关于 TiDB 工具包的内容，请查看 TiDB 离线包。
 
 ## TiDB 工具包下载
 
@@ -28,7 +28,7 @@ TiDB 工具包中包含了一些常用的 TiDB 工具，例如数据导出工具
 >
 > - 点击**立即下载**后，默认下载当前 TiDB 的最新发布版本。如需下载其它版本，请在 [TiDB 社区版](https://pingcap.com/zh/product-community/)页面底部查看其它版本下载信息。
 > - 如需在 Kubernetes 上部署运维 TiDB，无需下载 TiDB-community-toolkit 软件包，请参考[离线安装 TiDB Operator](https://docs.pingcap.com/zh/tidb-in-kubernetes/stable/deploy-tidb-operator#离线安装-tidb-operator)。
-> - 如需使用 [PD Control](/pd-control.md) 工具 `pd-ctl`，请下载 **TiDB-community-server 软件包**。
+> - 如需使用 PD Control 工具 `pd-ctl`，请下载 **TiDB-community-server 软件包**。
 
 ### TiDB 工具包说明
 
@@ -45,7 +45,7 @@ TiDB 工具包中包含了一些常用的 TiDB 工具，例如数据导出工具
 | [Backup & Restore (BR)](/br/backup-and-restore-overview.md)  | `br-{version}-linux-{arch}.tar.gz`  |
 | [sync-diff-inspector](/sync-diff-inspector/sync-diff-inspector-overview.md)  | `sync_diff_inspector`  |
 | [TiSpark](/tispark-overview.md)  | `tispark-{tispark-version}-any-any.tar.gz` <br/>`spark-{spark-version}-any-any.tar.gz`  |
-| [PD Recover](/pd-recover.md)  | `pd-recover-{version}-linux-{arch}.tar.gz` |
+| PD Recover  | `pd-recover-{version}-linux-{arch}.tar.gz` |
 
 > **注意：**
 >

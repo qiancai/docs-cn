@@ -11,7 +11,7 @@ summary: 使用 TiSpark 一站式解决用户的 HTAP 需求。
 
 [TiSpark](https://github.com/pingcap/tispark) 是 PingCAP 为解决用户复杂 OLAP 需求而推出的产品。它借助 Spark 平台，同时融合 TiKV 分布式集群的优势，和 TiDB 一起为用户一站式解决 HTAP (Hybrid Transactional/Analytical Processing) 的需求。
 
-[TiFlash](/tiflash/tiflash-overview.md) 也是一个解决 HTAP 需求的产品。TiFlash 和 TiSpark 都允许使用多个主机在 OLTP 数据上执行 OLAP 查询。TiFlash 是列式存储，这提供了更高效的分析查询。TiFlash 和 TiSpark 可以同时使用。
+TiFlash 也是一个解决 HTAP 需求的产品。TiFlash 和 TiSpark 都允许使用多个主机在 OLTP 数据上执行 OLAP 查询。TiFlash 是列式存储，这提供了更高效的分析查询。TiFlash 和 TiSpark 可以同时使用。
 
 ## TiSpark 是什么
 
@@ -365,7 +365,7 @@ TiSpark 的主要特性如下：
 
 ### Expression index 支持
 
-TiDB v5.0 开始支持 [expression index](/sql-statements/sql-statement-create-index.md#表达式索引)。
+TiDB v5.0 开始支持 expression index。
 
 TiSpark 目前支持从 `expression index` 的表中获取数据，但 `expression index` 不会被 TiSpark 执行计划使用。
 

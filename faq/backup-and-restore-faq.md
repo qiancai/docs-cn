@@ -15,7 +15,7 @@ summary: 了解备份恢复相关的常见问题以及解决方法。
 
 从 TiDB v5.4.0 起，TiKV 的备份新增了自动调节功能。对于 v5.4.0 及以上版本，该功能会默认开启。当集群负载较高时，该功能会自动限制备份任务使用的资源，从而减少备份对在线集群的性能造成的影响。如需了解关于自动调节功能的更多信息，请参见[自动调节](/br/br-auto-tune.md)。
 
-TiKV 支持[动态配置](/tikv-control.md#动态修改-tikv-的配置)自动调节功能。因此，在开启或关闭该功能时，你不需要重启集群。以下为该功能的具体使用方法：
+TiKV 支持动态配置自动调节功能。因此，在开启或关闭该功能时，你不需要重启集群。以下为该功能的具体使用方法：
 
 - 关闭功能：把 TiKV 配置项 [`backup.enable-auto-tune`](/tikv-configuration-file.md#enable-auto-tune-从-v54-版本开始引入) 设置为 `false`。
 - 开启功能：把 `backup.enable-auto-tune` 设置为 `true`。对于 v5.3.x 版本的集群，当 TiDB 升级到 v5.4.0 及以上版本后，自动调节功能会默认关闭。这时，你可以通过该方式手动开启此功能。
@@ -38,7 +38,7 @@ TiKV 支持[动态配置](/tikv-control.md#动态修改-tikv-的配置)自动调
 
 Issue 链接：[#38045](https://github.com/pingcap/tidb/issues/38045)
 
-当前[索引加速功能](/system-variables.md#tidb_ddl_enable_fast_reorg-从-v630-版本开始引入)与 PITR 功能不兼容。在使用索引加速功能时，需要确保后台没有启动 PITR 备份任务，否则可能会出现非预期结果。非预期场景包括：
+当前索引加速功能与 PITR 功能不兼容。在使用索引加速功能时，需要确保后台没有启动 PITR 备份任务，否则可能会出现非预期结果。非预期场景包括：
 
 - 如果先启动 PITR 备份任务，再添加索引，此时即使索引加速功能打开，也不会使用加速索引功能，但不影响索引兼容性。
 - 如果先启动添加索引加速任务，再创建 PITR 备份任务，此时 PITR 备份任务会报错，但不影响正在添加索引的任务。
@@ -137,7 +137,7 @@ TiCDC 可以通过配置项中的 [`filter.rules`](https://github.com/pingcap/ti
 
 ### 恢复 Placement Rule 到集群时为什么会报错？
 
-BR 在 v6.0.0 之前不支持[放置规则](/placement-rules-in-sql.md)，在 v6.0.0 及以上版本开始支持并提供了命令行选项 `--with-tidb-placement-mode=strict/ignore` 来控制放置规则的导入模式。默认值为 `strict`，代表导入并检查放置规则，当`--with-tidb-placement-mode` 设置为 `ignore` 时，BR 会忽略所有的放置规则。
+BR 在 v6.0.0 之前不支持放置规则，在 v6.0.0 及以上版本开始支持并提供了命令行选项 `--with-tidb-placement-mode=strict/ignore` 来控制放置规则的导入模式。默认值为 `strict`，代表导入并检查放置规则，当`--with-tidb-placement-mode` 设置为 `ignore` 时，BR 会忽略所有的放置规则。
 
 ## 进行数据恢复的问题
 

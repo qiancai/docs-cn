@@ -36,4 +36,4 @@ TiDB 和 MySQL 一样，在用户登录认证时使用 SASL 认证协议对密�
 
 因为 TiDB 是分布式数据库，想要在 TiDB 中修改用户密码，建议使用 `set password for 'root'@'%' = '0101001';` 或 `alter` 的方法。
 
-不推荐使用 `update mysql.user` 的方法，因为这种方法可能会造成其它节点刷新不及时的情况。修改权限也一样，建议参考 [TiDB 用户账户管理](/user-account-management.md)文档中的方法。
+不推荐使用 `update mysql.user` 的方法，因为这种方法可能会造成其它节点刷新不及时的情况。修改权限也一样，建议参考 TiDB 用户账户管理文档中的方法。

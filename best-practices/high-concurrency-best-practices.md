@@ -123,7 +123,7 @@ FROM
 
 为了达到场景理论中的最佳性能，可跳过这个预热阶段，直接将 Region 切分为预期的数量，提前调度到集群的各个节点中。
 
-TiDB 在 v3.0.x 以及 v2.1.13 后支持一个叫 [Split Region](/sql-statements/sql-statement-split-region.md) 的新特性。这个特性提供了新的语法：
+TiDB 在 v3.0.x 以及 v2.1.13 后支持一个叫 Split Region 的新特性。这个特性提供了新的语法：
 
 {{< copyable "sql" >}}
 
@@ -189,7 +189,7 @@ ORDER BY
 
 可以看到已经消除了明显的热点问题了。
 
-本示例仅为一个简单的表，还有索引热点的问题需要考虑。读者可参阅 [Split Region](/sql-statements/sql-statement-split-region.md) 文档来了解如何预先切散索引相关的 Region。
+本示例仅为一个简单的表，还有索引热点的问题需要考虑。读者可参阅 Split Region 文档来了解如何预先切散索引相关的 Region。
 
 ### 更复杂的热点问题
 

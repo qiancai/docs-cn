@@ -25,7 +25,7 @@ summary: 了解 TiDB 的自动调节备份功能，在集群资源占用率较�
 
 如需开启备份自动调节功能，可以通过把 TiKV 配置项 [`backup.enable-auto-tune`](/tikv-configuration-file.md#enable-auto-tune-从-v54-版本开始引入) 设置为 `true` 的方式来完成。
 
-TiKV 支持[动态配置](/tikv-control.md#动态修改-tikv-的配置)自动调节功能，因此，在开启或关闭该功能时，无需重启集群。你可以运行以下命令动态启动或停止备份自动调节功能：
+TiKV 支持动态配置自动调节功能，因此，在开启或关闭该功能时，无需重启集群。你可以运行以下命令动态启动或停止备份自动调节功能：
 
 ```shell
 tikv-ctl modify-tikv-config -n backup.enable-auto-tune -v <true|false>

@@ -47,7 +47,7 @@ Value: null
 
 同时，TiDB 中 RowID 默认也按照自增的方式顺序递增，主键不为整数类型时，同样会遇到写入热点的问题。
 
-此外，当写入或读取数据存在热点时，即出现新建表或分区的写入热点问题和只读场景下周期性读热点问题时，你可以使用表属性控制 Region 合并。具体的热点场景描述和解决方法可以查看[使用表属性控制 Region 合并的使用场景](/table-attributes.md#使用场景)。
+此外，当写入或读取数据存在热点时，即出现新建表或分区的写入热点问题和只读场景下周期性读热点问题时，你可以使用表属性控制 Region 合并。具体的热点场景描述和解决方法可以查看使用表属性控制 Region 合并的使用场景。
 
 ### 索引热点
 
@@ -100,7 +100,7 @@ ALTER TABLE：ALTER TABLE t SHARD_ROW_ID_BITS = 4;
 
 `SHARD_ROW_ID_BITS` 的值可以动态修改，每次修改之后，只对新写入的数据生效。
 
-对于含有 `CLUSTERED` 主键的表，TiDB 会使用表的主键作为 RowID，因为 `SHARD_ROW_ID_BITS` 会改变 RowID 生成规则，所以此时无法使用 `SHARD_ROW_ID_BITS` 选项。而对于使用 `NONCLUSTERED` 主键的表，TiDB 会使用自动分配的 64 位整数作为 RowID，此时也可以使用 `SHARD_ROW_ID_BITS` 特性。要了解关于 `CLUSTERED` 主键的详细信息，请参考[聚簇索引](/clustered-indexes.md)。
+对于含有 `CLUSTERED` 主键的表，TiDB 会使用表的主键作为 RowID，因为 `SHARD_ROW_ID_BITS` 会改变 RowID 生成规则，所以此时无法使用 `SHARD_ROW_ID_BITS` 选项。而对于使用 `NONCLUSTERED` 主键的表，TiDB 会使用自动分配的 64 位整数作为 RowID，此时也可以使用 `SHARD_ROW_ID_BITS` 特性。要了解关于 `CLUSTERED` 主键的详细信息，请参考聚簇索引。
 
 以下是两张无主键情况下使用 `SHARD_ROW_ID_BITS` 打散热点后的流量图，第一张展示了打散前的情况，第二张展示了打散后的情况。
 
@@ -169,4 +169,4 @@ TiDB 的 Coprocessor Cache 功能支持下推计算结果缓存。开启该功�
 **其他相关资料**：
 
 + [TiDB 高并发写入场景最佳实践](/best-practices/high-concurrency-best-practices.md)
-+ [Split Region 使用文档](/sql-statements/sql-statement-split-region.md)
++ Split Region 使用文档

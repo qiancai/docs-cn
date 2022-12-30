@@ -73,7 +73,7 @@ summary: 了解如何处理 TiDB 集群常见问题。
 
 - 3.1.3 TiDB 日志中报 `information schema is changed` 的错误：
 
-    - 报错的详细原因以及解决办法参见[触发 Information schema is changed 错误的原因](/faq/sql-faq.md#触发-information-schema-is-changed-错误的原因)。
+    - 报错的详细原因以及解决办法参见触发 Information schema is changed 错误的原因。
 
     - 背景知识：`schema version` 的增长数量与每个 DDL 变更操作的 `schema state` 个数一致，例如 `create table` 操作会有 1 个版本变更，`add column` 操作会有 4 个版本变更（详情可以参考 [online schema change](https://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/41376.pdf)），所以太多的 column 变更操作会导致 `schema version` 增长得很快。
 

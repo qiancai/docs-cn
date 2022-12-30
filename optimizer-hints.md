@@ -423,7 +423,7 @@ SHOW WARNINGS;
 
 ### MERGE()
 
-在含有[公共表表达式](/develop/dev-guide-use-common-table-expression.md)的查询中使用 `MERGE()` hint，可关闭对当前子查询的物化过程，并将内部查询的内联展开到外部查询。该 hint 适用于非递归的公共表表达式查询，在某些场景下，使用该 hint 会比默认分配一块临时空间的语句执行效率更高。例如将外部查询的条件下推或在嵌套的 CTE 查询中： 
+在含有公共表表达式的查询中使用 `MERGE()` hint，可关闭对当前子查询的物化过程，并将内部查询的内联展开到外部查询。该 hint 适用于非递归的公共表表达式查询，在某些场景下，使用该 hint 会比默认分配一块临时空间的语句执行效率更高。例如将外部查询的条件下推或在嵌套的 CTE 查询中： 
 
 {{< copyable "sql" >}}
 
@@ -439,14 +439,14 @@ WITH CTE1 AS (SELECT * FROM t1), CTE2 AS (WITH CTE3 AS (SELECT /*+ MERGE() */ * 
 >
 > `MERGE()` 只适用于简单的 CTE 查询，在以下情况下无法使用该 hint：
 > 
-> - [递归的 CTE 查询](/develop/dev-guide-use-common-table-expression.md#递归的-cte)
+> - 递归的 CTE 查询
 > - 子查询中有无法进行内联展开的部分，例如聚合算子、窗口函数以及 `DINSTINCT` 等
 > 
 > 当 CTE 引用次数过多时，查询性能可能低于默认的物化方式。
 
 ## 全局生效的 Hint
 
-全局生效的 Hint 和[视图](/views.md)有关，可以使查询中定义的 Hint 能够在视图内部生效。添加这类 Hint 需要两步：先用 `QB_NAME` Hint 为视图内的查询块命名，再以“视图名@查询块名”的方式加入实际需要的 Hint。
+全局生效的 Hint 和视图有关，可以使查询中定义的 Hint 能够在视图内部生效。添加这类 Hint 需要两步：先用 `QB_NAME` Hint 为视图内的查询块命名，再以“视图名@查询块名”的方式加入实际需要的 Hint。
 
 ### 第 1 步：使用 `QB_NAME` Hint 重命名视图内的查询块
 

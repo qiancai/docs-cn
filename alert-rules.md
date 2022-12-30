@@ -420,7 +420,7 @@ summary: TiDB 集群中各组件的报警规则详解。
 
 * 规则描述：
 
-    某一个 TiKV 被检测为慢节点。慢节点的检测由 TiKV `raftstore.inspect-interval` 参数控制，参见 [TiKV 配置文件描述](/tikv-configuration-file.md#inspect-interval)。
+    某一个 TiKV 被检测为慢节点。慢节点的检测由 TiKV `raftstore.inspect-interval` 参数控制，参见 TiKV 配置文件描述。
 
 * 处理方法：
 

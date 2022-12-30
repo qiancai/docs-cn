@@ -44,7 +44,7 @@ DM 的性能参数如下表所示。
 
 TiDB 的 `AUTO_INCREMENT` 与 MySQL 的 `AUTO_INCREMENT` 整体上看是相互兼容的。但因为 TiDB 作为分布式数据库，一般会有多个计算节点（client 端入口），应用数据写入时会将负载均分开，这就导致在有 `AUTO_INCREMENT` 列的表上，可能出现不连续的自增 ID。详细原理参考 [`AUTO_INCREMENT`](/auto-increment.md#实现原理)。
 
-如果业务对自增 ID 有强依赖，可以考虑使用 [SEQUENCE 函数](/sql-statements/sql-statement-create-sequence.md#sequence-函数)。
+如果业务对自增 ID 有强依赖，可以考虑使用 SEQUENCE 函数。
 
 #### 是否使用聚簇索引
 
@@ -52,7 +52,7 @@ TiDB 在建表时可以声明为主键创建聚簇索引或非聚簇索引。下
 
 - 聚簇索引
 
-    [聚簇索引](/clustered-indexes.md#聚簇索引)使用主键作为数据存储的 handle ID（行 ID），在使用主键查询时可以减少一次回表的操作，有效提升查询效能。但如果表有大量数据写入且主键使用 [AUTO_INCREMENT](/auto-increment.md#实现原理)，非常容易造成数据存储的[写入热点问题](/best-practices/high-concurrency-best-practices.md#高并发批量插入场景)，导致集群整体效能不能充分利用，出现单存储节点的性能瓶颈问题。
+    聚簇索引使用主键作为数据存储的 handle ID（行 ID），在使用主键查询时可以减少一次回表的操作，有效提升查询效能。但如果表有大量数据写入且主键使用 AUTO_INCREMENT，非常容易造成数据存储的[写入热点问题](/best-practices/high-concurrency-best-practices.md#高并发批量插入场景)，导致集群整体效能不能充分利用，出现单存储节点的性能瓶颈问题。
 
 - 非聚簇索引 + `shard row id bit`
 
@@ -64,7 +64,7 @@ TiDB 在建表时可以声明为主键创建聚簇索引或非聚簇索引。下
 
 - 聚簇索引 + AUTO_RANDOM
 
-    此方案是目前分布式数据库既能避免出现写入热点问题，又能保留聚簇索引带来的查询收益的方案。整体改造也相对轻量，可以在业务切换使用 TiDB 作为写库时，修改 Schema 属性来达到目的。如果在后续查询时一定要利用 ID 列进行排序，可以使用 [AUTO_RANDOM](/auto-random.md) ID 列左移 5 位来保证查询数据的顺序性。示例：
+    此方案是目前分布式数据库既能避免出现写入热点问题，又能保留聚簇索引带来的查询收益的方案。整体改造也相对轻量，可以在业务切换使用 TiDB 作为写库时，修改 Schema 属性来达到目的。如果在后续查询时一定要利用 ID 列进行排序，可以使用 AUTO_RANDOM ID 列左移 5 位来保证查询数据的顺序性。示例：
 
     ```sql
     CREATE TABLE t (a bigint PRIMARY KEY AUTO_RANDOM, b varchar(255));
@@ -86,7 +86,7 @@ TiDB 在建表时可以声明为主键创建聚簇索引或非聚簇索引。下
 
 DM 支持[将上游分库分表的数据合并到下游 TiDB 中的同一个表](/migrate-small-mysql-shards-to-tidb.md)，这也是 TiDB 推荐的一种方式。
 
-除了数据合并场景外，另一个典型场景为 **数据归档**场景。在此场景中，数据不断写入，随着时间流逝，大量的数据从热数据逐渐转变为温冷数据。在 TiDB 中，你可以通过 [Placement Rules](/configure-placement-rules.md) 放置规则来按照一定规则对数据设置不同的放置规则，而最小粒度即为[分区表 (Partition)](/partitioned-table.md)。
+除了数据合并场景外，另一个典型场景为 **数据归档**场景。在此场景中，数据不断写入，随着时间流逝，大量的数据从热数据逐渐转变为温冷数据。在 TiDB 中，你可以通过 Placement Rules 放置规则来按照一定规则对数据设置不同的放置规则，而最小粒度即为[分区表 (Partition)](/partitioned-table.md)。
 
 所以建议在遇到有大规模数据写入的场景，一开始就规划好未来是否需要归档或者有冷热数据分别存储在不同介质的需要。如果有，那么在迁移前请设置好分区表规则（目前 TiDB 还不支持 Table Rebuild 操作）。避免因为初期考虑不周，导致后期需要重新建表及重新导入数据。
 
@@ -109,18 +109,18 @@ DM 默认会使用悲观 DDL 锁模式。在分库分表迁移与同步场景中
 
 #### 上下游的数据类型
 
-这里主要需要考虑上下游的数据类型问题。TiDB 目前支持绝大部分 MySQL 的数据类型。但一些特殊类型尚不支持（如空间类型）。关于数据类型的兼容性，请参考[数据类型概述](/data-type-overview.md)。
+这里主要需要考虑上下游的数据类型问题。TiDB 目前支持绝大部分 MySQL 的数据类型。但一些特殊类型尚不支持（如空间类型）。关于数据类型的兼容性，请参考数据类型概述。
 
 #### 字符集与排序规则
 
-自 TiDB v6.0.0 以后，默认使用新排序规则。如果需要 TiDB 支持 utf8_general_ci、utf8mb4_general_ci、utf8_unicode_ci、utf8mb4_unicode_ci、gbk_chinese_ci 和 gbk_bin 这几种排序规则，需要在集群创建时声明，将 `new_collations_enabled_on_first_bootstrap` 的值设为 `true`。更详细信息请参考[字符集和排序规则](/character-set-and-collation.md#新框架下的排序规则支持)。
+自 TiDB v6.0.0 以后，默认使用新排序规则。如果需要 TiDB 支持 utf8_general_ci、utf8mb4_general_ci、utf8_unicode_ci、utf8mb4_unicode_ci、gbk_chinese_ci 和 gbk_bin 这几种排序规则，需要在集群创建时声明，将 `new_collations_enabled_on_first_bootstrap` 的值设为 `true`。更详细信息请参考字符集和排序规则。
 
 TiDB 默认使用的字符集为 utf8mb4。建议同步上下游及应用统一使用 utf8mb4。如果上游有显式指定的字符集或者排序规则，需要确认 TiDB 是否支持。
 
 从 v6.0.0 起，TiDB 支持 GBK 字符集。有关字符集的限制详见：
 
-- [字符集和排序规则](/character-set-and-collation.md)
-- [GBK 兼容情况](/character-set-gbk.md#与-mysql-的兼容性)
+- 字符集和排序规则
+- GBK 兼容情况
 
 ### 实施侧要点
 
