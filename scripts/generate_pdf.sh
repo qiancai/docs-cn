@@ -24,7 +24,7 @@ pandoc -N --toc --smart --latex-engine=xelatex \
 --template=templates/template.tex \
 --listings \
 --columns=80 \
--V title="TiDB 中文手册" \
+-V title="TiDB 运维指南" \
 -V author="PingCAP Inc." \
 -V date="${_version_tag}" \
 -V CJKmainfont="${MAINFONT}" \
@@ -34,3 +34,5 @@ pandoc -N --toc --smart --latex-engine=xelatex \
 -V geometry:margin=1in \
 -V include-after="\\input{templates/copyright.tex}" \
 "doc.md" -s -o "output.pdf"
+
+printf "The PDF is ready."
