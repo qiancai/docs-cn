@@ -90,7 +90,7 @@ TiDB 版本：7.1.0 (upcoming)
 
     TiDB 持续增强资源管控能力，在 v7.1.0 该功能正式 GA。该特性将极大地提升 TiDB 集群的资源利用率和性能表现。资源管控特性的引入对 TiDB 具有里程碑的意义，你可以将一个分布式数据库集群划分成多个逻辑单元，将不同的数据库用户映射到对应的资源组中，并根据实际需求设置每个资源组的配额。当集群资源紧张时，同一资源组内的会话所使用的全部资源将受到配额限制，防止某一资源组的过度消耗对其他资源组的会话造成影响。
 
-    该特性也可以将多个来自不同系统的中小型应用整合到同一个 TiDB 集群中。即使某个应用的负载增加，也不会影响其他应用的正常运行。而在系统负载较低的时候，繁忙的应用即使超出设定的读写配额，仍可获得所需系统资源，实现资源的最大化利用。此外，合理利用资源管控特性可以减少集群数量，降低运维难度及管理成本。
+    该特性也可以将多个来自不同系统的中小型应用整合到同一个 TiDB 集群中。即使某个应用的负载增加，也不会影响其他应用的正常运行。而在系统负载较低的时候，繁忙的应用即使超出设定的配额，仍可获得所需系统资源，实现资源的最大化利用。此外，合理利用资源管控特性可以减少集群数量，降低运维难度及管理成本。
 
     在 TiDB v7.1.0 中，该特性增加了基于实际负载和硬件部署来估算系统容量上限的能力，为你进行容量规划提供更准确的参考。这有助于你更好地管理 TiDB 的资源分配，从而满足企业级场景的稳定性需求。
 
@@ -146,32 +146,6 @@ TiDB 版本：7.1.0 (upcoming)
 
     更多信息，请参考[用户文档](/partitioned-table.md#range-interval-分区)。
 
-* `LOAD DATA` 部分功能 GA [#40499](https://github.com/pingcap/tidb/issues/40499) @[lance6716](https://github.com/lance6716)
-
-    在 TiDB v7.1.0 中，以下 `LOAD DATA` 功能 GA：
-
-    - 支持从 S3、GCS 导入数据。
-    - 支持导入 Parquet 格式的数据。
-    - 支持解析源文件中的下列字符集：`ascii`、`latin1`、`binary`、`gbk` 和 `utf8mbd`
-    - 支持设置 `FIELDS DEFINED NULL BY` 将源文件中的指定值转换为 `NULL` 并写入目标表。
-    - 支持设置 `batch_size` 指定批量写入目标表的行数，从而提升写入性能。
-    - 支持设置 `detached`，允许指定任务在后台运行。
-    - 支持使用 `SHOW LOAD DATA` 和 `DROP LOAD DATA` 管理任务。
-
-  更多信息，请参考[用户文档](/sql-statements/sql-statement-load-data.md)。
-
-* `LOAD DATA` 集成 TiDB Lightning Physical Import Mode 的导入功能，提升导入性能（实验特性）[#42930](https://github.com/pingcap/tidb/issues/42930) @[D3Hunter](https://github.com/D3Hunter)
-
-    `LOAD DATA` 集成 TiDB Lightning 的物理导入模式 (Physical Import Mode)，你可以通过设置 `WITH import_mode = 'PHYSICAL'` 开启。相比逻辑导入模式 (Logical Import Mode)，可成倍提升数据导入的性能。
-
-    更多信息，请参考[用户文档](/sql-statements/sql-statement-load-data.md)。
-
-* `LOAD DATA` 支持并发导入，提升导入性能（实验特性）[#40499](https://github.com/pingcap/tidb/issues/40499) @[lance6716](https://github.com/lance6716)
-
-    在 v7.1.0 之前版本中，`LOAD DATA` 不支持并发导入数据，导致性能未达到预期。从 v7.1.0 开始，`LOAD DATA` 支持并发导入数据，你可以通过 `WITH thread=<number>` 提高并发度以提升导入的性能。在内部测试中，相较于 v7.0.0，测试负载下的逻辑导入性能提升了近 4 倍。
-
-    更多信息，请参考[用户文档](/sql-statements/sql-statement-load-data.md)。
-
 * 生成列 (Generated Columns) 成为正式功能 (GA) @[bb7133](https://github.com/bb7133)
 
     生成列是数据库中非常有价值的一个功能。在创建表时，可以定义一列的值由表中其他列的值计算而来，而不是由用户显式插入或更新。这个生成列可以是虚拟列 (Virtual Column) 或存储列 (Stored Column)。TiDB 在早期版本就提供了与 MySQL 兼容的生成列功能，在 v7.1.0 中这个功能正式 GA。
@@ -224,8 +198,6 @@ TiDB 版本：7.1.0 (upcoming)
 * 为了提高安全性，TiFlash 废弃了 HTTP 服务端口（默认 `8123`），采用 gRPC 端口作为替代
 
     如果你已经将 TiFlash 升级到 v7.1.0，那么在升级 TiDB 到 v7.1.0 的过程中，TiDB 无法读取 TiFlash 系统表（[`INFORMATION_SCHEMA.TIFLASH_TABLES`](/information-schema/information-schema-tiflash-tables.md) 和 [`INFORMATION_SCHEMA.TIFLASH_SEGMENTS`](/information-schema/information-schema-tiflash-segments.md)）。
-
-* [`SHOW LOAD DATA`](/sql-statements/sql-statement-show-load-data.md) 的返回值中废弃了参数 `Loaded_File_Size`，修改为参数 `Imported_Rows`
 
 ### 系统变量
 
