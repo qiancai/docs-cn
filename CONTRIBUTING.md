@@ -142,7 +142,7 @@ git add <file> ... # 如果你想提交所有的文档修改，可直接使用 `
 git commit -m "commit-message: update the xx"
 ```
 
-参考[如何写 commit message](https://github.com/pingcap/community/blob/master/commit-message-pr-style.md#how-to-write-a-good-commit-message)。
+参考[如何写 commit message](https://github.com/pingcap/community/blob/master/contributors/commit-message-pr-style.md#how-to-write-a-good-commit-message)。
 
 ### 第 6 步：保持新建 branch 与 upstream/master 一致
 
@@ -213,4 +213,4 @@ TiDB 中文文档使用 Markdown 语言进行编写，为了保证文档质量�
 
 ## 联系我们
 
-加入 Slack channel：[#sig-docs](https://slack.tidb.io/invite?team=tidb-community&channel=sig-docs&ref=pingcap-docs-cn)
+欢迎来 [TiDB Internals](https://internals.tidb.io/) 参与讨论。

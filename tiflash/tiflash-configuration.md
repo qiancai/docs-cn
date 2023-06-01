@@ -8,7 +8,7 @@ title: TiFlash 配置参数
 
 ## PD 调度参数
 
-可通过 [pd-ctl](/pd-control.md) 调整参数。如果你使用 TiUP 部署，可以用 `tiup ctl pd` 代替 `pd-ctl -u <pd_ip:pd_port>` 命令。
+可通过 [pd-ctl](/pd-control.md) 调整参数。如果你使用 TiUP 部署，可以用 `tiup ctl:<cluster-version> pd` 代替 `pd-ctl -u <pd_ip:pd_port>` 命令。
 
 - [`replica-schedule-limit`](/pd-configuration-file.md#replica-schedule-limit)：用来控制 replica 相关 operator 的产生速度（涉及到下线、补副本的操作都与该参数有关）
 
@@ -52,8 +52,8 @@ delta_index_cache_size = 0
 ## 默认为 false。如果设为 true，且 path 配置了多个目录，表示在第一个目录存放最新数据，在其他目录存放较旧的数据。
 # path_realtime_mode = false
 
-## TiFlash 临时文件的存放路径。默认使用 [`path` 或者 `storage.latest.dir` 的第一个目录] + "/tmp"
-# tmp_path = "/tidb-data/tiflash-9000/tmp"
+## TiFlash 临时文件的存放路径。通常使用 [`path` 或者 `storage.latest.dir` 的第一个目录] + "/tmp"
+tmp_path = "/tidb-data/tiflash-9000/tmp"
 
 ## 存储路径相关配置，从 v4.0.9 开始生效
 [storage]
@@ -136,6 +136,7 @@ delta_index_cache_size = 0
 
 ## 安全相关配置，从 v4.0.5 开始生效
 [security]
+    ## 从 v5.0 引入，控制是否开启日志脱敏
     ## 若开启该选项，日志中的用户数据会以 `?` 代替显示
     ## 注意，tiflash-learner 对应的安全配置选项为 `security.redact-info-log`，需要在 tiflash-learner.toml 中另外开启
     # redact_info_log = false
@@ -153,11 +154,18 @@ delta_index_cache_size = 0
 ```toml
 [server]
     engine-addr = 外部访问 TiFlash coprocessor 服务的地址
+
 [raftstore]
     ## 控制处理 snapshot 的线程数，默认为 2。设为 0 则关闭多线程优化
     snap-handle-pool-size = 2
     ## 控制 raft store 持久化 WAL 的最小间隔。通过适当增大延迟以减少 IOPS 占用，默认为 4ms，设为 0ms 则关闭该优化。
     store-batch-retry-recv-timeout = "4ms"
+
+[security]
+    ## 从 v5.0 引入，控制是否开启日志脱敏
+    ## 若开启该选项，日志中的用户数据会以 `?` 代替显示
+    ## 默认值为 false
+    redact-info-log = false
 ```
 
 除以上几项外，其余功能参数和 TiKV 的配置相同。需要注意的是：`tiflash.toml [flash.proxy]` 中的配置项会覆盖 `tiflash-learner.toml` 中的重合参数；`key` 为 `engine` 的 `label` 是保留项，不可手动配置。

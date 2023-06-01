@@ -37,7 +37,7 @@ Placement Rules 示意图如下所示：
 | `Override`        | `true`/`false`                     | 是否覆盖 index 的更小 Rule（限分组内） |
 | `StartKey`        | `string`，十六进制编码                | 适用 Range 起始 key                 |
 | `EndKey`          | `string`，十六进制编码                | 适用 Range 终止 key                 |
-| `Role`            | `string` | 副本角色，包括 leader/follower/learner                           |
+| `Role`            | `string` | 副本角色，包括 voter/leader/follower/learner                           |
 | `Count`           | `int`，正整数                     | 副本数量                            |
 | `LabelConstraint` | `[]Constraint`                    | 用于按 label 筛选节点               |
 | `LocationLabels`  | `[]string`                        | 用于物理隔离                        |
@@ -278,12 +278,12 @@ pd-ctl config placement-rules rule-bundle get pd
 }
 ```
 
-`rule-bundle get` 子命令中可以添加 `-out` 参数来将输出写入文件，方便后续修改保存。
+`rule-bundle get` 子命令中可以添加 `--out` 参数来将输出写入文件，方便后续修改保存。
 
 {{< copyable "shell-regular" >}}
 
 ```bash
-pd-ctl config placement-rules rule-bundle get pd -out="group.json"
+pd-ctl config placement-rules rule-bundle get pd --out="group.json"
 ```
 
 修改完成后，使用 `rule-bundle set` 子命令将文件中的配置保存至 PD 服务器。与前面介绍的 `save` 不同，此命令会替换服务器端该分组内的所有规则。
@@ -291,7 +291,7 @@ pd-ctl config placement-rules rule-bundle get pd -out="group.json"
 {{< copyable "shell-regular" >}}
 
 ```bash
-pd-ctl config placement-rules rule-bundle set pd -in="group.json"
+pd-ctl config placement-rules rule-bundle set pd --in="group.json"
 ```
 
 ### 使用 pd-ctl 查看和修改所有配置
@@ -360,7 +360,7 @@ table ttt ranges: (NOTE: key range might be changed after DDL)
   "start_key": "6d00000000000000f8",
   "end_key": "6e00000000000000f8",
   "role": "voter",
-  "count": "5",
+  "count": 5,
   "location_labels": ["zone", "rack", "host"]
 }
 ```
@@ -455,7 +455,7 @@ table ttt ranges: (NOTE: key range might be changed after DDL)
 }
 ```
 
-### 场景五：将某张表迁移至 TiFlash 集群
+### 场景五：将某张表迁移至 SSD 节点
 
 与场景三不同，这个场景不是要在原有配置的基础上增加新副本，而是要强制覆盖一段数据的其它配置，因此需要通过配置规则分组来指定一个足够大的 index 以及设置 override 来覆盖原有规则。
 
@@ -465,16 +465,16 @@ table ttt ranges: (NOTE: key range might be changed after DDL)
 
 ```json
 {
-  "group_id": "tiflash-override",
-  "id": "learner-replica-table-ttt",
+  "group_id": "ssd-override",
+  "id": "ssd-table-45",
   "start_key": "7480000000000000ff2d5f720000000000fa",
   "end_key": "7480000000000000ff2e00000000000000f8",
   "role": "voter",
   "count": 3,
   "label_constraints": [
-    {"key": "engine", "op": "in", "values": ["tiflash"]}
+    {"key": "disk", "op": "in", "values": ["ssd"]}
   ],
-  "location_labels": ["host"]
+  "location_labels": ["rack", "host"]
 }
 ```
 
@@ -484,7 +484,7 @@ table ttt ranges: (NOTE: key range might be changed after DDL)
 
 ```json
 {
-  "id": "tiflash-override",
+  "id": "ssd-override",
   "index": 1024,
   "override": true,
 }

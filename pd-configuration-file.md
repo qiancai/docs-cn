@@ -149,14 +149,12 @@ PD 配置文件比命令行参数支持更多的选项。你可以在 [conf/conf
 ### `max-days`
 
 + 日志保留的最长天数。
-+ 默认: 28
-+ 最小值为 1
++ 默认：0
 
 ### `max-backups`
 
 + 日志文件保留的最大个数。
-+ 默认: 7
-+ 最小值为 1
++ 默认：0
 
 ## metric
 
@@ -301,9 +299,8 @@ PD 配置文件比命令行参数支持更多的选项。你可以在 [conf/conf
 ### `enable-placement-rules`
 
 + 打开 `placement-rules`
-+ 默认值：false
-+ 参考[Placement Rules 使用文档](/configure-placement-rules.md)
-+ 4.0 实验性特性
++ 默认值：true
++ 参考 [Placement Rules 使用文档](/configure-placement-rules.md)
 
 ## label-property
 

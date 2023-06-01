@@ -21,7 +21,7 @@ TiDB 开发者为 TiDB 的新功能开发、性能优化、稳定性保障做出
 - [pingcap/dm](https://github.com/pingcap/dm/graphs/contributors)
 - [pingcap/tidb-binlog](https://github.com/pingcap/tidb-binlog/graphs/contributors)
 - [pingcap/tidb-dashboard](https://github.com/pingcap/tidb-dashboard/graphs/contributors)
-- [pingcap/ticdc](https://github.com/pingcap/ticdc/graphs/contributors)
+- [pingcap/tiflow](https://github.com/pingcap/tiflow/graphs/contributors)
 - [pingcap/tidb-tools](https://github.com/pingcap/tidb-tools/graphs/contributors)
 - [pingcap/tidb-lightning](https://github.com/pingcap/tidb-lightning/graphs/contributors)
 - [pingcap/tispark](https://github.com/pingcap/tispark/graphs/contributors)
@@ -29,8 +29,6 @@ TiDB 开发者为 TiDB 的新功能开发、性能优化、稳定性保障做出
 - [tikv/client-java](https://github.com/tikv/client-java/graphs/contributors)
 - [tidb-incubator/TiBigData](https://github.com/tidb-incubator/TiBigData/graphs/contributors)
 - [ti-community-infra](https://github.com/orgs/ti-community-infra/people)
-
-完整的贡献者名单，请查阅 [SIG | TiDB DevGroup](https://contributor.tidb.io/sig)
 
 ## TiDB 文档写作者和译员
 

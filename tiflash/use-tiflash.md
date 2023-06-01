@@ -74,11 +74,75 @@ SELECT * FROM information_schema.tiflash_replica WHERE TABLE_SCHEMA = '<db_name>
 * AVAILABLE 字段表示该表的 TiFlash 副本是否可用。1 代表可用，0 代表不可用。副本状态为可用之后就不再改变，如果通过 DDL 命令修改副本数则会重新计算同步进度。
 * PROGRESS 字段代表同步进度，在 0.0~1.0 之间，1 代表至少 1 个副本已经完成同步。
 
-### 可用区设置
+### 加快 TiFlash 副本同步速度
+
+新增 TiFlash 副本时，各个 TiKV 实例将进行全表数据扫描，并将扫描得到的数据快照发送给 TiFlash 从而形成副本。默认情况下，为了降低对 TiKV 及 TiFlash 线上业务的影响，TiFlash 新增副本速度较慢、占用资源较少。如果集群中 TiKV 及 TiFlash 的 CPU 和磁盘 IO 资源有富余，你可以按以下步骤操作来提升 TiFlash 副本同步速度：
+
+1. 修改 TiFlash Proxy 及 TiKV 配置，临时调高各个 TiKV 及 TiFlash 实例的数据快照写入速度及快照处理速度。以 TiUP 为例，需要修改的配置项如下：
+
+   ```yaml
+   tikv:
+     server.snap-max-write-bytes-per-sec: 300MiB # 默认 100MiB
+   tiflash-learner:
+     raftstore.snap-handle-pool-size: 10 # 默认 2，可以调整为机器总 CPU 数 × 0.6 或更高
+     raftstore.apply-low-priority-pool-size: 10 # 默认 1，可以调整为机器总 CPU 数 × 0.6 或更高
+     server.snap-max-write-bytes-per-sec: 300MiB # 默认 100MiB
+   ```
+
+   上述配置需要重启 TiFlash 及 TiKV 生效。其中 TiKV 配置也可以通过 [SQL 语句在线修改](/dynamic-config.md)，无需重启 TiKV 即可生效：
+
+   ```sql
+   SET CONFIG tikv `server.snap-max-write-bytes-per-sec` = '300MiB';
+   ```
+
+   由于副本同步速度还受到 PD 副本速度控制，因此以上配置修改完毕后，当前你还无法立即观察到副本同步速度提升。
+
+2. 使用 [PD Control](/pd-control.md) 逐步放开新增副本速度限制：
+
+   TiFlash 默认新增副本速度是 30（每分钟大约 30 个 Region 将会新增 TiFlash 副本）。执行以下命令将调整所有 TiFlash 实例的新增副本速度到 60，即原来的 2 倍速度：
+
+   ```shell
+   tiup ctl:v<CLUSTER_VERSION> pd -u http://<PD_ADDRESS>:2379 store limit all engine tiflash 60 add-peer
+   ```
+
+   > 上述命令中，需要将 `<CLUSTER_VERSION>` 替换为该集群版本，`<PD_ADDRESS>:2379` 替换为任一 PD 节点的地址。替换后样例为：
+   >
+   > ```shell
+   > tiup ctl:v6.1.1 pd -u http://192.168.1.4:2379 store limit all engine tiflash 60 add-peer
+   > ```
+
+   执行完毕后，几分钟内，你将观察到 TiFlash 节点的 CPU 及磁盘 IO 资源占用显著提升，TiFlash 将更快地创建副本。同时，TiKV 节点的 CPU 及磁盘 IO 资源占用也将有所上升。
+
+   如果此时 TiKV 及 TiFlash 节点的资源仍有富余，且线上业务的延迟没有显著上升，则可以考虑进一步放开调度速度，例如将新增副本的速度增加为原来的 3 倍：
+
+   ```shell
+   tiup ctl:v<CLUSTER_VERSION> pd -u http://<PD_ADDRESS>:2379 store limit all engine tiflash 90 add-peer
+   ```
+
+3. 在副本同步完毕后，恢复到默认配置，减少在线业务受到的影响。
+
+   执行以下 PD Control 命令可恢复默认的新增副本速度：
+
+   ```shell
+   tiup ctl:v<CLUSTER_VERSION> pd -u http://<PD_ADDRESS>:2379 store limit all engine tiflash 30 add-peer
+   ```
+
+   在 TiUP 中注释掉新增的配置项，使其恢复到默认值：
+
+   ```yaml
+   # tikv:
+   #   server.snap-max-write-bytes-per-sec: 300MiB
+   # tiflash-learner:
+   #   raftstore.snap-handle-pool-size: 10
+   #   raftstore.apply-low-priority-pool-size: 10
+   #   server.snap-max-write-bytes-per-sec: 300MiB
+   ```
+
+### 设置可用区
 
 在配置副本时，如果为了考虑容灾，需要将 TiFlash 的不同数据副本分布到多个数据中心，则可以按如下步骤进行配置：
 
-1. 在集群配置文件中为 TiFlash 节点指定 label. 
+1. 在集群配置文件中为 TiFlash 节点指定 label.
 
     ```
     tiflash_servers:
@@ -143,7 +207,7 @@ SELECT * FROM information_schema.tiflash_replica WHERE TABLE_SCHEMA = '<db_name>
 
         ...
     ```
-    
+
 关于使用 label 进行副本调度划分可用区的更多内容，可以参考[通过拓扑 label 进行副本调度](/schedule-replicas-by-topology-labels.md)，[同城多数据中心部署 TiDB](/multi-data-centers-in-one-city-deployment.md) 与[两地三中心部署](/three-data-centers-in-two-cities-deployment.md)。
 
 ## 使用 TiDB 读取 TiFlash
@@ -270,7 +334,7 @@ TiSpark 目前提供类似 TiDB 中 engine 隔离的方式读取 TiFlash，方�
 
 > **注意：**
 >
-> 设为 `true` 时，所有查询的表都会只读取 TiFlash 副本，设为 `false` 则只读取 TiKV 副本。设为 `true` 时，要求查询所用到的表都必须已创建了 TiFlash 副本，对于未创建 TiFlash 副本的表的查询会报错。
+> 设为 `tiflash` 时，所有查询的表都会只读取 TiFlash 副本，设为 `tikv` 则只读取 TiKV 副本。设为 `tiflash` 时，要求查询所用到的表都必须已创建了 TiFlash 副本，对于未创建 TiFlash 副本的表的查询会报错。
 
 可以使用以下任意一种方式进行设置：
 
@@ -353,6 +417,20 @@ TiFlash 提供了两个全局/会话变量决定是否选择 Broadcast Hash Join
 
 - [`tidb_broadcast_join_threshold_size`](/system-variables.md#tidb_broadcast_join_threshold_count-从-v50-版本开始引入)，单位为 bytes。如果表大小（字节数）小于该值，则选择 Broadcast Hash Join 算法。否则选择 Shuffled Hash Join 算法。
 - [`tidb_broadcast_join_threshold_count`](/system-variables.md#tidb_broadcast_join_threshold_count-从-v50-版本开始引入)，单位为行数。如果 join 的对象为子查询，优化器无法估计子查询结果集大小，在这种情况下通过结果集行数判断。如果子查询的行数估计值小于该变量，则选择 Broadcast Hash Join 算法。否则选择 Shuffled Hash Join 算法。
+
+### MPP 的已知问题
+
+在当前版本中，TiFlash 使用一个查询的 `start_ts` 当做这个查询的 unique key。在绝大多数情况下，每个 query 的 `start_ts` 都可以唯一标识一个查询，但是在以下几种情况下，不同的查询会有相同的 `start_ts`：
+
+- 在同一个事务里的 query 都有相同的 `start_ts`
+- 用 [`tidb_snapshot`](/system-variables.md#tidb_snapshot) 来指定读取特定历史时刻数据时，手动指定了相同的时间点
+
+当 `start_ts` 无法唯一表示 MPP query 的时候，如果 TiFlash 在同一时刻看到不同的 query 拥有相同的 `start_ts` 时，就可能会报错。典型的报错情况如下：
+
+- 当多个相同的 `start_ts` 的 query 同时发给 TiFlash 时，可能会遇到 "task has been registered" 的报错
+- 当同一个事务里连续执行多个简单的使用 `LIMIT` 的查询时，TiDB 在 limit 条件满足后会给 TiFlash 发送 cancel request 的请求，这个请求也以 `start_ts` 来标识需要 cancel 的查询。假如 TiFlash 中有其他相同 `start_ts` 的查询的话，那其他查询就可能会被误 cancel。例如[这个 issue](https://github.com/pingcap/tidb/issues/43426) 里面碰到的问题。
+
+该问题已在 TiDB v6.6.0 中修复，建议使用[最新的 LTS 版本](https://docs.pingcap.com/zh/tidb/stable)。
 
 ## 注意事项
 

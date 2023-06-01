@@ -42,7 +42,6 @@ TiDB 从二级索引检索数据时会使用 `IndexLookup` 算子。例如，以
 EXPLAIN SELECT * FROM t1 WHERE intkey = 123;
 EXPLAIN SELECT * FROM t1 WHERE intkey < 10;
 EXPLAIN SELECT * FROM t1 WHERE intkey BETWEEN 300 AND 310;
-EXPLAIN SELECT * FROM t1 WHERE intkey BETWEEN 300 AND 310;
 EXPLAIN SELECT * FROM t1 WHERE intkey IN (123,29,98);
 EXPLAIN SELECT * FROM t1 WHERE intkey >= 99 AND intkey <= 103;
 ```
@@ -63,15 +62,6 @@ EXPLAIN SELECT * FROM t1 WHERE intkey >= 99 AND intkey <= 103;
 | IndexLookUp_10                | 3.60    | root      |                                |                                   |
 | ├─IndexRangeScan_8(Build)     | 3.60    | cop[tikv] | table:t1, index:intkey(intkey) | range:[-inf,10), keep order:false |
 | └─TableRowIDScan_9(Probe)     | 3.60    | cop[tikv] | table:t1                       | keep order:false                  |
-+-------------------------------+---------+-----------+--------------------------------+-----------------------------------+
-3 rows in set (0.00 sec)
-
-+-------------------------------+---------+-----------+--------------------------------+-----------------------------------+
-| id                            | estRows | task      | access object                  | operator info                     |
-+-------------------------------+---------+-----------+--------------------------------+-----------------------------------+
-| IndexLookUp_10                | 5.67    | root      |                                |                                   |
-| ├─IndexRangeScan_8(Build)     | 5.67    | cop[tikv] | table:t1, index:intkey(intkey) | range:[300,310], keep order:false |
-| └─TableRowIDScan_9(Probe)     | 5.67    | cop[tikv] | table:t1                       | keep order:false                  |
 +-------------------------------+---------+-----------+--------------------------------+-----------------------------------+
 3 rows in set (0.00 sec)
 

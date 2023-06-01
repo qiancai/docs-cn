@@ -4,7 +4,7 @@ title: 统计信息简介
 
 # 统计信息简介
 
-TiDB 使用统计信息来决定[索引的选择](/choose-index.md)。变量 `tidb_analyze_version` 用于控制所收集到的统计信息。目前 TiDB 中支持两种统计信息：`tidb_analyze_version = 1` （默认）以及 `tidb_analyze_version = 2`。两种版本中，TiDB 维护的统计信息如下：
+TiDB 使用统计信息来决定[索引的选择](/choose-index.md)。变量 `tidb_analyze_version` 用于控制所收集到的统计信息。目前 TiDB 中支持两种统计信息：`tidb_analyze_version = 1` （默认）以及 `tidb_analyze_version = 2`（实验特性）。两种版本中，TiDB 维护的统计信息如下：
 
 | 信息 | Version 1 | Version 2|
 | --- | --- | ---|
@@ -146,7 +146,7 @@ ANALYZE INCREMENTAL TABLE TableName PARTITION PartitionNameList INDEX [IndexName
 
 当某个表 `tbl` 的修改行数与总行数的比值大于 `tidb_auto_analyze_ratio`，并且当前时间在 `tidb_auto_analyze_start_time` 和 `tidb_auto_analyze_end_time` 之间时，TiDB 会在后台执行 `ANALYZE TABLE tbl` 语句自动更新这个表的统计信息。
 
-在 v5.0 版本之前，执行查询语句时，TiDB 会以 [`feedback-probability`](/tidb-configuration-file.md#feedback-probability) 的概率收集反馈信息，并将其用于更新直方图和 Count-Min Sketch。**对于 v5.0 版本，该功能默认关闭，暂不建议开启此功能。**
+在 v5.0 版本之前，执行查询语句时，TiDB 会以 [`feedback-probability`](/tidb-configuration-file.md#feedback-probability) 的概率收集反馈信息，并将其用于更新直方图和 Count-Min Sketch。**该功能在当前版本中为实验特性。对于当前版本，该功能默认关闭，不建议在生产环境中开启该功能。**
 
 ### 控制 ANALYZE 并发度
 

@@ -17,10 +17,10 @@ TiDB Lightning 的配置文件分为“全局”和“任务”两种类别，�
 ### tidb-lightning 全局配置
 
 [lightning]
-# 用于拉取 web 界面和 Prometheus 监控项的 HTTP 端口。设置为 0 时为禁用状态。
+# 用于进度展示 web 界面、拉取 Prometheus 监控项、暴露调试数据和提交导入任务（服务器模式下）的 HTTP 端口。设置为 0 时为禁用状态。
 status-addr = ':8289'
 
-# 切换为服务器模式并使用 web 界面
+# 服务器模式，默认值为 false，命令启动后会开始导入任务。如果改为 true，命令启动后会等待用户在 web 界面上提交任务。
 # 详情参见“TiDB Lightning web 界面”文档
 server-mode = false
 
@@ -93,7 +93,10 @@ driver = "file"
 
 [tikv-importer]
 # 选择后端：“importer” 或 “local” 或 “tidb”
-# backend = "importer"
+# "local"：通过在本地排序生成 SST 文件的方式导入数据，适用于快速导入大量数据，但导入期间下游 TiDB 无法对外提供服务，并且导入的目标表必须为空。
+# "importer": 和 “local“ 原理类似，但需要额外部署 “tikv-importer“ 组件。如无特殊情况，推荐使用 “local” 后端。
+# "tidb"：通过执行 SQL 语句的方式导入数据，速度较慢，但导入期间下游 TiDB 可正常提供服务，导入的目标表可以不为空。
+# backend = "local"
 # 当后端是 “importer” 时，tikv-importer 的监听地址（需改为实际地址）。
 addr = "172.16.31.10:8287"
 # 当后端是 “tidb” 时，插入重复数据时执行的操作。
@@ -112,7 +115,7 @@ addr = "172.16.31.10:8287"
 
 [mydumper]
 # 设置文件读取的区块大小，确保该值比数据源的最长字符串长。
-read-block-size = 65536 # Byte (默认为 64 KB)
+read-block-size = "64KiB" # 默认值
 
 # （源数据文件）单个导入区块大小的最小值。
 # TiDB Lightning 根据该值将一张大表分割为多个数据引擎文件。
@@ -121,7 +124,7 @@ read-block-size = 65536 # Byte (默认为 64 KB)
 # 引擎文件需按顺序导入。由于并行处理，多个数据引擎几乎在同时被导入，
 # 这样形成的处理队列会造成资源浪费。因此，为了合理分配资源，TiDB Lightning
 # 稍微增大了前几个区块的大小。该参数也决定了比例系数，即在完全并发下
-# “导入”和“写入”过程的持续时间比。这个值可以通过计算 1 GB 大小的
+# “导入”和“写入”过程的持续时间比。这个值可以通过计算 1 GiB 大小的
 # 单张表的（导入时长/写入时长）得到。在日志文件中可以看到精确的时间。
 # 如果“导入”更快，区块大小的差异就会更小；比值为 0 时则说明区块大小一致。
 # 取值范围为（0 <= batch-import-ratio < 1）。
@@ -150,7 +153,7 @@ character-set = "auto"
 strict-format = false
 
 # 如果 strict-format = true，TiDB Lightning 会将 CSV 大文件分割为多个文件块进行并行处理。max-region-size 是分割后每个文件块的最大大小。
-# max-region-size = 268_435_456 # Byte（默认是 256 MB）
+# max-region-size = "256MiB" # 默认值
 
 # 只导入与该通配符规则相匹配的表。详情见相应章节。
 filter = ['*.*']
@@ -220,35 +223,26 @@ max-allowed-packet = 67_108_864
 # 此服务的私钥。默认为 `security.key-path` 的副本
 # key-path = "/path/to/lightning.key"
 
-# 数据导入完成后，tidb-lightning 可以自动执行 Checksum、Compact 和 Analyze 操作。
-# 在生产环境中，建议这将些参数都设为 true。
-# 执行的顺序为：Checksum -> Compact -> Analyze。
+# 对于 Local Backend 和 Importer Backend 模式，数据导入完成后，TiDB Lightning 可以自动执行 Checksum 和 Analyze 操作。
+# 在生产环境中，建议总是开启 Checksum 和 Analyze。
+# 执行的顺序为：Checksum -> Analyze。
+# 注意：对于 TiDB Backend, 无须执行这两个阶段，因此在实际运行时总是会直接跳过。
 [post-restore]
-# 设置对所有表逐个执行 `ADMIN CHECKSUM TABLE <table>` 操作的行为，用于验证数据的完整性。
-# 有以下选项:
-# - "off"：不执行 checksum。
-# - "optional"：执行 admin checksum，如果 checksum 失败，则忽略出现的错误。
-# - "required"：执行 admin checksum，如果 checksum 失败，TiDB Lightning 退出。
+# 配置是否在导入完成后对每一个表执行 `ADMIN CHECKSUM TABLE <table>` 操作来验证数据的完整性。
+# 可选的配置项：
+# - "required"（默认）。在导入完成后执行 CHECKSUM 检查，如果 CHECKSUM 检查失败，则会报错退出。
+# - "optional"。在导入完成后执行 CHECKSUM 检查，如果报错，会输出一条 WARN 日志并忽略错误。
+# - "off"。导入结束后不执行 CHECKSUM 检查。
 # 默认值为 "required"。从 v4.0.8 开始，checksum 的默认值由此前的 "true" 改为 "required"。
-# 说明：为了保持兼容性，布尔值 "true" 和 "false" 仍然支持。其中 "true" 等同于 "required"，"false" 等于 "off"。
-checksum = required
+#
+# 注意：
+# 1. Checksum 对比失败通常表示导入异常（数据丢失或数据不一致），因此建议总是开启 Checksum。
+# 2. 考虑到与旧版本的兼容性，依然可以在本配置项设置 `true` 和 `false` 两个布尔值，其效果与 `required` 和 `off` 相同。
+checksum = "required"
+# 配置是否在 CHECKSUM 结束后对所有表逐个执行 `ANALYZE TABLE <table>` 操作。
+# 此配置的可选配置项与 `checksum` 相同，但默认值为 "optional"。
+analyze = "optional"
 
-# 如果设置为 true，会在导入每张表后执行一次 level-1 Compact。
-# 默认值为 false。
-level-1-compact = false
-
-# 如果设置为 true，会在导入过程结束时对整个 TiKV 集群执行一次 full Compact。
-# 默认值为 false。
-compact = false
-
-# 设置对所有表逐个执行 `ANALYZE TABLE <table>` 操作的行为。
-# 有以下选项:
-# - "off"：不执行 analyze。
-# - "optional"：执行 analyze，如果 analyze 失败，则忽略出现的错误。
-# - "required"：执行 analyze，如果 analyze 失败，TiDB Lightning 退出。
-# 默认值为 "optional"。从 v4.0.8 开始，analyze 的默认值由此前的 "true" 改为 "optional"。
-# 说明：为了保持兼容性，布尔值"true" 和 "false" 仍然支持。 其中"true" 等同于 "required"，"false" 等于 "off"。
-analyze = optional
 
 # 设置周期性后台操作。
 # 支持的单位：h（时）、m（分）、s（秒）。
@@ -363,8 +357,8 @@ min-available-ratio = 0.05
 | --tidb-password *password* | 连接到 TiDB 的密码 | `tidb.password` |
 | --no-schema | 忽略表结构文件，直接从 TiDB 中获取表结构信息 | `mydumper.no-schema` |
 | --enable-checkpoint *bool* | 是否启用断点 (默认值为 true) | `checkpoint.enable` |
-| --analyze *bool* | 导入后分析表信息 (默认值为 optional) | `post-restore.analyze` |
-| --checksum *bool* | 导入后比较校验和 (默认值为 required) | `post-restore.checksum` |
+| --analyze *level* | 导入后分析表信息，可选值为 required、optional（默认值）、off | `post-restore.analyze` |
+| --checksum *level* | 导入后比较校验和，可选值为 required（默认值）、optional、off | `post-restore.checksum` |
 | --check-requirements *bool* | 开始之前检查集群版本兼容性（默认值为 true）| `lightning.check-requirements` |
 | --ca *file* | TLS 连接的 CA 证书路径 | `security.ca-path` |
 | --cert *file* | TLS 连接的证书路径 | `security.cert-path` |

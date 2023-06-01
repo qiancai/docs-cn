@@ -37,7 +37,7 @@ TiDB 版本：5.0.0
 
 + 临时表的语法兼容性受到 [`tidb_enable_noop_functions`](/system-variables.md#tidb_enable_noop_functions-从-v40-版本开始引入) 系统变量的控制：当 `tidb_enable_noop_functions` 为 `OFF` 时，`CREATE TEMPORARY TABLE` 语法将会报错。
 + 新增 [`tidb_gc_concurrency`](/system-variables.md#tidb_gc_concurrency-从-v50-版本开始引入)、[`tidb_gc_enable`](/system-variables.md#tidb_gc_enable-从-v50-版本开始引入)、[`tidb_gc_life_time`](/system-variables.md#tidb_gc_life_time-从-v50-版本开始引入)、[`tidb_gc_run_interval`](/system-variables.md#tidb_gc_run_interval-从-v50-版本开始引入)、[`tidb_gc_scan_lock_mode`](/system-variables.md#tidb_gc_scan_lock_mode-从-v50-版本开始引入) 系统变量，用于直接通过系统变量调整垃圾回收相关参数。
-+ 系统变量 [`enable-joint-consensus`](/pd-configuration-file.md#enable-joint-consensus-从-v50-版本开始引入) 默认值由 `false` 改成 `ture`，默认开启 Joint consensus 功能。
++ 系统变量 [`enable-joint-consensus`](/pd-configuration-file.md#enable-joint-consensus-从-v50-版本开始引入) 默认值由 `false` 改成 `true`，默认开启 Joint consensus 功能。
 + 系统变量 [`tidb_enable_amend_pessimistic_txn`](/system-variables.md#tidb_enable_amend_pessimistic_txn-从-v407-版本开始引入) 的值由数字 0 或者 1 变更成 ON 或者 OFF。
 + 系统变量 [`tidb_enable_clustered_index`](/system-variables.md#tidb_enable_clustered_index-从-v50-版本开始引入) 默认值由 OFF 改成 INT_ONLY 且含义有如下变化：
     + ON：开启聚簇索引，支持添加或者删除非聚簇索引。
@@ -335,7 +335,7 @@ GC Compaction Filter 特性将这两个任务合并在同一个任务中完成�
 
 ### TiCDC 稳定性提升，缓解同步过多增量变更数据的 OOM 问题
 
-[用户文档](/ticdc/manage-ticdc.md#unified-sorter-功能)，[#1150](https://github.com/pingcap/ticdc/issues/1150)
+[用户文档](/ticdc/manage-ticdc.md#unified-sorter-功能)，[#1150](https://github.com/pingcap/tiflow/issues/1150)
 
 自 v4.0.9 版本起，TiCDC 引入变更数据本地排序功能 Unified Sorter。在 5.0 版本，默认开启此功能以缓解类似场景下的 OOM 问题：
 
@@ -385,7 +385,7 @@ TiDB 引入的 Raft Joint Consensus 算法将成员变更操作中的“添加�
 
 ### TiCDC 集成第三方生态 Kafka Connect (Confluent Platform)（**实验特性**）
 
-[用户文档](/ticdc/integrate-confluent-using-ticdc.md)，[#660](https://github.com/pingcap/ticdc/issues/660)
+[用户文档](/ticdc/integrate-confluent-using-ticdc.md)，[#660](https://github.com/pingcap/tiflow/issues/660)
 
 为满足将 TiDB 的数据流转到其他系统以支持相关的业务需求，该功能可以把 TiDB 数据流转到 Kafka、Hadoop、 Oracle 等系统。
 
@@ -393,7 +393,7 @@ Confluent 平台提供的 kafka connectors 协议支持向不同协议关系型�
 
 ### TiCDC 支持 TiDB 集群之间环形同步（**实验特性**）
 
-[用户文档](/ticdc/manage-ticdc.md#环形同步)，[#471](https://github.com/pingcap/ticdc/issues/471)
+[用户文档](/ticdc/manage-ticdc.md#环形同步)，[#471](https://github.com/pingcap/tiflow/issues/471)
 
 由于地理位置差异导致的通讯延迟等问题，存在以下场景：用户部署多套 TiDB 集群到不同的地理区域来支撑其当地的业务，然后通过各个 TiDB 之间相互复制，或者汇总复制数据到一个中心 TiDB hub，来完成诸如分析、结算等业务。
 

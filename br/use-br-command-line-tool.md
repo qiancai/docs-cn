@@ -193,6 +193,10 @@ br backup full \
 
 ### 增量备份
 
+<Warning>
+当前该功能为实验特性，不建议在生产环境中使用。
+</Warning>
+
 如果想要备份增量，只需要在备份的时候指定**上一次的备份时间戳** `--lastbackupts` 即可。
 
 注意增量备份有以下限制：
@@ -220,7 +224,7 @@ br backup full\
 LAST_BACKUP_TS=`br validate decode --field="end-version" -s local:///home/tidb/backupdata | tail -n1`
 ```
 
-示例备份的增量数据记录 `(LAST_BACKUP_TS, current PD timestamp]` 之间的数据变更，以及这段时间内的 DDL。在恢复的时候，BR 会先把所有 DDL 恢复，而后才会恢复数据。 
+示例备份的增量数据记录 `(LAST_BACKUP_TS, current PD timestamp]` 之间的数据变更，以及这段时间内的 DDL。在恢复的时候，BR 会先把所有 DDL 恢复，而后才会恢复数据。
 
 ### Raw KV 备份（实验性功能）
 
@@ -386,6 +390,10 @@ br restore full \
 
 ### 增量恢复
 
+<Warning>
+当前该功能为实验特性，不建议在生产环境中使用。
+</Warning>
+
 增量恢复的方法和使用 BR 进行全量恢复的方法并无差别。需要注意，恢复增量数据的时候，需要保证备份时指定的 `last backup ts` 之前备份的数据已经全部恢复到目标集群。
 
 ### 恢复创建在 `mysql` 数据库下的表（实验性功能）
@@ -418,7 +426,7 @@ br restore full -f 'mysql.usertable' -s $external_storage_url --ratelimit 128
 > - 系统变量表（`mysql.tidb`，`mysql.global_variables`）无法被恢复。
 > - 用户信息表（`mysql.user`，`mysql.columns_priv`，等等）无法被恢复。
 > - GC 数据无法被恢复。
-> 
+>
 > 恢复系统表可能还存在更多兼容性问题。为了防止意外发生，请避免在生产环境中恢复系统表。
 
 ### Raw KV 恢复（实验性功能）

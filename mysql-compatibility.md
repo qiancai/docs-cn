@@ -28,7 +28,8 @@ summary: 本文对 TiDB 和 MySQL 二者之间从语法和功能特性上做出�
 * 自定义函数
 * 外键约束 [#18209](https://github.com/pingcap/tidb/issues/18209)
 * 临时表 [#1248](https://github.com/pingcap/tidb/issues/1248)
-* 全文/空间函数与索引 [#1793](https://github.com/pingcap/tidb/issues/1793)
+* 全文语法与索引 [#1793](https://github.com/pingcap/tidb/issues/1793)
+* 空间类型的函数（即 `GIS`/`GEOMETRY`）、数据类型和索引 [#6347](https://github.com/pingcap/tidb/issues/6347)
 * 非 `ascii`/`latin1`/`binary`/`utf8`/`utf8mb4` 的字符集
 * SYS schema
 * MySQL 追踪优化器
@@ -84,7 +85,11 @@ TiDB 主要使用 Prometheus 和 Grafana 来存储及查询相关的性能监控
 
 ### 查询计划
 
-`EXPLAIN`/`EXPLAIN FOR` 输出格式、内容、权限设置与 MySQL 有比较大的差别，参见[理解 TiDB 执行计划](/explain-overview.md)。
+TiDB 中，执行计划（`EXPLAIN` 和 `EXPLAIN FOR`）在输出格式、内容、权限设置方面与 MySQL 有较大差别。
+
+MySQL 系统变量 `optimizer_switch` 在 TiDB 中是只读的，对查询计划没有影响。你还可以在 [optimizer hints](/optimizer-hints.md) 中使用与 MySQL 类似的语法，但可用的 hint 和实现原理可能会有所不同。
+
+详情参见[理解 TiDB 执行计划](/explain-overview.md)。
 
 ### 内建函数
 
@@ -102,11 +107,11 @@ TiDB 中，所有支持的 DDL 变更操作都是在线执行的。与 MySQL 相
 * 更改/修改 DECIMAL 类型时，不支持更改精度。
 * 更改/修改整数列时，不允许更改 `UNSIGNED` 属性。
 * TiDB 中，`ALGORITHM={INSTANT,INPLACE,COPY}` 语法只作为一种指定，并不更改 `ALTER` 算法，详情参阅 [`ALTER TABLE`](/sql-statements/sql-statement-alter-table.md)。
-* 分区表支持 Hash、Range 和 `Add`/`Drop`/`Truncate`/`Coalesce`。其他分区操作将被忽略，可能会报 `Warning: Unsupported partition type, treat as normal table` 错误。不支持以下分区表语法：
-    + `PARTITION BY LIST`
+* 分区表支持 `HASH`、`RANGE`、`LIST` 分区类型。对于不支持的分区类型，TiDB 会返回 `Warning: Unsupported partition type, treat as normal table`。
+* 分区表支持 `ADD`、`DROP`、`TRUNCATE` 操作，其他分区操作会被忽略。TiDB 不支持以下分区表语法：
     + `PARTITION BY KEY`
     + `SUBPARTITION`
-    + `{CHECK|EXCHANGE|TRUNCATE|OPTIMIZE|REPAIR|IMPORT|DISCARD|REBUILD|REORGANIZE} PARTITION`
+    + `{CHECK|OPTIMIZE|REPAIR|IMPORT|DISCARD|REBUILD|REORGANIZE|COALESCE} PARTITION`
 
 ### `ANALYZE TABLE`
 
@@ -118,7 +123,13 @@ TiDB 中的[信息统计](/statistics.md#手动收集) 与 MySQL 中的有所不
 
 - 不支持 `SELECT ... INTO @变量` 语法。
 - 不支持 `SELECT ... GROUP BY ... WITH ROLLUP` 语法。
-- TiDB 中的 `SELECT .. GROUP BY expr` 的返回结果与 MySQL 5.7 并不一致。MySQL 5.7 的结果等价于 `GROUP BY expr ORDER BY expr`。而 TiDB 中该语法所返回的结果并不承诺任何顺序，与 MySQL 8.0 的行为一致。
+- TiDB 中的 `SELECT .. GROUP BY expr` 的返回结果与 MySQL 5.7 并不一致。MySQL 5.7 的结果等价于 `GROUP BY expr ORDER BY expr`。
+
+详情参见 [`SELECT`](/sql-statements/sql-statement-select.md)。
+
+### `UPDATE` 语句
+
+详情参见 [`UPDATE`](/sql-statements/sql-statement-update.md)。
 
 ### 视图
 
@@ -132,7 +143,7 @@ TiDB 中的视图不可更新，不支持 `UPDATE`、`INSERT`、`DELETE` 等写�
 
 TiDB 支持大部分 [SQL 模式](/sql-mode.md)。不支持的 SQL 模式如下：
 
-- 不支持兼容模式，例如：`ORACLE` 和 `POSTGRESQL`（TiDB 解析但会忽略这两个兼容模式），MySQL 5.7 已弃用兼容模式，MySQL 8.0 已移除兼容模式。
+- 不支持兼容模式，例如：`Oracle` 和 `PostgreSQL`（TiDB 解析但会忽略这两个兼容模式），MySQL 5.7 已弃用兼容模式，MySQL 8.0 已移除兼容模式。
 - TiDB 的 `ONLY_FULL_GROUP_BY` 模式与 MySQL 5.7 相比有细微的[语义差别](/functions-and-operators/aggregate-group-by-functions.md#与-mysql-的区别)。
 - `NO_DIR_IN_CREATE` 和 `NO_ENGINE_SUBSTITUTION` 仅用于解决与 MySQL 的兼容性问题，并不适用于 TiDB。
 

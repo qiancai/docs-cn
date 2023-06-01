@@ -175,6 +175,23 @@ TiDB 配置文件比命令行参数支持更多的选项。你可以在 [config/
 - 默认值：0
 - 在 TiDB 等待服务器关闭期间，HTTP 状态会显示失败，使得负载均衡器可以重新路由流量。
 
+### `enable-forwarding` <span class="version-mark">从 v5.0.0 版本开始引入</span>
+
++ 控制 TiDB 中的 PD client 以及 TiKV client 在疑似网络隔离的情况下是否通过 follower 将请求转发给 leader。
++ 默认值：false
++ 如果确认环境存在网络隔离的可能，开启这个参数可以减少服务不可用的窗口期。
++ 如果无法准确判断隔离、网络中断、宕机等情况，这个机制存在误判情况从而导致可用性、性能降低。如果网络中从未发生过网络故障，不推荐开启此选项。
+
+### `enable-table-lock` <span class="version-mark">从 v4.0.0 版本开始引入</span>
+
+> **警告：**
+>
+> 表级锁 (Table Lock) 为实验特性，不建议在生产环境中使用。
+
++ 控制是否开启表级锁特性。
++ 默认值：false
++ 表级锁用于协调多个 session 之间对同一张表的并发访问。目前已支持的锁种类包括 `READ`、`WRITE` 和 `WRITE LOCAL`。当该配置项为 `false` 时，执行 `LOCK TABLES` 和 `UNLOCK TABLES` 语句不会生效，并且会报 "LOCK/UNLOCK TABLES is not supported" 的警告。更多信息，请参考 [`LOCK TABLES` 和 `UNLOCK TABLES`](/sql-statements/sql-statement-lock-tables-and-unlock-tables.md)。
+
 ## log
 
 日志相关的配置项。
@@ -325,8 +342,7 @@ TiDB 配置文件比命令行参数支持更多的选项。你可以在 [config/
 >
 > `server-memory-quota` 目前为实验性特性，不建议在生产环境中使用。
 
-+ tidb-server 实例内存的使用限制，单位为字节。<!-- 从 TiDB v5.0 起 -->该配置项完全取代原有的 [`max-memory`](https://docs.pingcap.com/zh/tidb/stable/tidb-configuration-file#max-memory)。
-
++ 设置 tidb-server 实例的最大内存用量，单位为字节。
 + 默认值：0
 + 默认值为 0 表示无内存限制。
 
@@ -404,6 +420,10 @@ TiDB 配置文件比命令行参数支持更多的选项。你可以在 [config/
 
 ### `feedback-probability`
 
+> **警告：**
+>
+> `feedback-probability` 在当前版本中为实验特性。不建议在生产环境中开启。
+
 + TiDB 对查询收集统计信息反馈的概率。
 + 默认值：0
 + 此功能默认关闭，暂不建议开启。如果开启此功能，对于每一个查询，TiDB 会以 `feedback-probability` 的概率收集查询的反馈，用于更新统计信息。
@@ -411,7 +431,7 @@ TiDB 配置文件比命令行参数支持更多的选项。你可以在 [config/
 ### `query-feedback-limit`
 
 + 在内存中缓存的最大 Query Feedback 数量，超过这个数量的 Feedback 会被丢弃。
-+ 默认值：1024
++ 默认值：512
 
 ### `pseudo-estimate-ratio`
 
@@ -431,13 +451,6 @@ TiDB 配置文件比命令行参数支持更多的选项。你可以在 [config/
 + 设置优化器是否执行将带有 `Distinct` 的聚合函数（比如 `select count(distinct a) from t`）下推到 Coprocessor 的优化操作。
 + 默认值：false
 + 该变量作为系统变量 [`tidb_opt_distinct_agg_push_down`](/system-variables.md#tidb_opt_distinct_agg_push_down) 的初始值。
-
-### `nested-loop-join-cache-capacity`
-
-+ nested loop join cache LRU 使用的最大内存限制。可以占用的最大内存阈值。
-+ 单位：Byte
-+ 默认值：20971520
-+ 当 `nested-loop-join-cache-capacity = 0` 时，默认关闭 nested loop join cache。 当 LRU 的 size 大于 `nested-loop-join-cache-capacity` 时，也会剔除 LRU 中的元素。
 
 ## prepared-plan-cache
 
@@ -460,7 +473,7 @@ prepare 语句的 plan cache 设置。
 
 ### `memory-guard-ratio`
 
-+ 用于防止超过 performance.max-memory, 超过 max-memory * (1 - prepared-plan-cache.memory-guard-ratio) 会剔除 LRU 中的元素。
++ 用于防止 prepare plan cache 的内存用量超过 performance.server-memory-quota。当 prepare plan cache 的内存用量超过 server-memory-quota * (1 - prepared-plan-cache.memory-guard-ratio) 时，TiDB 会剔除 LRU 中的元素。
 + 默认值：0.1
 + 最小值：0
 + 最大值：1
@@ -522,20 +535,6 @@ prepare 语句的 plan cache 设置。
 + 默认值：1000.0
 + 单位：MB
 + 类型：Float
-
-## txn-local-latches
-
-事务内存锁相关配置，当本地事务冲突比较多时建议开启。
-
-### `enabled`
-
-+ 开启或关闭事务内存锁
-+ 默认值：false
-
-### `capacity`
-
-+ Hash 对应的 slot 数，会自动向上调整为 2 的指数倍。每个 slot 占 32 Bytes 内存。当写入数据的范围比较广时（如导数据），设置过小会导致变慢，性能下降。
-+ 默认值：2048000
 
 ## binlog
 

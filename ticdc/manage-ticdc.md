@@ -8,14 +8,14 @@ title: TiCDC 运维操作及任务管理
 
 ## 使用 TiUP 升级 TiCDC
 
-本部分介绍如何使用 TiUP 来升级 TiCDC 集群。在以下例子中，假设需要将 TiCDC 组件和整个 TiDB 集群升级到 v5.0.4。
+本部分介绍如何使用 TiUP 来升级 TiCDC 集群。在以下例子中，假设需要将 TiCDC 组件和整个 TiDB 集群升级到 v5.0.6。
 
 {{< copyable "shell-regular" >}}
 
 ```shell
 tiup update --self && \
 tiup update --all && \
-tiup cluster upgrade <cluster-name> v5.0.4
+tiup cluster upgrade <cluster-name> v5.0.6
 ```
 
 ### 升级的注意事项
@@ -64,7 +64,7 @@ tiup cluster edit-config <cluster-name>
 >
 > PD 监听的 IP 和端口对应为 `pd-server` 启动时指定的 `advertise-client-urls` 参数。多个 `pd-server` 会包含多个该参数，用户可以指定其中任意一个或多个参数。例如 `--pd=http://10.0.10.25:2379` 或 `--pd=http://10.0.10.25:2379,http://10.0.10.26:2379,http://10.0.10.27:2379`。
 
-如果你使用的 TiCDC 是用 TiUP 部署的，需要将以下命令中的 `cdc cli` 替换为 `tiup ctl cdc`。
+如果你使用的 TiCDC 是用 TiUP 部署的，需要将以下命令中的 `cdc cli` 替换为 `tiup ctl:<cluster-version> cdc`。
 
 ### 管理 TiCDC 服务进程 (`capture`)
 
@@ -99,11 +99,11 @@ tiup cluster edit-config <cluster-name>
 
 #### 同步任务状态流转
 
-本功能适用于 v5.1.2 及更新版本。
+本功能适用于 v5.0.2 及更新版本。
 
 同步任务状态标识了同步任务的运行情况。在 TiCDC 运行过程中，同步任务可能会运行出错、手动暂停、恢复，或达到指定的 `TargetTs`，这些行为都可以导致同步任务状态发生变化。本节描述 TiCDC 同步任务的各状态以及状态之间的流转关系。
 
-![TiCDC state transfer](/media/ticdc-state-transfer.png)
+![TiCDC state transfer](/media/ticdc/ticdc-state-transfer.png)
 
 以上状态流转图中的状态说明如下：
 
@@ -207,16 +207,18 @@ URI 中可配置的的参数如下：
 | `kafka-version`      | 下游 Kafka 版本号。可选，默认值 `2.4.0`，目前支持的最低版本为 `0.11.0.2`，最高版本为 `2.7.0`。该值需要与下游 Kafka 的实际版本保持一致。 |
 | `kafka-client-id`    | 指定同步任务的 Kafka 客户端的 ID。可选，默认值为 `TiCDC_sarama_producer_同步任务的 ID`。 |
 | `partition-num`     | 下游 Kafka partition 数量。可选，不能大于实际 partition 数量。如果不填，会自动获取 partition 数量。 |
-| `max-message-bytes`  | 每次向 Kafka broker 发送消息的最大数据量（可选，默认值 `64MB`） |
+| `max-message-bytes`  | 每次向 Kafka broker 发送消息的最大数据量（可选，默认值 `10MB`） |
 | `replication-factor` | kafka 消息保存副本数（可选，默认值 `1`）                       |
+| `compression` | 设置发送消息时使用的压缩算法（可选值为 `none`、`lz4`、`gzip`、`snappy` 和 `zstd`，默认值为 `none`）。|
 | `protocol` | 输出到 kafka 消息协议，可选值有 `default`、`canal`、`avro`、`maxwell`（默认值为 `default`） |
+| `auto-create-topic` | 当传入的 `topic-name` 在 Kafka 集群不存在时，TiCDC 是否要自动创建该 topic（可选，默认值 `true`） |
 | `max-batch-size` |  从 v4.0.9 引入。如果消息协议支持将多条变更记录输出到一条 kafka 消息，该参数指定一条 kafka 消息中变更记录的最多数量，目前仅对 Kafka 的 `protocol` 为 `default` 时有效（可选，默认值为 `16`。在 v5.0.1 及之后的 v5.0 版本中，默认值由 `4096` 改为 `16`）|
 | `ca`       | 连接下游 Kafka 实例所需的 CA 证书文件路径（可选） |
 | `cert`     | 连接下游 Kafka 实例所需的证书文件路径（可选） |
 | `key`      | 连接下游 Kafka 实例所需的证书密钥文件路径（可选） |
-| `sasl-user` | 连接下游 Kafka 实例所需的 SASL/PLAIN 或 SASL/SCRAM 验证的用户名（authcid）（可选） |
-| `sasl-password` | 连接下游 Kafka 实例所需的 SASL/PLAIN 或 SASL/SCRAM 验证的密码（可选） |
-| `sasl-mechanism` | 连接下游 Kafka 实例所需的 SASL/PLAIN 或 SASL/SCRAM 验证的名称（可选） |
+| `sasl-user` | 连接下游 Kafka 实例所需的 SASL/SCRAM 验证的用户名（authcid）（可选） |
+| `sasl-password` | 连接下游 Kafka 实例所需的 SASL/SCRAM 验证的密码（可选） |
+| `sasl-mechanism` | 连接下游 Kafka 实例所需的 SASL/SCRAM 验证的名称（可选） |
 
 > **注意：**
 >
@@ -267,7 +269,7 @@ URI 中可配置的的参数如下：
 | `maxPendingMessages` | Pending 消息队列的最大大小，例如，等待接收来自 Pulsar 的确认的消息（可选，默认值为 1000） |
 | `disableBatching` | 禁止自动批量发送消息（可选） |
 | `batchingMaxPublishDelay` | 设置发送消息的批处理时间（默认值为 10ms） |
-| `compressionType` | 设置发送消息时使用的压缩算法（可选 `LZ4`，`ZLIB` 和 `ZSTD`，默认值为 `ZSTD`）|
+| `compressionType` | 设置发送消息时使用的压缩算法（可选 `NONE`，`LZ4`，`ZLIB` 和 `ZSTD`，默认值为 `NONE`）|
 | `hashingScheme` | 用于选择发送分区的哈希算法（可选 `JavaStringHash` 和 `Murmur3`，默认值为 `JavaStringHash`）|
 | `properties.*` | 在 TiCDC 中 Pulsar producer 上添加用户定义的属性（可选，示例 `properties.location=Hangzhou`）|
 
@@ -667,7 +669,7 @@ worker-num = 16
 # 支持 default、ts、rowid、table 四种分发器，分发规则如下：
 # - default：有多个唯一索引（包括主键）时按照 table 模式分发；只有一个唯一索引（或主键）按照 rowid 模式分发；如果开启了 old value 特性，按照 table 分发
 # - ts：以行变更的 commitTs 做 Hash 计算并进行 event 分发
-# - rowid：以所选的 HandleKey 列名和列值做 Hash 计算并进行 event 分发
+# - rowid：以表的主键或者唯一索引列名和列值做 Hash 计算并进行 event 分发
 # - table：以表的 schema 名和 table 名做 Hash 计算并进行 event 分发
 # matcher 的匹配语法和过滤器规则语法相同
 dispatchers = [
@@ -706,7 +708,7 @@ sync-ddl = true
 
 在三个集群 A、B 和 C 上开启环形复制，其中 A 到 B 的同步使用两个 TiCDC。A 作为三个集群的 DDL 入口。
 
-![TiCDC cyclic replication](/media/cdc-cyclic-replication.png)
+![TiCDC cyclic replication](/media/ticdc/cdc-cyclic-replication.png)
 
 使用环形同步功能时，需要设置同步任务的创建参数：
 
@@ -796,23 +798,19 @@ sync-ddl = true
 
 ### 环形同步使用说明
 
-1. 在创建环形同步任务前，必须使用 `cdc cli changefeed cyclic create-marktables` 创建环形同步功能使用到的标记表。
-2. 开启环形同步的数据表名字需要符合正则表达式 `^[a-zA-Z0-9_]+$`。
-3. 在创建环形同步任务前，开启环形复制的数据表必须已创建完毕。
-4. 开启环形复制后，不能创建一个会被环形同步任务同步的表。
-5. 在多集群同时写入时，为了避免业务出错，请避免执行 DDL 语句，比如 `ADD COLUMN`/`DROP COLUMN` 等。
-6. 如果想在线执行 DDL 语句，需要确保满足以下条件：
++ 在创建环形同步任务前，必须使用 `cdc cli changefeed cyclic create-marktables` 创建环形同步功能使用到的标记表。
++ 开启环形同步的数据表名字需要符合正则表达式 `^[a-zA-Z0-9_]+$`。
++ 在创建环形同步任务前，开启环形复制的数据表必须已创建完毕。
++ 开启环形复制后，不能创建一个会被环形同步任务同步的表。
++ 在多集群同时写入时，为了避免业务出错，请避免执行 DDL 语句，比如 `ADD COLUMN`/`DROP COLUMN` 等。
++ 如果想在线执行 DDL 语句，需要确保满足以下条件：
     + 业务兼容 DDL 语句执行前后的表结构。
     + 多个集群的 TiCDC 组件构成一个单向 DDL 同步链，不能成环。例如以上在 TiDB 集群 A，B 和 C 上创建环形同步任务的示例中，只有 C 集群的 TiCDC 组件关闭了 `sync-ddl`。
     + DDL 语句必须在单向 DDL 同步链的开始集群上执行，例如示例中的 A 集群。
 
 ## 输出行变更的历史值 <span class="version-mark">从 v4.0.5 版本开始引入</span>
 
-> **警告：**
->
-> 目前输出行变更历史值属于实验特性，尚未经过完备的测试，不建议在生产环境中使用该功能。
-
-在默认配置下同步任务输出的 TiCDC Open Protocol 行变更数据只包含变更后的值，不包含变更前行的值，因此该输出数据不支持 TiDB 4.0 [新的 Collation 框架](/character-set-and-collation.md#新框架下的排序规则支持)，也不满足 TiCDC Open Protocol 的消费端使用行变更历史值的需求。
+默认配置下，同步任务输出的 TiCDC Open Protocol 行变更数据只包含变更后的值，不包含变更前行的值，因此该输出数据不满足 TiCDC Open Protocol 的消费端使用行变更历史值的需求。
 
 从 v4.0.5 开始，TiCDC 支持输出行变更数据的历史值。若要开启该特性，需要在 changefeed 的配置文件的根级别指定以下配置：
 
@@ -822,7 +820,11 @@ sync-ddl = true
 enable-old-value = true
 ```
 
-开启该特性后，TiCDC Open Protocol 的输出格式参考 [TiCDC 开放数据协议 - Row Changed Event](/ticdc/ticdc-open-protocol.md#row-changed-event)，使用 MySQL sink 时也会自动支持的 TiDB 4.0 新 Collation 特性。
+从 v5.0 开始默认启用该特性，开启该特性后 TiCDC Open Protocol 的输出格式参考 [TiCDC 开放数据协议 - Row Changed Event](/ticdc/ticdc-open-protocol.md#row-changed-event)。
+
+## 同步启用了 TiDB 新的 Collation 框架的表
+
+从 v4.0.15、v5.0.4、v5.1.1 和 v5.2.0 开始，TiCDC 支持同步启用了 TiDB [新的 Collation 框架](/character-set-and-collation.md#新框架下的排序规则支持)的表。
 
 ## 同步没有有效索引的表
 

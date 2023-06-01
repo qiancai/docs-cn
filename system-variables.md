@@ -26,6 +26,18 @@ SET  GLOBAL tidb_distsql_scan_concurrency = 10;
 > - 在 TiDB 中，`GLOBAL` 变量的设置即使重启后也仍然有效。每隔 2 秒，其他 TiDB server 会获取到对变量设置的更改。详情见 [TiDB #14531](https://github.com/pingcap/tidb/issues/14531)。
 > - 此外，由于应用和连接器通常需要读 MySQL 变量，为了兼容这一需求，在 TiDB 中，部分 MySQL 5.7 的变量既可读取也可设置。例如，尽管 JDBC 连接器不依赖于查询缓存 (query cache) 的行为，但仍然可以读取和设置查询缓存。
 
+> **注意：**
+>
+> 变量取较大值并不总会带来更好的性能。由于大部分变量对单个连接生效，设置变量时，还应考虑正在执行语句的并发连接数量。
+>
+> 确定安全值时，应考虑变量的单位：
+>
+> * 如果单位为线程，安全值通常取决于 CPU 核的数量。
+> * 如果单位为字节，安全值通常小于系统内存的总量。
+> * 如果单位为时间，单位可能为秒或毫秒。
+>
+> 单位相同的多个变量可能会争夺同一组资源。
+
 ## 变量参考
 
 ### `allow_auto_random_explicit_insert` <span class="version-mark">从 v4.0.3 版本开始引入</span>
@@ -489,6 +501,21 @@ mysql> SELECT * FROM t1;
 > - 启用 TiDB Binlog 后，开启该选项无法获得性能提升。要获得性能提升，建议使用 [TiCDC](/ticdc/ticdc-overview.md) 替代 TiDB Binlog。
 > - 启用该参数仅意味着 Async Commit 成为可选的事务提交模式，实际由 TiDB 自行判断选择最合适的提交模式进行事务提交。
 
+### `tidb_enable_change_multi_schema`
+
+> **警告：**
+>
+> TiDB 未来会支持更多种类的多模式对象变更，该系统变量将在后续版本中移除。
+
+- 作用域：GLOBAL
+- 是否持久化到集群：是
+- 默认值：`OFF`
+- 这个变量用于控制是否允许在一个 `ALTER TABLE` 语句中变更多个列或者索引。该变量值为 `ON` 时，仅支持以下多模式对象变更：
+    - 添加多列，例如 `ATLER TABLE t ADD COLUMN c1 INT, ADD COLUMN c2 INT;`。
+    - 删除多列，例如 `ATLER TABLE t DROP COLUMN c1, DROP COLUMN c2;`。
+    - 删除多个索引，例如 `ATLER TABLE t DROP INDEX i1, DROP INDEX i2;`。
+    - 删除被单列索引所覆盖的列，例如 `ALTER TABLE t DROP COLUMN c1`, 表结构中包含 `INDEX idx(c1)`。
+
 ### `tidb_enable_cascades_planner`
 
 > **警告：**
@@ -569,6 +596,10 @@ mysql> SELECT * FROM t1;
 - 这个变量用于控制是否开启 Apply 算子并发，并发数由 `tidb_executor_concurrency` 变量控制。Apply 算子用来处理关联子查询且默认无并发，所以执行速度较慢。打开 Apply 并发开关可增加并发度，提高执行速度。目前默认关闭。
 
 ### `tidb_enable_rate_limit_action`
+
+> **注意：**
+>
+> 该变量默认开启，但可能导致内存不受 [`tidb_mem_quota_query`](#tidb_mem_quota_query) 控制，从而加剧 OOM 风险，因此建议将该变量值调整为 `OFF`。
 
 - 作用域：SESSION | GLOBAL
 - 默认值：`ON`
@@ -1159,7 +1190,8 @@ SET tidb_query_log_max_len = 20;
 
 - 作用域：GLOBAL
 - 默认值：`OFF`
-- 如果建表时设置了 `SHARD_ROW_ID_BITS` 和 `PRE_SPLIT_REGIONS`，建表成功后会均匀切分出指定数量的 Region。开启该变量后，会在建表语句执行时，同步打散刚分裂出的 Region。适用于批量建表后紧接着批量写入数据，能让刚分裂出的 Region 先在 TiKV 分散而不用等待 PD 进行调度。为了保证后续批量写入数据的稳定性，建表语句会等待打散 Region 完成后再返回建表成功，建表语句执行时间会是关闭该变量的数倍。
+- TiDB 默认会在建表时为新表分裂 Region。开启该变量后，会在建表语句执行时，同步打散刚分裂出的 Region。适用于批量建表后紧接着批量写入数据，能让刚分裂出的 Region 先在 TiKV 分散而不用等待 PD 进行调度。为了保证后续批量写入数据的稳定性，建表语句会等待打散 Region 完成后再返回建表成功，建表语句执行时间会是该变量关闭时的数倍。
+- 如果建表时设置了 `SHARD_ROW_ID_BITS` 和 `PRE_SPLIT_REGIONS`，建表成功后会均匀切分出指定数量的 Region。
 
 ### `tidb_skip_ascii_check` <span class="version-mark">从 v5.0 版本开始引入</span>
 

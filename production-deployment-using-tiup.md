@@ -9,6 +9,10 @@ aliases: ['/zh/tidb/v5.0/production-offline-deployment-using-tiup','/zh/tidb/v5.
 
 目前 TiUP 可以支持部署 TiDB、TiFlash、TiDB Binlog、TiCDC，以及监控系统。本文将介绍不同集群拓扑的具体部署步骤。
 
+> **注意：**
+>
+> TiDB、TiUP 及 TiDB Dashboard 默认会收集使用情况信息，并将这些信息分享给 PingCAP 用于改善产品。若要了解所收集的信息详情及如何禁用该行为，请参见[遥测](/telemetry.md)。
+
 ## 第 1 步：软硬件环境需求及前置检查
 
 [软硬件环境需求](/hardware-and-software-requirements.md)
@@ -194,7 +198,7 @@ alertmanager_servers:
   - host: 10.0.1.4
 ```
 
-这里举出常见的 6 种场景，请根据链接中的拓扑说明，以及给出的配置文件模板，修改配置文件 `topology.yaml`。如果有其他组合场景的需求，请根据标准模板自行调整。
+这里举出常见的几种场景，请根据链接中的拓扑说明，以及给出的配置文件模板，修改配置文件 `topology.yaml`。如果有其他组合场景的需求，请根据标准模板自行调整。
 
 - [最小拓扑架构](/minimal-deployment-topology.md)
 
@@ -263,13 +267,13 @@ tiup cluster check ./topology.yaml --apply --user root [-p] [-i /home/root/.ssh/
 {{< copyable "shell-regular" >}}
 
 ```shell
-tiup cluster deploy tidb-test v5.0.4 ./topology.yaml --user root [-p] [-i /home/root/.ssh/gcp_rsa]
+tiup cluster deploy tidb-test v5.0.6 ./topology.yaml --user root [-p] [-i /home/root/.ssh/gcp_rsa]
 ```
 
 以上部署命令中：
 
 - 通过 TiUP cluster 部署的集群名称为 `tidb-test`
-- 可以通过执行 `tiup list tidb` 来查看 TiUP 支持的最新可用版本，后续内容以版本 `v5.0.4` 为例
+- 可以通过执行 `tiup list tidb` 来查看 TiUP 支持的最新可用版本，后续内容以版本 `v5.0.6` 为例
 - 初始化配置文件为 `topology.yaml`
 - --user root：通过 root 用户登录到目标主机完成集群部署，该用户需要有 ssh 到目标机器的权限，并且在目标机器有 sudo 权限。也可以用其他有 ssh 和 sudo 权限的用户完成部署。
 - [-i] 及 [-p]：非必选项，如果已经配置免密登录目标机，则不需填写。否则选择其一即可，[-i] 为可登录到目标机的 root 用户（或 --user 指定的其他用户）的私钥，也可使用 [-p] 交互式输入该用户的密码
@@ -291,7 +295,7 @@ TiUP 支持管理多个 TiDB 集群，该命令会输出当前通过 TiUP cluste
 Starting /home/tidb/.tiup/components/cluster/v1.3.0/cluster list
 Name              User  Version        Path                                                        PrivateKey
 ----              ----  -------        ----                                                        ----------
-tidb-test         tidb  v5.0.4      /home/tidb/.tiup/storage/cluster/clusters/tidb-test         /home/tidb/.tiup/storage/cluster/clusters/tidb-test/ssh/id_rsa
+tidb-test         tidb  v5.0.6      /home/tidb/.tiup/storage/cluster/clusters/tidb-test         /home/tidb/.tiup/storage/cluster/clusters/tidb-test/ssh/id_rsa
 ```
 
 ## 第 6 步：检查部署的 TiDB 集群情况
@@ -333,7 +337,3 @@ tiup cluster start tidb-test
 
 - [TiCDC 任务管理](/ticdc/manage-ticdc.md)
 - [TiCDC 常见问题](/ticdc/troubleshoot-ticdc.md)
-
-> **注意：**
->
-> TiDB、TiUP 及 TiDB Dashboard 默认会收集使用情况信息，并将这些信息分享给 PingCAP 用于改善产品。若要了解所收集的信息详情及如何禁用该行为，请参见[遥测](/telemetry.md)。

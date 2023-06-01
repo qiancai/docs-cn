@@ -8,12 +8,15 @@ aliases: ['/zh/tidb/v5.0/experimental-features-4.0/']
 
 本文介绍 TiDB 各版本中的实验特性。**不建议**在生产环境中使用实验特性。
 
+## 性能
+
++ [随机采样约 10000 行数据来快速构建统计信息](/system-variables.md#tidb_enable_fast_analyze)（v3.0 实验特性）
+
 ## 稳定性
 
-+ TiFlash 限制压缩或整理数据占用 I/O 资源，缓解后台任务与前端的数据读写对 I/O 资源的争抢（v5.0 实验特性）
 + 提升优化器选择索引的稳定性（v5.0 实验特性）
     + 扩展统计信息功能，收集多列顺序依赖性信息，帮助优化器选择相对较优的索引。
-    + 重构统计信息模块，帮助优化器选择相对较优的索引，包括从 `CMSKetch` 和直方图中删除 `TopN` 值，为索引的直方图维护 Bucket NDV。
+    + 重构统计信息模块，帮助优化器选择相对较优的索引，包括从 `CMSKetch` 和直方图中删除 `TopN` 值，为索引的直方图维护 Bucket NDV。详情参阅[统计信息简介 - `tidb_analyze_version = 2` 的介绍](/statistics.md)。
 
 ## 调度功能
 
@@ -28,12 +31,14 @@ aliases: ['/zh/tidb/v5.0/experimental-features-4.0/']
 + [生成列](/generated-columns.md#生成列)。
 + [自定义变量](/user-defined-variables.md#用户自定义变量)。
 + [JSON 数据类型](/data-type-json.md) 及 [JSON 函数](/functions-and-operators/json-functions.md)。
-+ [View](/information-schema/information-schema-views.md)。
++ [Cascades Planner](/system-variables.md#tidb_enable_cascades_planner)：基于 Cascades 框架的自顶向下查询优化器。（v3.0 实验特性）
++ [执行计划缓存](/sql-prepare-plan-cache.md)。（v4.0 实验特性）
++ [使用 `ALTER TABLE` 修改多个列或索引](/system-variables.md#tidb_enable_change_multi_schema)。（v5.0.0 实验特性）
++ [表级锁 (Table Lock)](/tidb-configuration-file.md#enable-table-lock-从-v400-版本开始引入)（v4.0.0 实验特性）
 
 ## 配置管理
 
 + 将配置参数持久化存储到 PD 中，并且可以动态修改配置项的功能。（v4.0 实验特性）
-+ [SHOW CONFIG](/sql-statements/sql-statement-show-config.md)。（v4.0 实验特性）
 
 ## TiDB 数据共享订阅
 
@@ -44,7 +49,6 @@ aliases: ['/zh/tidb/v5.0/experimental-features-4.0/']
 
 + [关闭 Titan 功能](/storage-engine/titan-configuration.md#关闭-titan实验功能)。
 + [Titan Level Merge 功能](/storage-engine/titan-configuration.md#level-merge实验功能)。
-+ TiFlash 支持将存储引擎的新数据分布在多个硬盘上，分摊 I/O 压力。（v4.0 实验特性）
 
 ## 备份与恢复
 

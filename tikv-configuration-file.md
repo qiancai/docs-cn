@@ -59,6 +59,13 @@ TiKV 配置文件比命令行参数支持更多的选项。你可以在 [etc/con
 + 输出慢日志的阈值。处理时间超过该阈值后会输出慢日志。
 + 默认值："1s"
 
+### `pd.enable-forwarding` <span class="version-mark">从 v5.0.0 版本开始引入</span>
+
++ 控制 TiKV 中的 PD client 在疑似网络隔离的情况下是否通过 follower 将请求转发给 leader。
++ 默认值：false
++ 如果确认环境存在网络隔离的可能，开启这个参数可以减少服务不可用的窗口期。
++ 如果无法准确判断隔离、网络中断、宕机等情况，这个机制存在误判情况从而导致可用性、性能降低。如果网络中从未发生过网络故障，不推荐开启此选项。
+
 ## server
 
 服务器相关的配置项。
@@ -164,6 +171,11 @@ TiKV 配置文件比命令行参数支持更多的选项。你可以在 [etc/con
 + endpoint 下推查询请求输出慢日志的阈值，处理时间超过阈值后会输出慢日志。
 + 默认值：1s
 + 最小值：0
+
+### `forward-max-connections-per-address` <span class="version-mark">从 v5.0.0 版本开始引入</span>
+
++ 设置服务与转发请求的连接池大小。设置过小会影响请求的延迟和负载均衡。
++ 默认值：4
 
 ## readpool.unified
 
@@ -332,8 +344,12 @@ TiKV 配置文件比命令行参数支持更多的选项。你可以在 [etc/con
 
 ### `enable-ttl` <span class="version-mark">从 v5.0 GA 版本开始引入</span>
 
+> **警告：**
+>
+> - 你**只能**在部署新的 TiKV 集群时将 `enable-ttl` 的值设置为 `true` 或 `false`，**不能**在已有的 TiKV 集群中修改该配置项的值。由于该配置项为 `true` 和 `false` 的 TiKV 集群所存储的数据格式不相同，如果你在已有的 TiKV 集群中修改该配置项的值，会造成不同格式的数据存储在同一个集群，导致重启对应的 TiKV 集群时 TiKV 报 "can't enable ttl on a non-ttl instance" 错误。
+> - 你**只能**在 TiKV 集群中使用 `enable-ttl`，**不能**在有 TiDB 节点的集群中使用该配置项（即在此类集群中把 `enable-ttl` 设置为 `true`），否则会导致数据损坏、TiDB 集群升级失败等严重后果。
+
 + TTL 即 Time to live。数据超过 TTL 时间后会被自动删除。用户需在客户端写入请求中指定 TTL。不指定 TTL 即表明相应数据不会被自动删除。
-+ 注意：TTL 暂时只适用于 RawKV 接口。由于所涉及底层数据格式的不同，用户只能在新建集群时设置好该功能，在已有集群上修改该项配置会使得启动报错。
 + 默认值：false
 
 ### `ttl-check-poll-interval` <span class="version-mark">从 v5.0 GA 版本开始引入</span>
@@ -958,8 +974,10 @@ bloom filter 为每个 key 预留的长度。
 
 ### `compression-per-level`
 
-+ 每一层默认压缩算法，默认：前两层为 No，后面 5 层为 lz4。
-+ 默认值：["no", "no", "lz4", "lz4", "lz4", "zstd", "zstd"]
++ 每一层默认压缩算法。 
++ `defaultcf` 的默认值：["no", "no", "lz4", "lz4", "lz4", "zstd", "zstd"]
++ `writecf` 的默认值：["no", "no", "lz4", "lz4", "lz4", "zstd", "zstd"]
++ `lockcf` 的默认值：["no", "no", "no", "no", "no", "no", "no"]
 
 ### `bottommost-level-compression`
 
@@ -1057,12 +1075,13 @@ bloom filter 为每个 key 预留的长度。
 
 ### `compaction-style`
 
-+ Compaction 方法，可选值为 level，universal。
-+ 默认值：level
++ Compaction 方法。
++ 可选值（仅可输入数字）：`0` (`Level`)，`1` (`Universal`)，`2` (`Fifo`)
++ 默认值：`0`
 
 ### `disable-auto-compactions`
 
-+ 开启自动 compaction 的开关。
++ 是否关闭自动 compaction
 + 默认值：false
 
 ### `soft-pending-compaction-bytes-limit`
@@ -1325,9 +1344,9 @@ raftdb 相关配置项。
 + 默认值：1s
 + 最小值：1ms
 
-### `wait-up-delay-duration`
+### `wake-up-delay-duration`
 
-+ 悲观事务释放锁时，只会唤醒等锁事务中 `start_ts` 最小的事务，其他事务将会延迟 `wait-up-delay-duration` 之后被唤醒。
++ 悲观事务释放锁时，只会唤醒等锁事务中 `start_ts` 最小的事务，其他事务将会延迟 `wake-up-delay-duration` 之后被唤醒。
 + 默认值：20ms
 
 ### `pipelined`
