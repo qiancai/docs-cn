@@ -263,6 +263,7 @@
       - [Optimizer Hints](/optimizer-hints.md)
       - [执行计划管理](/sql-plan-management.md)
       - [优化规则及表达式下推的黑名单](/blocklist-control-plan.md)
+      - [Optimizer Fix Controls](/optimizer-fix-controls.md)
 - 教程
   - [单区域多 AZ 部署](/multi-data-centers-in-one-city-deployment.md)
   - [双区域多 AZ 部署](/three-data-centers-in-two-cities-deployment.md)
@@ -628,6 +629,7 @@
     - [TiFlash 数据落盘](/tiflash/tiflash-spill-disk.md)
     - [TiFlash 数据校验](/tiflash/tiflash-data-validation.md)
     - [TiFlash 兼容性说明](/tiflash/tiflash-compatibility.md)
+    - [TiFlash Pipeline Model 执行模型](/tiflash/tiflash-pipeline-model.md)
   - [系统变量](/system-variables.md)
   - 配置文件参数
     - [tidb-server](/tidb-configuration-file.md)
@@ -688,7 +690,9 @@
       - [`ADMIN CHECKSUM TABLE`](/sql-statements/sql-statement-admin-checksum-table.md)
       - [`ADMIN CHECK [TABLE|INDEX]`](/sql-statements/sql-statement-admin-check-table-index.md)
       - [`ADMIN CLEANUP`](/sql-statements/sql-statement-admin-cleanup.md)
+      - [`ADMIN PAUSE DDL`](/sql-statements/sql-statement-admin-pause-ddl.md)
       - [`ADMIN RECOVER INDEX`](/sql-statements/sql-statement-admin-recover.md)
+      - [`ADMIN RESUME DDL`](/sql-statements/sql-statement-admin-resume-ddl.md)
       - [`ADMIN SHOW DDL [JOBS|QUERIES]`](/sql-statements/sql-statement-admin-show-ddl.md)
       - [`ADMIN SHOW TELEMETRY`](/sql-statements/sql-statement-admin-show-telemetry.md)
       - [`ALTER DATABASE`](/sql-statements/sql-statement-alter-database.md)
