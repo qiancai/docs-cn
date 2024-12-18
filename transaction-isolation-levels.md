@@ -4,7 +4,7 @@ summary: 了解 TiDB 事务的隔离级别。
 aliases: ['/docs-cn/dev/transaction-isolation-levels/','/docs-cn/dev/reference/transactions/transaction-isolation/']
 ---
 
-# 测试事务隔离级别
+# TiDB 事务隔离级别
 
 事务隔离级别是数据库事务处理的基础，[ACID](/glossary.md#acid) 中的 “I”，即 Isolation，指的就是事务的隔离性。
 

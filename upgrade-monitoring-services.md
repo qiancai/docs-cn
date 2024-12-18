@@ -3,7 +3,7 @@ title: 升级集群监控组件
 summary: 介绍如何升级 TiDB 集群监控组件 Prometheus、Grafana 和 Alertmanager。
 ---
 
-# 升级测试集群监控组件
+# 升级 TiDB 集群监控组件
 
 使用 TiUP 部署 TiDB 集群时，TiUP 会同时自动部署 Prometheus、Grafana 和 Alertmanager 等监控组件，并且在集群扩容中自动为新增节点添加监控配置。通过 TiUP 自动部署的监控组件并不是这些三方组件的最新版本，如果你需要使用最新的三方组件，可以按照本文的方法升级所需的监控组件。
 
@@ -26,7 +26,7 @@ summary: 介绍如何升级 TiDB 集群监控组件 Prometheus、Grafana 和 Ale
 
 从 [Prometheus 官网下载页面](https://prometheus.io/download/)下载组件安装包，并解压。
 
-### 第 2 步：下载测试官方 Prometheus 安装包
+### 第 2 步：下载 TiDB 官方 Prometheus 安装包
 
 1. 在 [TiDB 官网下载页面](https://cn.pingcap.com/product/#SelectProduct)下载 `TiDB-community-server` 软件包，并解压。
 2. 在解压文件中，找到 `prometheus-v{version}-linux-amd64.tar.gz`，并解压。
@@ -66,7 +66,7 @@ tiup cluster patch <cluster-name> prometheus-v{new-version}.tar.gz -R prometheus
 1. 从 [Grafana 官网下载页面](https://grafana.com/grafana/download?pg=get&plcmt=selfmanaged-box1-cta1)下载组件安装包。你可以根据需要选择下载 `OSS` 版或 `Enterprise` 版。
 2. 解压下载的软件包。
 
-### 第 2 步：下载测试官方 Grafana 安装包
+### 第 2 步：下载 TiDB 官方 Grafana 安装包
 
 1. 在 [TiDB 官网下载页面](https://cn.pingcap.com/product/#SelectProduct)下载 `TiDB-community-server` 软件包，并解压。
 2. 在解压文件中，找到 `grafana-v{version}-linux-amd64.tar.gz`，并解压。

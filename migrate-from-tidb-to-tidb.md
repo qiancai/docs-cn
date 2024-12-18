@@ -4,7 +4,7 @@ summary: 了解如何将数据从一个 TiDB 集群迁移至另一 TiDB 集群�
 aliases: ['/zh/tidb/dev/incremental-replication-between-clusters/']
 ---
 
-# 从测试集群迁移数据至另一测试集群
+# 从 TiDB 集群迁移数据至另一 TiDB 集群
 
 本文档介绍如何将数据从一个 TiDB 集群迁移至另一 TiDB。在如下场景中，你可以将数据从一个 TiDB 集群迁移至另一个 TiDB 集群：
 

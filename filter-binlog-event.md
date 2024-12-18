@@ -97,7 +97,7 @@ filters:
     action: Do
 ```
 
-### 过滤测试不支持的 SQL 语句
+### 过滤 TiDB 不支持的 SQL 语句
 
 ```
 filters:

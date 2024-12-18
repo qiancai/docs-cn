@@ -4,7 +4,7 @@ summary: 了解 TiDB 在高并发写入场景下的最佳实践。
 aliases: ['/docs-cn/dev/best-practices/high-concurrency-best-practices/','/docs-cn/dev/reference/best-practices/high-concurrency/']
 ---
 
-# 测试高并发写入场景最佳实践
+# TiDB 高并发写入场景最佳实践
 
 在 TiDB 的使用过程中，一个典型场景是高并发批量写入数据到 TiDB。本文阐述了该场景中的常见问题，旨在给出一个业务的最佳实践，帮助读者避免因使用 TiDB 不当而影响业务开发。
 
@@ -27,7 +27,7 @@ aliases: ['/docs-cn/dev/best-practices/high-concurrency-best-practices/','/docs-
 
 对于分布式数据库来说，除了本身的基础性能外，最重要的就是充分利用所有节点能力，避免让单个节点成为瓶颈。
 
-## 测试数据分布原理
+## TiDB 数据分布原理
 
 如果要解决以上挑战，需要从 TiDB 数据切分以及调度的原理开始讲起。这里只作简单说明，详情可参阅[谈调度](https://pingcap.com/blog-cn/tidb-internal-3/)。
 

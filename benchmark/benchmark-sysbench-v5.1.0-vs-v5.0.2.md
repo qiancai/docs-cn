@@ -33,7 +33,7 @@ summary: TiDB v5.1.0 在 OLTP 场景下的 Sysbench 性能表现对比 v5.0.2。
 
 两个版本使用相同的配置
 
-#### 测试参数配置
+#### TiDB 参数配置
 
 {{< copyable "" >}}
 
@@ -63,7 +63,7 @@ pessimistic-txn.pipelined: true
 server.enable-request-batch: false
 ```
 
-#### 测试全局变量配置
+#### TiDB 全局变量配置
 
 {{< copyable "sql" >}}
 

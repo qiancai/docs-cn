@@ -4,7 +4,7 @@ summary: 了解如何快速上手使用 TiDB 数据库。
 aliases: ['/docs-cn/dev/quick-start-with-tidb/','/docs-cn/dev/how-to/get-started/local-cluster/install-from-docker-compose/']
 ---
 
-# 测试数据库快速上手指南
+# TiDB 数据库快速上手指南
 
 本指南介绍如何快速上手体验 TiDB 数据库。对于非生产环境，你可以选择以下任意一种方式部署 TiDB 数据库：
 

@@ -4,7 +4,7 @@ aliases: ['/docs-cn/dev/troubleshoot-hot-spot-issues/']
 summary: TiDB 热点问题处理：介绍定位和解决读写热点问题，包括常见热点场景、确定存在热点问题的方法、使用 TiDB Dashboard 定位热点表、使用 SHARD_ROW_ID_BITS 处理热点表、使用 AUTO_RANDOM 处理自增主键热点表、小表热点的优化、打散读热点。
 ---
 
-# 测试热点问题处理
+# TiDB 热点问题处理
 
 本文介绍如何定位和解决读写热点问题。
 
@@ -14,7 +14,7 @@ TiDB 提供了完整的方案用于排查、解决或规避这类热点。通过
 
 ## 常见热点场景
 
-### 测试编码规则回顾
+### TiDB 编码规则回顾
 
 TiDB 对每个表分配一个 TableID，每一个索引都会分配一个 IndexID，每一行分配一个 RowID（默认情况下，如果表使用整数型的 Primary Key，那么会用 Primary Key 的值当做 RowID）。其中 TableID 在整个集群内唯一，IndexID/RowID 在表内唯一，这些 ID 都是 int64 类型。
 

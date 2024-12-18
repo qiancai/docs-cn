@@ -292,7 +292,7 @@ $ ls -lh /tmp/test | awk '{print $5 "\t" $9}'
 190K  test.sbtest3.0.sql
 ```
 
-### 导出测试的历史数据快照
+### 导出 TiDB 的历史数据快照
 
 Dumpling 可以通过 `--snapshot` 指定导出某个 [tidb_snapshot](/read-historical-data.md#操作流程) 的数据。
 
@@ -307,7 +307,7 @@ tiup dumpling --snapshot "2020-07-02 17:12:45"
 
 即可导出 TSO 为 `417773951312461825` 或 `2020-07-02 17:12:45` 时的 TiDB 历史数据快照。
 
-### 控制导出测试大表（超过 1 TB）时的内存使用
+### 控制导出 TiDB 大表（超过 1 TB）时的内存使用
 
 Dumpling 导出 TiDB 较大单表（超过 1 TB）时，可能会因为导出数据过大导致 TiDB 内存溢出 (OOM)，从而使连接中断导出失败。可以通过以下参数减少 TiDB 的内存使用。
 

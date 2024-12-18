@@ -1,4 +1,4 @@
-# 测试文档
+# TiDB 文档
 
 欢迎来到 [TiDB](https://github.com/pingcap/tidb) 文档仓库！
 
@@ -8,7 +8,7 @@
 
 如果你想在本地定制输出符合特定场景需求的 PDF 格式的 TiDB 文档，例如对 TiDB 文档目录进行自由排序和删减，请参考[自助生成 TiDB 文档 PDF 教程](/resources/tidb-pdf-generation-tutorial.md)。
 
-## 测试文档维护方式及版本说明
+## TiDB 文档维护方式及版本说明
 
 目前，TiDB 的文档维护在以下 branch，对应着官网文档的不同版本：
 

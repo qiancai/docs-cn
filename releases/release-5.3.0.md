@@ -216,7 +216,7 @@ TiDB 版本：5.3.0
 
     [用户文档](/sql-plan-replayer.md)，[#26325](https://github.com/pingcap/tidb/issues/26325)
 
-### 测试数据共享订阅
+### TiDB 数据共享订阅
 
 - **TiCDC 支持灾备场景下的最终一致性复制**
 

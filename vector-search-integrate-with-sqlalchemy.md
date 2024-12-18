@@ -3,7 +3,7 @@ title: 在 SQLAlchemy 中使用 TiDB 向量搜索
 summary: 了解如何在 SQLAlchemy 中通过 TiDB 向量搜索功能存储向量并执行语义搜索。
 ---
 
-# 在 SQLAlchemy 中使用测试向量搜索
+# 在 SQLAlchemy 中使用 TiDB 向量搜索
 
 本文档将展示如何使用 [SQLAlchemy](https://www.sqlalchemy.org/) 与 [TiDB 向量搜索](/vector-search-overview.md)进行交互，以及如何存储向量和执行向量搜索查询。
 
@@ -152,7 +152,7 @@ Get documents within a certain distance:
 
 ### 创建向量表
 
-#### 连接到测试集群
+#### 连接到 TiDB 集群
 
 ```python
 import os

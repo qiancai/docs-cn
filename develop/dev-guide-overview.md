@@ -12,7 +12,7 @@ aliases: ['/zh/tidb/dev/developer-guide-overview']
 
 此外，你还可以通过视频的形式学习免费的 [TiDB SQL 开发在线课程](https://cn.pingcap.com/courses-catalog/category/back-end-developer/?utm_source=docs-cn-dev-guide)。
 
-## 测试基础
+## TiDB 基础
 
 在你开始使用 TiDB 之前，你需要了解一些关于 TiDB 数据库的一些重要工作机制：
 
@@ -20,7 +20,7 @@ aliases: ['/zh/tidb/dev/developer-guide-overview']
 - 学习免费在线课程 [TiDB 架构与特点](https://learn.pingcap.com/learner/course/600003/?utm_source=docs-cn-dev-guide)，了解构建 TiDB 分布式数据库集群的核心组件及其概念。
 - 了解[应用程序与 TiDB 交互的方式](#应用程序与-tidb-交互的方式)。
 
-## 测试事务机制
+## TiDB 事务机制
 
 TiDB 支持分布式事务，而且提供[乐观事务](/optimistic-transaction.md)与[悲观事务](/pessimistic-transaction.md)两种事务模式。TiDB 当前版本中默认采用 **悲观事务** 模式，这让你在 TiDB 事务时可以像使用传统的单体数据库 (如: MySQL) 事务一样。
 
@@ -30,7 +30,7 @@ TiDB 会为你保证 `BEGIN` 开始到 `COMMIT` 或 `ROLLBACK` 结束间的所�
 
 若你不清楚**乐观事务**是什么，请暂时不要使用它。因为使用**乐观事务**的前提是需要应用程序可以正确的处理 `COMMIT` 语句所返回的[所有错误](/error-codes.md)。如果不确定应用程序如何处理，请直接使用**悲观事务**。
 
-## 应用程序与测试交互的方式
+## 应用程序与 TiDB 交互的方式
 
 TiDB 高度兼容 MySQL 协议，TiDB 支持[大多数 MySQL 的语法及特性](/mysql-compatibility.md)，因此大部分的 MySQL 的连接库都与 TiDB 兼容。如果你的应用程序框架或语言无 PingCAP 的官方适配，那么建议你使用 MySQL 的客户端库。同时，也有越来越多的三方数据库主动支持 TiDB 的差异特性。
 

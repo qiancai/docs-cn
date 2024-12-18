@@ -7,7 +7,7 @@ summary: 了解 TiDB 各组件中的日志脱敏。
 
 TiDB 在提供详细的日志信息时，可能会把数据库敏感的数据（例如用户数据）打印出来，造成数据安全方面的风险。因此 TiDB、TiKV、PD 等组件各提供了一个配置项开关，开关打开后，会隐藏日志中包含的用户数据值。
 
-## 测试组件日志脱敏
+## TiDB 组件日志脱敏
 
 TiDB 侧的日志脱敏需要将 [`global.tidb_redact_log`](/system-variables.md#tidb_redact_log) 的值设为 `ON` 或 `MARKER`。该变量值默认为 `OFF`，即关闭脱敏。
 

@@ -1,4 +1,4 @@
-# 如何在你的 GitHub 个人资料页上添加测试文档挑战赛徽章
+# 如何在你的 GitHub 个人资料页上添加 TiDB 文档挑战赛徽章
 
 [GitHub 个人资料页](https://docs.github.com/zh/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/about-your-profile)不仅仅是你的 GitHub 仓库的集合，更是你在编程领域中的专业身份标志。
 

@@ -4,7 +4,7 @@ summary: 了解如何使用 TiUP 部署 TiDB 集群。
 aliases: ['/docs-cn/dev/production-offline-deployment-using-tiup/', '/zh/tidb/dev/production-offline-deployment-using-tiup','/docs-cn/dev/production-deployment-using-tiup/','/docs-cn/dev/how-to/deploy/orchestrated/tiup/','/docs-cn/dev/tiflash/deploy-tiflash/','/docs-cn/dev/reference/tiflash/deploy/','/zh/tidb/dev/deploy-test-cluster-using-docker-compose','/zh/tidb/dev/test-deployment-using-docker']
 ---
 
-# 使用 TiUP 部署测试集群
+# 使用 TiUP 部署 TiDB 集群
 
 本指南介绍如何在生产环境中使用 [TiUP](https://github.com/pingcap/tiup) 部署 TiDB 集群。
 
@@ -368,7 +368,7 @@ tiup cluster list
 
 TiUP 支持管理多个 TiDB 集群，该命令会输出当前通过 TiUP cluster 管理的所有集群信息，包括集群名称、部署用户、版本、密钥信息等。
 
-## 第 6 步：检查部署的测试集群情况
+## 第 6 步：检查部署的 TiDB 集群情况
 
 例如，执行如下命令检查 `tidb-test` 集群情况：
 

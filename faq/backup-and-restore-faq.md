@@ -297,7 +297,7 @@ br restore full -f 'mysql.usertable' -s $external_storage_url --with-sys-table
 
 这个情况多数是因为备份时集群的数据压缩比率和恢复时的默认值不一致导致的，只要恢复的 checksum 阶段顺利通过，可以忽略这个问题，不影响正常使用。
 
-### 使用 BR 恢复数据后是否需要对表执行 `ANALYZE` 以更新测试在表和索引上留下的统计信息？
+### 使用 BR 恢复数据后是否需要对表执行 `ANALYZE` 以更新 TiDB 在表和索引上留下的统计信息？
 
 BR 不会备份统计信息（v4.0.9 除外）。所以在恢复存档后需要手动执行 `ANALYZE TABLE` 或等待 TiDB 自动进行 `ANALYZE`。
 

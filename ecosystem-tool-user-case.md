@@ -4,7 +4,7 @@ summary: 本文档介绍 TiDB 工具的常见使用场景与工具选择。
 aliases: ['/docs-cn/dev/ecosystem-tool-user-case/']
 ---
 
-# 测试工具的使用场景
+# TiDB 工具的使用场景
 
 本文档从数据迁移工具的使用场景出发，介绍部分常见场景下的迁移工具的选择。
 
@@ -30,7 +30,7 @@ aliases: ['/docs-cn/dev/ecosystem-tool-user-case/']
 
 如果全量数据量较大（TB 级别），则可先使用 [Dumpling](/dumpling-overview.md) 与 [TiDB Lightning](/tidb-lightning/tidb-lightning-overview.md) 完成全量数据的迁移，再使用 DM 完成增量数据的迁移。
 
-## 测试集群备份与恢复
+## TiDB 集群备份与恢复
 
 当需要对 TiDB 集群进行备份或在之后对 TiDB 集群进行恢复时，可使用 [BR](/br/backup-and-restore-overview.md)。
 
@@ -40,6 +40,6 @@ aliases: ['/docs-cn/dev/ecosystem-tool-user-case/']
 
 如果还需要执行增量数据的迁移，则可使用 [TiCDC](/ticdc/ticdc-overview.md)。
 
-## 测试增量数据订阅
+## TiDB 增量数据订阅
 
 当需要订阅 TiDB 增量数据的变更时，可使用 [TiCDC](/ticdc/ticdc-overview.md)。

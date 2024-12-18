@@ -4,7 +4,7 @@ aliases: ['/docs-cn/dev/ecosystem-tool-user-guide/','/docs-cn/dev/reference/tool
 summary: TiDB 提供了丰富的工具，包括部署运维工具 TiUP 和 TiDB Operator，数据管理工具如 TiDB Data Migration（DM）、Dumpling、TiDB Lightning、Backup & Restore（BR）、TiCDC、sync-diff-inspector，以及 OLAP 分析工具 TiSpark。这些工具可用于部署、数据迁移、备份恢复、数据校验等多种操作，满足不同需求。
 ---
 
-# 测试工具功能概览
+# TiDB 工具功能概览
 
 TiDB 提供了丰富的工具，可以帮助你进行部署运维、数据管理（例如，数据迁移、备份恢复、数据校验）、在 TiKV 上运行 Spark SQL。请根据需要选择适用的工具。
 
@@ -111,7 +111,7 @@ TiDB 提供了 TiUP 和 TiDB Operator 部署运维工具，满足你在不同系
 - 适用 TiDB 版本：v4.0 及以上
 - Kubernetes 支持：[使用 BR 工具备份 TiDB 集群数据到兼容 S3 的存储](https://docs.pingcap.com/zh/tidb-in-kubernetes/stable/backup-to-aws-s3-using-br)，[使用 BR 工具恢复 S3 兼容存储上的备份数据](https://docs.pingcap.com/zh/tidb-in-kubernetes/stable/restore-from-aws-s3-using-br)
 
-### 测试增量数据同步 - TiCDC
+### TiDB 增量数据同步 - TiCDC
 
 [TiCDC](/ticdc/ticdc-overview.md) 是一款通过拉取 TiKV 变更日志实现的 TiDB 增量数据同步工具，具有将数据还原到与上游任意 TSO 一致状态的能力，同时提供开放数据协议 (TiCDC Open Protocol)，支持其他系统订阅数据变更。
 

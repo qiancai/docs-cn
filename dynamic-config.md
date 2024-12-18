@@ -307,7 +307,7 @@ Query OK, 0 rows affected (0.01 sec)
 
 具体配置项意义可参考 [PD 配置文件描述](/pd-configuration-file.md)。
 
-### 在线修改测试配置
+### 在线修改 TiDB 配置
 
 在线修改 TiDB 配置的方式和 TiKV/PD 有所不同，你可以通过修改[系统变量](/system-variables.md)来实现。
 

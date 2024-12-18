@@ -382,7 +382,7 @@ TiDB 引入的 Raft Joint Consensus 算法将成员变更操作中的“添加�
 
 数据导入工具 TiDB Lightning 针对 TiDB Cloud AWS T1.standard 配置（及其等同配置）的 TiDB 集群进行了数据导入性能优化，测试结果显式使用 TiDB Lightning 导入 1TB TPC-C 数据到 TiDB，性能提升了 40%，由 254 GiB/h 提升到了 366 GiB/h。
 
-## 测试数据共享订阅
+## TiDB 数据共享订阅
 
 ### TiCDC 集成第三方生态 Kafka Connect (Confluent Platform)（**实验特性**）
 
@@ -407,7 +407,7 @@ Confluent 平台提供的 kafka connectors 协议支持向不同协议关系型�
 
 ## 部署及运维
 
-### 优化集群部署操作逻辑，帮助 DBA 更快地部署一套标准的测试生产集群
+### 优化集群部署操作逻辑，帮助 DBA 更快地部署一套标准的 TiDB 生产集群
 
 [用户文档](/production-deployment-using-tiup.md)
 

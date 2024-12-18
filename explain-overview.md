@@ -4,7 +4,7 @@ summary: 了解 TiDB 中 EXPLAIN 语句返回的执行计划。
 aliases: ['/docs-cn/dev/query-execution-plan/','/docs-cn/dev/reference/performance/understanding-the-query-execution-plan/','/docs-cn/dev/index-merge/','/docs-cn/dev/reference/performance/index-merge/','/zh/tidb/dev/query-execution-plan/']
 ---
 
-# 测试执行计划概览
+# TiDB 执行计划概览
 
 > **注意：**
 >

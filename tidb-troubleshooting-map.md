@@ -4,7 +4,7 @@ summary: 了解如何处理 TiDB 集群常见问题。
 aliases: ['/docs-cn/dev/tidb-troubleshooting-map/','/docs-cn/dev/how-to/troubleshoot/diagnose-map/']
 ---
 
-# 测试集群问题导图
+# TiDB 集群问题导图
 
 本篇文档总结了使用 TiDB 及其组件时的常见错误。遇到相关错误时，可以通过本文档的问题导图来排查错误原因并进行处理。
 
@@ -51,7 +51,7 @@ aliases: ['/docs-cn/dev/tidb-troubleshooting-map/','/docs-cn/dev/how-to/troubles
 
 - 2.2.5 其他原因，请参考[读写延迟增加](/troubleshoot-cpu-issues.md)。
 
-## 3. 测试问题
+## 3. TiDB 问题
 
 ### 3.1 DDL
 
@@ -180,7 +180,7 @@ TiDB 作为分布式数据库，内建负载均衡机制，尽可能将业务负
 
 TiDB 提供了完整的方案用于排查、解决或规避这类热点。通过均衡负载热点，可以提升整体性能，包括提高 QPS 和降低延迟等。详情参见 [TiDB 热点问题处理](/troubleshoot-hot-spot-issues.md)。
 
-### 3.7 测试磁盘 I/O 过高
+### 3.7 TiDB 磁盘 I/O 过高
 
 当出现系统响应变慢的时候，如果已经排查了 CPU 的瓶颈、数据事务冲突的瓶颈后，问题仍存在，就需要从 I/O 来入手来辅助判断目前的系统瓶颈点。参考 [TiDB 磁盘 I/O 过高的处理办法](/troubleshoot-high-disk-io.md)了解如何定位和处理 TiDB 存储 I/O 过高的问题。
 

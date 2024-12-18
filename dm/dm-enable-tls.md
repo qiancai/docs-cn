@@ -107,7 +107,7 @@ DM-master、DM-worker 和 dmctl 都会在每次新建相互通讯的连接时重
             ssl-key: "/path/to/mysql-client-key.pem"
     ```
 
-### 为下游测试连接开启加密传输
+### 为下游 TiDB 连接开启加密传输
 
 1. 配置下游 TiDB 启用加密连接支持，具体可参考[配置 TiDB 启用加密连接支持](/enable-tls-between-clients-and-servers.md#配置-tidb-服务端启用安全连接)
 

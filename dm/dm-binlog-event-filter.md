@@ -138,7 +138,7 @@ filters:
     action: Do
 ```
 
-### 过滤测试不支持的 SQL 语句
+### 过滤 TiDB 不支持的 SQL 语句
 
 可设置如下规则过滤 TiDB 不支持的 `PROCEDURE` 语句：
 

@@ -4,7 +4,7 @@ summary: 了解 TiDB 锁冲突问题以及处理方式。
 aliases: ['/docs-cn/dev/troubleshoot-lock-conflicts/']
 ---
 
-# 测试锁冲突问题处理
+# TiDB 锁冲突问题处理
 
 TiDB 支持完整的分布式事务，自 v3.0 版本起，提供[乐观事务](/optimistic-transaction.md)与[悲观事务](/pessimistic-transaction.md)两种事务模式。本文介绍如何使用 Lock View 排查锁相关的问题，以及如何处理使用乐观事务或者悲观事务的过程中常见的锁冲突问题。
 

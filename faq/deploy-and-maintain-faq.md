@@ -4,17 +4,17 @@ summary: 介绍 TiDB 集群安装部署的常见问题、原因及解决方法�
 aliases: ['/docs-cn/dev/faq/deploy-and-maintain-faq/']
 ---
 
-# 测试安装部署常见问题
+# TiDB 安装部署常见问题
 
 本文介绍 TiDB 集群安装部署的常见问题、原因及解决方法。
 
 ## 软硬件要求 FAQ
 
-### 测试支持哪些操作系统？
+### TiDB 支持哪些操作系统？
 
 关于 TiDB 支持的操作系统，参见[操作系统及平台要求](/hardware-and-software-requirements.md#操作系统及平台要求)。
 
-### 测试对开发、测试、生产环境的服务器硬件配置有什么要求？
+### TiDB 对开发、测试、生产环境的服务器硬件配置有什么要求？
 
 TiDB 支持部署和运行在 Intel x86-64 架构的 64 位通用硬件服务器平台。对于开发、测试、生产环境的服务器硬件配置，参见[服务器配置要求](/hardware-and-software-requirements.md#服务器配置要求)。
 
@@ -26,7 +26,7 @@ TiDB 支持部署和运行在 Intel x86-64 架构的 64 位通用硬件服务器
 
 资源可接受的话，我们建议做 RAID 10，如果资源有限，也可以不做 RAID。
 
-### 测试集群各个组件的配置推荐？
+### TiDB 集群各个组件的配置推荐？
 
 - TiDB 需要 CPU 和内存比较好的机器，参考官网配置要求；
 - PD 里面存了集群元信息，会有频繁的读写请求，对磁盘 I/O 要求相对比较高，磁盘太差会影响整个集群性能，推荐 SSD 磁盘，空间不用太大。另外集群 Region 数量越多对 CPU、内存的要求越高；
@@ -42,7 +42,7 @@ TiDB 支持部署和运行在 Intel x86-64 架构的 64 位通用硬件服务器
 
 这种情况一般是因为没有使用 `--config` 参数来指定配置文件（目前只会出现在 binary 部署的场景），TiKV/PD 会按默认值来设置。如果要使用配置文件，请设置 TiKV/PD 的 `--config` 参数。对于 TiKV 组件，修改配置后重启服务即可；对于 PD 组件，只会在第一次启动时读取配置文件，之后可以使用 pd-ctl 的方式来修改配置，详情可参考 [PD 配置参数](/command-line-flags-for-pd-configuration.md)。
 
-### 测试监控框架 Prometheus + Grafana 监控机器建议单独还是多台部署？
+### TiDB 监控框架 Prometheus + Grafana 监控机器建议单独还是多台部署？
 
 监控机建议单独部署。建议 CPU 8 core，内存 16 GB 以上，硬盘 500 GB 以上。
 
@@ -74,7 +74,7 @@ TiDB 支持部署和运行在 Intel x86-64 架构的 64 位通用硬件服务器
 | enable_slow_query_log | TiDB 慢查询日志记录到单独文件({{ deploy_dir }}/log/tidb_slow_query.log)，默认为 False，记录到 tidb 日志 |
 | deploy_without_tidb | KV 模式，不部署 TiDB 服务，仅部署 PD、TiKV 及监控服务，请将 inventory.ini 文件中 tidb_servers 主机组 IP 设置为空。 |
 
-### 如何单独记录测试中的慢查询日志，如何定位慢查询 SQL？
+### 如何单独记录 TiDB 中的慢查询日志，如何定位慢查询 SQL？
 
 1. TiDB 中，对慢查询的定义在 TiDB 的配置文件中。`tidb_slow_log_threshold: 300`，这个参数是配置慢查询记录阈值的，单位是 ms。
 
@@ -82,7 +82,7 @@ TiDB 支持部署和运行在 Intel x86-64 架构的 64 位通用硬件服务器
 
 3. 除了日志，还可以通过 `ADMIN SHOW SLOW` 命令查看，详情可参考 [`ADMIN SHOW SLOW` 命令](/identify-slow-queries.md#admin-show-slow-命令)。
 
-### 首次部署测试集群时，没有配置 tikv 的 Label 信息，在后续如何添加配置 Label？
+### 首次部署 TiDB 集群时，没有配置 tikv 的 Label 信息，在后续如何添加配置 Label？
 
 TiDB 的 Label 设置是与集群的部署架构相关的，是集群部署中的重要内容，是 PD 进行全局管理和调度的依据。如果集群在初期部署过程中没有设置 Label，需要在后期对部署结构进行调整，就需要手动通过 PD 的管理工具 pd-ctl 来添加 location-labels 信息，例如：`config set location-labels "zone,rack,host"`（根据实际的 label 层级名字配置）。
 
@@ -110,7 +110,7 @@ Direct 模式就是把写入请求直接封装成 I/O 指令发到磁盘，这�
     ./fio -ioengine=psync -bs=32k -fdatasync=1 -thread -rw=randrw -percentage_random=100,0 -size=10G -filename=fio_randread_write_test.txt -name='fio mixed randread and sequential write test' -iodepth=4 -runtime=60 -numjobs=4 -group_reporting --output-format=json --output=fio_randread_write_test.json
     ```
 
-## 测试支持在公有云上部署吗？
+## TiDB 支持在公有云上部署吗？
 
 TiDB 支持在 [Google Cloud GKE](https://docs.pingcap.com/zh/tidb-in-kubernetes/v1.1/deploy-on-gcp-gke)、[AWS EKS](https://docs.pingcap.com/zh/tidb-in-kubernetes/v1.1/deploy-on-aws-eks) 和[阿里云 ACK](https://docs.pingcap.com/zh/tidb-in-kubernetes/v1.1/deploy-on-alibaba-cloud) 上部署使用。
 

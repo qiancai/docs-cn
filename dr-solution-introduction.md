@@ -3,7 +3,7 @@ title: TiDB 容灾方案概述
 summary: 了解 TiDB 提供的几种容灾方案，包括基于主备集群的容灾、基于多副本的单集群容灾和基于备份与恢复的容灾。
 ---
 
-# 测试容灾方案概述
+# TiDB 容灾方案概述
 
 本文将以如下结构系统介绍 TiDB 容灾解决方案：
 
@@ -28,7 +28,7 @@ summary: 了解 TiDB 提供的几种容灾方案，包括基于主备集群的�
 
 在介绍具体的容灾方案之前，本部分将从容灾角度介绍容灾系统中的组件架构，包括 TiDB、TiCDC 和 BR。
 
-### 测试架构
+### TiDB 架构
 
 ![TiDB architecture](/media/dr/tidb-architecture.png)
 

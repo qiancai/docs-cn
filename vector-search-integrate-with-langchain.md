@@ -3,7 +3,7 @@ title: 在 LangChain 中使用 TiDB 向量搜索
 summary: 展示如何在 LangChain 中使用 TiDB 向量搜索
 ---
 
-# 在 LangChain 中使用测试向量搜索
+# 在 LangChain 中使用 TiDB 向量搜索
 
 本文档将展示如何在 [LangChain](https://python.langchain.com/) 中使用 [TiDB 向量搜索](/vector-search-overview.md)。
 

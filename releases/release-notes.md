@@ -4,7 +4,7 @@ aliases: ['/docs-cn/dev/releases/release-notes/','/docs-cn/dev/releases/rn/']
 summary: 介绍 TiDB 版本发布历史。
 ---
 
-# 测试版本发布历史
+# TiDB 版本发布历史
 
 <EmailSubscriptionWrapper />
 

@@ -3,7 +3,7 @@ title: Oracle 与 TiDB 函数和语法差异对照
 summary: 了解 Oracle 与 TiDB 函数和语法差异对照。
 ---
 
-# Oracle 与测试函数和语法差异对照
+# Oracle 与 TiDB 函数和语法差异对照
 
 本文档提供了 Oracle 与 TiDB 的函数和语法差异对照，方便你根据 Oracle 函数查找对应的 TiDB 函数，了解 Oracle 与 TiDB 语法差异。
 

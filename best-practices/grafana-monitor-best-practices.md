@@ -4,7 +4,7 @@ summary: 了解高效利用 Grafana 监控 TiDB 的七个技巧。
 aliases: ['/docs-cn/dev/best-practices/grafana-monitor-best-practices/','/docs-cn/dev/reference/best-practices/grafana-monitor/']
 ---
 
-# 使用 Grafana 监控测试的最佳实践
+# 使用 Grafana 监控 TiDB 的最佳实践
 
 [使用 TiUP 部署 TiDB 集群](/production-deployment-using-tiup.md)时，如果在拓扑配置中添加了 Grafana 和 Prometheus，会部署一套 [Grafana + Prometheus 的监控平台](/tidb-monitoring-framework.md)，用于收集和展示 TiDB 集群各个组件和机器的 metric 信息。本文主要介绍使用 TiDB 监控的最佳实践，旨在帮助 TiDB 用户高效利用丰富的 metric 信息来分析 TiDB 的集群状态或进行故障诊断。
 

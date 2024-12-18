@@ -3,7 +3,7 @@ title: 在公有云上部署 TiDB 的最佳实践
 summary: 了解在公有云上部署 TiDB 的最佳实践。
 ---
 
-# 在公有云上部署测试的最佳实践
+# 在公有云上部署 TiDB 的最佳实践
 
 随着公有云基础设施的普及，越来越多的用户选择在公有云上部署和管理 TiDB。然而，要想在公有云上充分发挥 TiDB 的性能，需要关注多个方面，包括性能优化、成本控制、系统可靠性和可扩展性。
 
@@ -160,7 +160,7 @@ Google Cloud 的[实时迁移功能](https://cloud.google.com/compute/docs/insta
 
 通过使用该监控脚本，并在维护事件期间采取必要的措施，TiDB 集群可以更好地应对 Google Cloud 上的实时迁移事件，确保对查询处理和响应时间的影响最小以及系统的平稳运行。
 
-## 为具有高 QPS 的大规模测试集群优化 PD 性能
+## 为具有高 QPS 的大规模 TiDB 集群优化 PD 性能
 
 在 TiDB 集群中，一个活跃的 Placement Driver (PD) Server 承担着许多关键任务，例如处理提供 TSO (Timestamp Oracle) 和处理请求。然而，依赖单个活跃 PD Server 可能会限制 TiDB 集群的扩展性。
 
@@ -183,7 +183,7 @@ Google Cloud 的[实时迁移功能](https://cloud.google.com/compute/docs/insta
 tso-update-physical-interval = "10ms" # 默认值为 50ms
 ```
 
-#### 调整测试全局变量
+#### 调整 TiDB 全局变量
 
 除了 PD 配置外，启用 TSO 客户端攒批操作的等待功能可以进一步优化 TSO 客户端的行为。要启用此功能，可以将全局变量 [`tidb_tso_client_batch_max_wait_time`](/system-variables.md#tidb_tso_client_batch_max_wait_time-从-v530-版本开始引入) 设置为非零值：
 

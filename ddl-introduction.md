@@ -60,7 +60,7 @@ ADMIN SHOW DDL;
 1 row in set (0.00 sec)
 ```
 
-### 测试在线 DDL 异步变更的原理
+### TiDB 在线 DDL 异步变更的原理
 
 TiDB DDL 模块从设计之初就选择了在线异步变更的模式，为 TiDB 的用户提供了不停机变更业务的服务能力。
 

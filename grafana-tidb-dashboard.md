@@ -4,7 +4,7 @@ summary: 了解 Grafana Dashboard 中展示的关键指标。
 aliases: ['/docs-cn/dev/grafana-tidb-dashboard/','/docs-cn/dev/reference/key-monitoring-metrics/tidb-dashboard/']
 ---
 
-# 测试重要监控指标详解
+# TiDB 重要监控指标详解
 
 使用 TiUP 部署 TiDB 集群时，你可以一键部署监控系统 (Prometheus & Grafana)，参考监控架构 [TiDB 监控框架概述](/tidb-monitoring-framework.md)。
 

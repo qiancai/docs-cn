@@ -3,7 +3,7 @@ title: TiDB 集群管理常见问题
 summary: 介绍 TiDB 集群管理的常见问题、原因及解决方法。
 ---
 
-# 测试集群管理常见问题
+# TiDB 集群管理常见问题
 
 本文介绍管理 TiDB 集群时的常见问题、原因及解决方法。
 
@@ -11,7 +11,7 @@ summary: 介绍 TiDB 集群管理的常见问题、原因及解决方法。
 
 本小节介绍集群日程管理中的常见问题、原因及解决方法。
 
-### 测试如何登录？
+### TiDB 如何登录？
 
 和 MySQL 登录方式一样，可以按照下面例子进行登录。
 
@@ -21,7 +21,7 @@ summary: 介绍 TiDB 集群管理的常见问题、原因及解决方法。
 mysql -h 127.0.0.1 -uroot -P4000
 ```
 
-### 测试如何修改数据库系统变量？
+### TiDB 如何修改数据库系统变量？
 
 和 MySQL 一样，TiDB 也分为静态参数和固态参数，静态参数可以直接通过 `SET GLOBAL xxx = n` 的方式进行修改，不过新参数值只限于该实例生命周期有效。
 
@@ -29,11 +29,11 @@ mysql -h 127.0.0.1 -uroot -P4000
 
 默认在 [`--data-dir`](/command-line-flags-for-tikv-configuration.md#--data-dir) 目录下，其中包括 backup、db、raft、snap 四个目录，分别存储备份、数据、raft 数据及镜像数据。
 
-### 测试有哪些系统表？
+### TiDB 有哪些系统表？
 
 和 MySQL 类似，TiDB 中也有系统表，用于存放数据库运行时所需信息，具体信息参考 [TiDB 系统表](/mysql-schema/mysql-schema-user.md)文档。
 
-### 测试各节点服务器下是否有日志文件，如何管理？
+### TiDB 各节点服务器下是否有日志文件，如何管理？
 
 默认情况下各节点服务器会在日志中输出标准错误，如果启动的时候通过 `--log-file` 参数指定了日志文件，那么日志会输出到指定的文件中，并且按天做 rotation。
 
@@ -49,7 +49,7 @@ mysql -h 127.0.0.1 -uroot -P4000
 
 - 若未使用 load balancer：执行 `SHUTDOWN` 语句，TiDB 组件会做 graceful shutdown。
 
-### 测试里面可以执行 kill 命令吗？
+### TiDB 里面可以执行 kill 命令吗？
 
 - Kill DML 语句：
 
@@ -61,15 +61,15 @@ mysql -h 127.0.0.1 -uroot -P4000
 
 - Kill DDL 语句：执行 `admin show ddl jobs`，查找需要 kill 的 DDL job ID，然后执行 `admin cancel ddl jobs 'job_id' [, 'job_id'] ...`。具体可以参考 [`ADMIN`](/sql-statements/sql-statement-admin.md)。
 
-### 测试是否支持会话超时？
+### TiDB 是否支持会话超时？
 
 TiDB 目前支持 [`wait_timeout`](/system-variables.md#wait_timeout)、[`interactive_timeout`](/system-variables.md#interactive_timeout) 和 [`tidb_idle_transaction_timeout`](/system-variables.md#tidb_idle_transaction_timeout-从-v760-版本开始引入) 三种超时。
 
-### 测试的版本管理策略是怎么样的？
+### TiDB 的版本管理策略是怎么样的？
 
 关于 TiDB 版本的管理策略，可以参考 [TiDB 版本规则](/releases/versioning.md)。
 
-### 部署和维护测试集群的运营成本如何？
+### 部署和维护 TiDB 集群的运营成本如何？
 
 TiDB 提供了一些特性和[工具](/ecosystem-tool-user-guide.md)，可以帮助你以低成本管理集群：
 
@@ -84,14 +84,14 @@ TiDB 目前社区非常活跃，同时，我们还在不断的优化和修改 BU
 - 通过 `select tidb_version()` 进行查看
 - 通过执行 `tidb-server -V` 进行查看
 
-### 如何扩容测试集群？
+### 如何扩容 TiDB 集群？
 
 可以在不影响线上服务的情况下，对 TiDB 集群进行扩容。
 
 - 如果是使用 [TiUP](/production-deployment-using-tiup.md) 部署的集群，可以参考[使用 TiUP 扩容 TiDB 集群](/scale-tidb-using-tiup.md)。
 - 如果是使用 [TiDB Operator](/tidb-operator-overview.md) 在 Kubernetes 上部署的集群，可以参考[在 Kubernetes 中手动扩容 TiDB 集群](https://docs.pingcap.com/zh/tidb-in-kubernetes/stable/scale-a-tidb-cluster)。
 
-### 测试如何进行水平扩展？
+### TiDB 如何进行水平扩展？
 
 当您的业务不断增长时，数据库可能会面临三方面瓶颈，第一是存储空间，第二是计算资源，第三是读写容量，这时可以对 TiDB 集群做水平扩展。
 
@@ -103,7 +103,7 @@ TiDB 目前社区非常活跃，同时，我们还在不断的优化和修改 BU
 
 详细可参考 [Percolator 和 TiDB 事务算法](https://pingcap.com/blog-cn/percolator-and-txn/)。
 
-### 测试为什么选用 gRPC 而不选用 Thrift，是因为 Google 在用吗？
+### TiDB 为什么选用 gRPC 而不选用 Thrift，是因为 Google 在用吗？
 
 不只是因为 Google 在用，有一些比较好的特性我们需要，比如流控、加密还有 Streaming。
 
@@ -168,7 +168,7 @@ Client 连接只能通过 TiDB 访问集群，TiDB 负责连接 PD 与 TiKV，PD
 
 本小节介绍 TiDB server 管理中的常见问题、原因及解决方法。
 
-### 测试的 lease 参数应该如何设置？
+### TiDB 的 lease 参数应该如何设置？
 
 启动 TiDB Server 时，需要通过命令行参数设置 lease 参数 (`--lease=60`)，其值会影响 DDL 的速度（只会影响当前执行 DDL 的 session，其他的 session 不会受影响）。在测试阶段，lease 的值可以设为 1s，加快测试进度；在生产环境下，我们推荐这个值设为分钟级（一般可以设为 60），这样可以保证 DDL 操作的安全。
 
@@ -191,7 +191,7 @@ Client 连接只能通过 TiDB 访问集群，TiDB 负责连接 PD 与 TiKV，PD
 - 由于停 TiDB 时不能与 PD 正常通信（包括停电情况）或者用 `kill -9` 指令停 TiDB 导致 TiDB 没有及时从 PD 清理注册数据，那么会影响 TiDB 启动后 10min 内的 DDL 语句处理时间。这段时间内运行 DDL 语句时，每个 DDL 状态变化都需要等待 2 * lease（默认 lease = 45s）。
 - 当集群中某个 TiDB 与 PD 之间发生通信问题，即 TiDB 不能从 PD 及时获取或更新版本信息，那么这时候 DDL 操作的每个状态处理需要等待 2 * lease。
 
-### 测试可以使用 S3 作为后端存储吗？
+### TiDB 可以使用 S3 作为后端存储吗？
 
 不可以，目前 TiDB 只支持分布式存储引擎和 GolevelDB/RocksDB/BoltDB 引擎。
 
@@ -207,7 +207,7 @@ TiDB-server 与 TiKV-server 随时进行通信，在进行大量数据操作过�
 
 TiClient Region Error 该指标描述的是在 TiDB-server 作为客户端通过 KV 接口访问 TiKV-server 进行数据操作过程中，TiDB-server 操作 TiKV-server 中的 Region 数据出现的错误类型与 metric 指标，错误类型包括 not_leader、stale_epoch。出现这些错误的情况是当 TiDB-server 根据自己的缓存信息去操作 Region leader 数据的时候，Region leader 发生了迁移或者 TiKV 当前的 Region 信息与 TiDB 缓存的路由信息不一致而出现的错误提示。一般这种情况下，TiDB-server 都会自动重新从 PD 获取最新的路由数据，重做之前的操作。
 
-### 测试同时支持的最大并发连接数？
+### TiDB 同时支持的最大并发连接数？
 
 默认情况下，每个 TiDB 服务器的最大连接数没有限制。如有需要，可以在 `config.toml` 文件中设置 `instance.max_connections`（或者系统变量 `max_connections`）来限制最大连接数。如果并发量过大导致响应时间增加，建议通过添加 TiDB 节点进行扩容。
 
@@ -215,11 +215,11 @@ TiClient Region Error 该指标描述的是在 TiDB-server 作为客户端通过
 
 information_schema 库中的 tables 表里的 create_time 即为表的真实创建时间。
 
-### 测试的日志中 EXPENSIVE_QUERY 是什么意思？
+### TiDB 的日志中 EXPENSIVE_QUERY 是什么意思？
 
 TiDB 在执行 SQL 时，预估出来每个 operator 处理了超过 10000 条数据就认为这条 query 是 expensive query。可以通过修改 tidb-server 配置参数来对这个门限值进行调整，调整后需要重新启动 tidb-server。
 
-### 如何预估测试中一张表的大小？
+### 如何预估 TiDB 中一张表的大小？
 
 要预估 TiDB 中一张表的大小，你可以参考使用以下查询语句：
 
@@ -373,14 +373,14 @@ TiKV 支持单独进行接口调用，理论上也可以起个实例做为 Cache
 
 TiKV 的内存占用主要来自于 RocksDB 的 block-cache，默认为系统总内存的 40%。当 TiKV 容易出现 OOM 时，检查 `block-cache-size` 配置是否过高。还需要注意，当单机部署了多个 TiKV 实例时，需要显式地配置该参数，以防止多个实例占用过多系统内存导致 OOM。
 
-### 测试数据和 RawKV 数据可存储于同一个 TiKV 集群里吗？
+### TiDB 数据和 RawKV 数据可存储于同一个 TiKV 集群里吗？
 
 这取决于你使用的 TiDB 版本以及是否启用了 TiKV API V2 （即 [`storage.api-version = 2`](/tikv-configuration-file.md#api-version-从-v610-版本开始引入)）。
 
 - 如果你使用的是 v6.1.0 或之后版本的 TiDB，并且启用了 TiKV API V2，那么 TiDB 数据和 RawKV 数据可以共存于同一个 TiKV 集群。
 - 否则，不可以将 TiDB 数据和 RawKV 数据存储于同一个 TiKV 集群中，因为 TiDB 数据（或使用事务 API 创建的数据）的 key 的格式与使用 RawKV API 创建的数据（或来自其他基于 RawKV 的服务生成的数据）不兼容。
 
-## 测试测试
+## TiDB 测试
 
 本小节介绍 TiDB 测试中的常见问题、原因及解决方法。
 
@@ -391,21 +391,21 @@ TiKV 的内存占用主要来自于 RocksDB 的 block-cache，默认为系统总
 - 大家不要用过多精力纠结这类基准测试上，应该更多关注 TiDB 的场景上的区别。
 - 大家可以直接参考 [TiDB Sysbench 性能测试报告](/benchmark/v3.0-performance-benchmarking-with-sysbench.md)。
 
-### 测试集群容量 QPS 与节点数之间关系如何，和 MySQL 对比如何？
+### TiDB 集群容量 QPS 与节点数之间关系如何，和 MySQL 对比如何？
 
 - 在 10 节点内，TiDB 写入能力 (Insert TPS) 和节点数量基本成 40% 线性递增，MySQL 由于是单节点写入，所以不具备写入扩展能力。
 - MySQL 读扩容可以通过添加从库进行扩展，但写流量无法扩展，只能通过分库分表，而分库分表有很多问题，具体参考[方案虽好，成本先行：数据库 Sharding+Proxy 实践解析](http://dbaplus.cn/news-11-1854-1.html)。
 - TiDB 不管是读流量、还是写流量都可以通过添加节点快速方便的进行扩展。
 
-### 我们的 DBA 测试过 MySQL 性能，单台测试的性能没有 MySQL 性能那么好？
+### 我们的 DBA 测试过 MySQL 性能，单台 TiDB 的性能没有 MySQL 性能那么好？
 
 TiDB 设计的目标就是针对 MySQL 单台容量限制而被迫做的分库分表的场景，或者需要强一致性和完整分布式事务的场景。它的优势是通过尽量下推到存储节点进行并行计算。对于小表（比如千万级以下），不适合 TiDB，因为数据量少，Region 有限，发挥不了并行的优势。其中最极端的例子就是计数器表，几行记录高频更新，这几行在 TiDB 里，会变成存储引擎上的几个 KV，然后只落在一个 Region 里，而这个 Region 只落在一个节点上。加上后台强一致性复制的开销，TiDB 引擎到 TiKV 引擎的开销，最后表现出来的就是没有单个 MySQL 好。
 
-## 测试备份恢复
+## TiDB 备份恢复
 
 本小节介绍 TiDB 备份恢复中的常见问题、原因及解决方法。
 
-### 测试主要备份方式？
+### TiDB 主要备份方式？
 
 目前，数据量大时（大于 1 TB）推荐使用 [Backup & Restore (BR)](/br/backup-and-restore-overview.md) 进行备份。其他场景推荐使用 [Dumpling](/dumpling-overview.md) 进行备份。
 

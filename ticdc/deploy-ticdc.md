@@ -17,7 +17,7 @@ summary: 了解 TiCDC 软硬件环境要求以及如何安装部署和运维 TiC
 
 软件配置推荐及更多信息，参见 [TiDB 软件和硬件环境需求](/hardware-and-software-requirements.md)。
 
-## 使用 TiUP 部署包含 TiCDC 组件的全新测试集群
+## 使用 TiUP 部署包含 TiCDC 组件的全新 TiDB 集群
 
 在使用 TiUP 部署全新 TiDB 集群时，支持同时部署 TiCDC 组件。你需要在 TiUP 启动 TiDB 集群时的配置文件中加入 TiCDC 相关的部分，以下是一个示例：
 
@@ -41,7 +41,7 @@ cdc_servers:
 >
 > 在安装之前，请确认 TiUP 中控机与 TiCDC 目标主机的 [SSH 互信及 sudo 免密](/check-before-deployment.md#手动配置-ssh-互信及-sudo-免密码)已经完成配置。
 
-## 使用 TiUP 在原有测试集群上新增或扩容 TiCDC 组件
+## 使用 TiUP 在原有 TiDB 集群上新增或扩容 TiCDC 组件
 
 扩容的方式与部署 TiCDC 集群的方式类似，推荐使用 TiUP 工具完成。
 
@@ -68,7 +68,7 @@ cdc_servers:
 
 更多用例说明，请参考[扩容 TiCDC 节点](/scale-tidb-using-tiup.md#扩容-ticdc-节点)。
 
-## 使用 TiUP 在原有测试集群上移除或缩容 TiCDC 组件
+## 使用 TiUP 在原有 TiDB 集群上移除或缩容 TiCDC 组件
 
 推荐使用 TiUP 完成对 TiCDC 集群节点的缩容。使用类似下面的命令完成缩容:
 
