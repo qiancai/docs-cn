@@ -62,7 +62,7 @@ summary: 介绍使用 TiCDC 命令行工具或通过 OpenAPI 访问 TiCDC 时，
     </div>
     </SimpleTab>
 
-## 使用 TiDB 用户名密码进行客户端鉴权
+## 使用测试用户名密码进行客户端鉴权
 
 1. 在 TiDB 中[创建用户](/sql-statements/sql-statement-create-user.md)，并授权该用户从 TiCDC 所在节点登录的权限：
 

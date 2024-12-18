@@ -3,7 +3,7 @@ title: TiDB 离线包
 summary: 了解 TiDB 离线包及其包含的内容。
 ---
 
-# TiDB 离线包
+# 测试离线包
 
 在[使用 TiUP 离线部署 TiDB](/production-deployment-using-tiup.md#离线部署) 前，你需要在[官方下载页面](https://cn.pingcap.com/product-community/)选择对应版本的 TiDB server 离线镜像包（包含 TiUP 离线组件包）。
 

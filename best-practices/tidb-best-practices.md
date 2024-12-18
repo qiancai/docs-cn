@@ -4,7 +4,7 @@ aliases: ['/docs-cn/dev/best-practices/tidb-best-practices/']
 summary: TiDB 最佳实践总结了使用 TiDB 的一些优化技巧，包括 Raft 一致性协议、分布式事务、数据分片、负载均衡、SQL 到 KV 的映射方案、二级索引的实现方法等。建议阅读官方文档和知乎专栏了解更多细节。部署时推荐使用 TiUP，导入数据时可对 TiKV 参数进行调优。在写入和查询时需注意事务大小限制和并发度设置。监控系统和日志查看也是了解系统状态的重要方法。适用场景包括数据量大、不希望做 Sharding、需要事务和强一致性等。
 ---
 
-# TiDB 最佳实践
+# 测试最佳实践
 
 本文档总结使用 TiDB 时的一些最佳实践，主要涉及 SQL 使用和 OLAP/OLTP 优化技巧，特别是一些 TiDB 专有的优化开关。
 
@@ -188,7 +188,7 @@ TiDB [使用 Grafana + Prometheus 监控系统状态](/tidb-monitoring-framework
 + 知乎专栏：[TiDB 的后花园](https://zhuanlan.zhihu.com/newsql)
 + [官方博客](https://pingcap.com/blog-cn/)
 
-## TiDB 的最佳适用场景
+## 测试的最佳适用场景
 
 简单来说，TiDB 适合具备下面这些特点的场景：
 

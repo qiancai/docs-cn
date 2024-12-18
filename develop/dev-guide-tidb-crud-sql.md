@@ -4,7 +4,7 @@ summary: 简单介绍 TiDB 的增删改查 SQL。
 aliases: ['/zh/tidb/dev/tidb-crud-sql']
 ---
 
-# 使用 TiDB 的增删改查 SQL
+# 使用测试的增删改查 SQL
 
 本章将简单介绍 TiDB 的增删改查 SQL 的使用方法。
 

@@ -21,7 +21,7 @@ PD Recover 是对 PD 进行灾难性恢复的工具，用于恢复无法正常�
 >
 > 一般来说，用户不需要编译源代码，因为发布的二进制文件或 Docker 中已包含 PD Recover 工具。开发者可以参考以上步骤来编译源代码。
 
-### 下载 TiDB 工具包
+### 下载测试工具包
 
 PD Recover 的安装包位于 TiDB 离线工具包中。下载方式，请参考 [TiDB 工具下载](/download-ecosystem-tools.md)。
 
@@ -90,7 +90,7 @@ grep "init cluster id" {{/path/to}}/pd.log
 
 或者也可以从 TiDB 或 TiKV 的日志中获取。
 
-#### 从 TiDB 日志获取 Cluster ID
+#### 从测试日志获取 Cluster ID
 
 使用以下命令，从 TiDB 日志中获取 Cluster ID：
 

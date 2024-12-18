@@ -160,7 +160,7 @@ TiDB 版本：5.2.0
 
 - TiDB Lightning 支持自定义 CSV 数据的终止符，兼容 MySQL LOAD DATA CSV 数据格式 。使得 TiDB Lightning 可以直接使用在用户数据流转架构体系中。[#1297](https://github.com/pingcap/br/pull/1297)
 
-### TiDB 数据共享订阅
+### 测试数据共享订阅
 
 TiCDC 支持 HTTP 协议 OpenAPI 对 TiCDC 任务进行管理，在 Kubernetes 以及本地部署环境下提供更友好的运维方式。(实验特性）
 

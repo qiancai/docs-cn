@@ -4,7 +4,7 @@ summary: 了解 TiDB 的整体架构。
 aliases: ['/docs-cn/dev/tidb-architecture/','/docs-cn/dev/architecture/']
 ---
 
-# TiDB 整体架构
+# 测试整体架构
 
 推荐先观看以下视频（时长约 14 分钟），快速了解 TiDB 的整体架构。
 

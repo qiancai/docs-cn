@@ -4,7 +4,7 @@ summary: 了解 TiDB 的悲观事务模式。
 aliases: ['/docs-cn/dev/pessimistic-transaction/','/docs-cn/dev/reference/transactions/transaction-pessimistic/']
 ---
 
-# TiDB 悲观事务模式
+# 测试悲观事务模式
 
 为了使 TiDB 的使用方式更加贴近传统数据库，降低用户迁移的成本，TiDB 自 v3.0 版本开始在乐观事务模型的基础上支持了悲观事务模式。本文将介绍 TiDB 悲观事务的相关特性。
 

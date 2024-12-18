@@ -60,7 +60,7 @@ summary: 了解各种数据迁移场景和对应的数据迁移方案。
 - [从 SQL 文件迁移数据到 TiDB](/migrate-from-sql-files-to-tidb.md)
 - [从 Parquet 文件迁移数据到 TiDB](/migrate-from-parquet-files-to-tidb.md)
 
-## TiDB 集群增量数据同步
+## 测试集群增量数据同步
 
 可以使用 TiCDC 进行 TiDB 集群间的增量数据同步。详情请参考 [TiCDC 简介](/ticdc/ticdc-overview.md)。
 

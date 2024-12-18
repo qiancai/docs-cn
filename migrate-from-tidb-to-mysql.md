@@ -3,7 +3,7 @@ title: 从 TiDB 集群迁移数据至兼容 MySQL 的数据库
 summary: 了解如何将数据从 TiDB 集群迁移至与 MySQL 兼容的数据库。
 ---
 
-# 从 TiDB 集群迁移数据至兼容 MySQL 的数据库
+# 从测试集群迁移数据至兼容 MySQL 的数据库
 
 本文档介绍如何将数据从 TiDB 集群迁移至兼容 MySQL 的数据库，如 Aurora、MySQL、MariaDB 等。本文将模拟整个迁移过程，具体包括以下四个步骤：
 

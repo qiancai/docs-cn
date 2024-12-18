@@ -8,7 +8,7 @@ summary: TiDB支持的聚合函数包括 COUNT、COUNT(DISTINCT)、SUM、AVG、M
 
 本文将详细介绍 TiDB 支持的聚合函数。
 
-## TiDB 支持的聚合函数
+## 测试支持的聚合函数
 
 TiDB 支持的 MySQL `GROUP BY` 聚合函数如下所示：
 

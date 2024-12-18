@@ -14,7 +14,7 @@ summary: TiDB v5.3.0 引入了通过拓扑 label 进行副本调度的功能。�
 
 要让这个机制生效，需要在部署时进行合理配置，把集群的拓扑信息（特别是 TiKV 的位置）上报给 PD。阅读本章前，请先确保阅读 [TiUP 部署方案](/production-deployment-using-tiup.md)。
 
-## 配置 TiKV、TiFlash 和 TiDB 的 labels
+## 配置 TiKV、TiFlash 和测试的 labels
 
 你可以根据集群拓扑配置 TiKV、TiFlash 和 TiDB 的 labels。
 
@@ -203,7 +203,7 @@ rack = "<rack>"
 host = "<host>"
 ```
 
-#### 设置 TiDB 的 `labels`（可选）
+#### 设置测试的 `labels`（可选）
 
 如果需要使用 [Follower Read](/follower-read.md) 的优先读同一区域副本的功能，需要为 TiDB 节点配置相关的 `labels`。
 

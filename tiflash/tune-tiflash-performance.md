@@ -12,7 +12,7 @@ aliases: ['/docs-cn/dev/tiflash/tune-tiflash-performance/','/docs-cn/dev/referen
 
 对于希望节省机器资源，并且完全没有隔离要求的场景，可以使用 TiKV 和 TiFlash 联合部署。建议为 TiKV 与 TiFlash 分别留够资源，同时避免共享磁盘。
 
-## TiDB 相关参数调优
+## 测试相关参数调优
 
 本部分介绍如何通过调整 TiDB 相关参数来提升 TiFlash 性能，具体包括如下几个方面：
 

@@ -290,7 +290,7 @@ Empty set (0.00 sec)
 SET GLOBAL tidb_tmp_table_max_size=268435456;
 ```
 
-## 与其他 TiDB 功能的兼容性限制
+## 与其他测试功能的兼容性限制
 
 以下是本地临时表和全局临时表都不支持的功能：
 
@@ -313,7 +313,7 @@ SET GLOBAL tidb_tmp_table_max_size=268435456;
 
 - 不支持通过系统变量 `tidb_snapshot` 读取历史数据
 
-## TiDB 数据迁移工具支持
+## 测试数据迁移工具支持
 
 本地临时表只对当前会话可见，因此本地临时表不会被 TiDB 数据迁移工具导出、备份、同步。
 

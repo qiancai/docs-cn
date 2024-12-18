@@ -82,7 +82,7 @@ Value 数据格式默认与 Key 数据格式相同，但是 Value 的 `fields` �
 > - 对于 Insert 事件，编码所有列数据到 Value 部分。
 > - 对于 Update 事件，只编码更新后的所有列数据到 Value 部分。
 
-## TiDB 扩展字段
+## 测试扩展字段
 
 默认情况下，Avro 只编码在 DML 事件中发生数据变更的行的所有列数据信息，不收集数据变更的类型和 TiDB 专有的 CommitTS 事务唯一标识信息。为了解决这个问题，TiCDC 在 Avro 协议格式中附加了 TiDB 扩展字段。当 `sink-uri` 中设置 `enable-tidb-extension` 为 `true` （默认为 `false`）后，TiCDC 生成 Avro 消息时，会在 Value 部分新增三个字段：
 

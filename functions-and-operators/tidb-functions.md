@@ -3,7 +3,7 @@ title: TiDB 特有的函数
 summary: 学习使用 TiDB 特有的函数。
 ---
 
-# TiDB 特有的函数
+# 测试特有的函数
 
 以下函数为 TiDB 中特有的函数，与 MySQL 不兼容：
 

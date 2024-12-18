@@ -4,7 +4,7 @@ aliases: ['/docs-cn/dev/hardware-and-software-requirements/','/docs-cn/dev/how-t
 summary: TiDB 是一款开源的一站式实时 HTAP 数据库，支持部署在多种硬件环境和操作系统上。软件和硬件环境需求包括操作系统要求、编译和运行依赖库、Docker 镜像依赖、软件配置要求、服务器配置要求、网络要求、磁盘空间要求、客户端 Web 浏览器要求以及 TiFlash 存算分离架构的软硬件要求。
 ---
 
-# TiDB 软件和硬件环境需求
+# 测试软件和硬件环境需求
 
 <!-- Localization note for TiDB:
 
@@ -46,7 +46,7 @@ summary: TiDB 是一款开源的一站式实时 HTAP 数据库，支持部署在
 > - 以上未提及的操作系统版本**也许可以**运行 TiDB，但尚未得到 TiDB 官方支持。
 > - 从 v8.4.0 开始，TiDB 依赖 glibc 2.28。如果 glibc 版本不满足要求，建议使用上述表格中支持的操作系统，或将操作系统升级到支持 glibc 2.28 的版本。
 
-### 编译和运行 TiDB 所依赖的库
+### 编译和运行测试所依赖的库
 
 |  编译和构建 TiDB 所需的依赖库   |  版本   |
 |   :---   |   :---   |

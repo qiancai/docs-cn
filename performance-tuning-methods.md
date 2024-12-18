@@ -4,7 +4,7 @@ summary: 本文介绍了基于数据库时间的系统优化方法，以及如�
 aliases: ['/zh/tidb/v6.0/performance-tuning-methods']
 ---
 
-# TiDB 性能分析和优化
+# 测试性能分析和优化
 
 本文介绍了基于数据库时间的系统优化方法，以及如何利用 TiDB [Performance Overview 面板](/grafana-performance-overview-dashboard.md)进行性能分析和优化。
 
@@ -17,7 +17,7 @@ TiDB 对 SQL 的处理路径和数据库时间进行了完善的测量和记录�
 1. 通过对比 SQL 处理平均延迟和事务中 TiDB 连接的空闲时间，确定整个系统的瓶颈是否在 TiDB 中。
 2. 如果瓶颈在 TiDB 内部，根据数据库时间概览、颜色优化法、关键指标和资源利用率、自上而下的延迟分解，定位到性能瓶颈具体在整个分布式系统的哪个模块。
 
-### 确定整个系统的瓶颈是否在 TiDB 中
+### 确定整个系统的瓶颈是否在测试中
 
 - 如果事务中 TiDB 连接的平均空闲时间比 SQL 平均处理延迟高，说明应用的事务处理中，主要的延迟不在数据库中，数据库时间占用户响应时间比例小，可以确认瓶颈不在数据库中。
 
@@ -25,7 +25,7 @@ TiDB 对 SQL 的处理路径和数据库时间进行了完善的测量和记录�
 
 - 如果 SQL 平均处理延迟比事务中 TiDB 连接的平均空闲时间高，说明事务中主要的瓶颈在 TiDB 内部，数据库时间占用户响应时间比例大。
 
-### 如果瓶颈在 TiDB 内部，如何定位
+### 如果瓶颈在测试内部，如何定位
 
 一个典型的 SQL 的处理流程如下所示，TiDB 的性能指标覆盖了绝大部分的处理路径，对数据库时间进行不同维度的分解和上色，用户可以快速的了解负载特性和数据库内部的瓶颈。
 
@@ -126,7 +126,7 @@ Performance Overview 面板提供了以下三个面积堆叠图，帮助你了�
 - Database Time by SQL Phase：主要消耗时间的阶段为绿色的 execute 阶段。
 - SQL Execute Time Overview：执行阶段主要消耗时间为紫色的 `tiflash_mpp` 请求，其次是 KV 请求，包括蓝色的  `Cop`，以及绿色的 `Prewrite` 和 `Commit`。
 
-### TiDB 关键指标和集群资源利用率
+### 测试关键指标和集群资源利用率
 
 #### Query Per Second、Command Per Second 和 Prepared-Plan-Cache
 
@@ -480,7 +480,7 @@ Store 线程的 Commit Log Duration 明显比 Apply Log Duration 高，并且 Ap
 - 如果 TiDB 为 v5.4.0 及之后的版本，考虑启用 [`Raft Engine`](/tikv-configuration-file.md#raft-engine)，Raft Engine 具有更轻量的执行路径，在一些场景下显著减少 IO 写入量和写入请求的长尾延迟，启用方式为设置 `raft-engine.enable: true`。
 - 如果 TiKV CPU 资源充足，且 TiDB 为 v5.3.0 及之后的版本，考虑启用 [`StoreWriter`](/tune-tikv-thread-performance.md#tikv-线程池调优)。启用方式：`raftstore.store-io-pool-size: 1`。
 
-## 低于 v6.1.0 的 TiDB 版本如何使用 Performance overview 面板
+## 低于 v6.1.0 的测试版本如何使用 Performance overview 面板
 
 从 v6.1.0 起，TiDB Grafana 组件默认内置了 Performance Overview 面板。Performance overview 面板兼容 TiDB v4.x 和 v5.x 版本。如果你的 TiDB 版本低于 v6.1.0，需要手动导入 [`performance_overview.json`](https://github.com/pingcap/tidb/blob/master/pkg/metrics/grafana/performance_overview.json)。
 

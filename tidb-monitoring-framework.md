@@ -4,11 +4,11 @@ aliases: ['/docs-cn/dev/tidb-monitoring-framework/','/docs-cn/dev/how-to/monitor
 summary: TiDB 使用 Prometheus 作为监控和性能指标存储，Grafana 用于可视化展示。Prometheus 提供多个组件，包括 Prometheus Server、Client 代码库和 Alertmanager。Grafana 展示 TiDB 集群各组件的相关监控，分组包括备份恢复、Binlog、网络探活、磁盘性能、Kafka、TiDB Lightning 等。每个分组包含多个监控项页签，以及详细的监控指标看板。观看培训视频可快速了解监控与报警系统的体系、数据流转方式、系统管理方法和常用监控指标。
 ---
 
-# TiDB 监控框架概述
+# 测试监控框架概述
 
 TiDB 使用开源时序数据库 [Prometheus](https://prometheus.io) 作为监控和性能指标信息存储方案，使用 [Grafana](https://grafana.com/grafana) 作为可视化组件进行展示。
 
-## Prometheus 在 TiDB 中的应用
+## Prometheus 在测试中的应用
 
 Prometheus 是一个拥有多维度数据模型的、灵活的查询语句的时序数据库。Prometheus 作为热门的开源项目，拥有活跃的社区及众多的成功案例。
 
@@ -22,7 +22,7 @@ Prometheus 提供了多个组件供用户使用。目前，TiDB 使用了以下�
 
 ![Prometheus in TiDB](/media/prometheus-in-tidb.png)
 
-## Grafana 在 TiDB 中的应用
+## Grafana 在测试中的应用
 
 Grafana 是一个开源的 metric 分析及可视化系统。TiDB 使用 Grafana 来展示 TiDB 集群各组件的相关监控，监控项分组如下图所示：
 

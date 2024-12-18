@@ -217,7 +217,7 @@ Query OK, 0 rows affected (0.00 sec)
 
 目前 TiDB 对于每张缓存表的大小限制为 64 MB。如果表的数据超过了 64 MB，执行 `ALTER TABLE t CACHE` 会失败。
 
-## 与其他 TiDB 功能的兼容性限制
+## 与其他测试功能的兼容性限制
 
 以下是缓存表不支持的功能：
 
@@ -232,7 +232,7 @@ Query OK, 0 rows affected (0.00 sec)
 - 设置系统变量 `tidb_snapshot` 读取历史数据
 - 执行修改操作期间，已有缓存会失效，直到数据被再次加载
 
-## TiDB 数据迁移工具兼容性
+## 测试数据迁移工具兼容性
 
 缓存表并不是标准的 MySQL 功能，而是 TiDB 扩展。只有 TiDB 能识别 `ALTER TABLE ... CACHE` 语句。所有的 TiDB 数据迁移工具均不支持缓存表功能，包括 Backup & Restore (BR)、TiCDC、Dumpling 等组件，它们会将缓存表当作普通表处理。
 

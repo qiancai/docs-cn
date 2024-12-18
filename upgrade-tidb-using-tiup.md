@@ -173,7 +173,7 @@ tiup cluster check <cluster-name> --cluster
 
 执行结束后，最后会输出 region status 检查结果。如果结果为 "All regions are healthy"，则说明当前集群中所有 region 均为健康状态，可以继续执行升级；如果结果为 "Regions are not fully healthy: m miss-peer, n pending-peer" 并提示 "Please fix unhealthy regions before other operations."，则说明当前集群中有 region 处在异常状态，应先排除相应异常状态，并再次检查结果为 "All regions are healthy" 后再继续升级。
 
-## 3. 升级 TiDB 集群
+## 3. 升级测试集群
 
 本部分介绍如何滚动升级 TiDB 集群以及如何进行升级后的验证。
 

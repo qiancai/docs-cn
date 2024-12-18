@@ -4,7 +4,7 @@ summary: 介绍 TiDB 日志备份与 PITR 的命令行。
 aliases: ['/zh/tidb/dev/br-log-command-line/']
 ---
 
-# TiDB 日志备份与 PITR 命令行手册
+# 测试日志备份与 PITR 命令行手册
 
 本文介绍 TiDB 日志备份和 PITR (Point-in-time recovery) 命令行。
 

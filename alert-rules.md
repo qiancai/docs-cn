@@ -4,7 +4,7 @@ summary: TiDB 集群中各组件的报警规则详解。
 aliases: ['/docs-cn/dev/alert-rules/','/docs-cn/dev/reference/alert-rules/']
 ---
 
-# TiDB 集群报警规则
+# 测试集群报警规则
 
 本文介绍了 TiDB 集群中各组件的报警规则，包括 TiDB、TiKV、PD、TiFlash、TiCDC、Node_exporter 和 Blackbox_exporter 的各报警项的规则描述及处理方法。
 
@@ -16,7 +16,7 @@ aliases: ['/docs-cn/dev/alert-rules/','/docs-cn/dev/reference/alert-rules/']
 |  严重级别  |  服务可用性下降，需要用户密切关注异常指标 |
 |  警告级别  |  对某一问题或错误的提醒   |
 
-## TiDB 报警规则
+## 测试报警规则
 
 本节介绍了 TiDB 组件的报警项。
 

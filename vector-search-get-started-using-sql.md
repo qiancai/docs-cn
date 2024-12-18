@@ -32,7 +32,7 @@ TiDB 扩展了 MySQL 语法以支持[向量搜索](/vector-search-overview.md)�
 
 ## 快速开始
 
-### 第 1 步：连接到 TiDB 集群
+### 第 1 步：连接到测试集群
 
 根据不同的 TiDB 部署方式，使用不同的方法连接到 TiDB 集群。
 

@@ -4,7 +4,7 @@ aliases: ['/docs-cn/dev/tiup/tiup-playground/','/docs-cn/dev/reference/tools/tiu
 summary: TiDB 集群是分布式系统，由多个组件构成。想要快速体验 TiDB，可以使用 TiUP 中的 playground 组件快速搭建本地测试环境。通过命令行参数可以设置各组件的数量和配置，也可以启动多个组件实例。使用 `tiup client` 可以快速连接到本地启动的 TiDB 集群。还可以查看已启动集群的信息，扩容或缩容集群。
 ---
 
-# 本地快速部署 TiDB 集群
+# 本地快速部署测试集群
 
 TiDB 集群是由多个组件构成的分布式系统，一个典型的 TiDB 集群至少由 3 个 PD 节点、3 个 TiKV 节点和 2 个 TiDB 节点构成。对于想要快速体验 TiDB 的用户来说，手工部署这么多组件是非常耗时且麻烦的事情。本文介绍 TiUP 中的 playground 组件，以及如何通过 playground 组件快速搭建一套本地的 TiDB 测试环境。
 
@@ -32,7 +32,7 @@ tiup playground --help
 
 ## 使用示例
 
-### 查看可用的 TiDB 版本
+### 查看可用的测试版本
 
 {{< copyable "shell-regular" >}}
 
@@ -40,7 +40,7 @@ tiup playground --help
 tiup list tidb
 ```
 
-### 启动一个指定版本的 TiDB 集群
+### 启动一个指定版本的测试集群
 
 {{< copyable "shell-regular" >}}
 
@@ -50,7 +50,7 @@ tiup playground ${version}
 
 将 `${version}` 替换为所需的版本号。
 
-### 启动一个每日构建版的 TiDB 集群
+### 启动一个每日构建版的测试集群
 
 {{< copyable "shell-regular" >}}
 
@@ -100,7 +100,7 @@ tiup playground --tag ${tag_name}
 
 以这种方式启动的集群，在集群关闭以后，数据文件会保留。下一次可以继续使用该 tag 启动集群，从而使用从上一次集群关闭时的数据。
 
-## 快速连接到由 playground 启动的 TiDB 集群
+## 快速连接到由 playground 启动的测试集群
 
 TiUP 提供了 `client` 组件，用于自动寻找并连接 playground 在本地启动的 TiDB 集群，使用方式为：
 

@@ -22,7 +22,7 @@ summary: 介绍在测试中发现的 TiDB 与第三方工具的兼容性问题�
 
 ## 通用
 
-### TiDB 中 `SELECT CONNECTION_ID()` 返回结果类型为 64 位整型
+### 测试中 `SELECT CONNECTION_ID()` 返回结果类型为 64 位整型
 
 **描述**
 
@@ -32,7 +32,7 @@ TiDB 中 `SELECT CONNECTION_ID()` 的返回值为 64 位，如 `2199023260887`�
 
 在 TiDB 应用程序中，请注意使用各语言的 64 位整型类型（或字符串类型）存储 `SELECT CONNECTION_ID()` 的结果，防止溢出。如 Java 应使用 `Long` 或 `String` 进行接收，JavaScript/TypeScript 应使用 `string` 类型进行接收。
 
-### TiDB 未设置 `Com_*` 计数器
+### 测试未设置 `Com_*` 计数器
 
 **描述**
 
@@ -42,7 +42,7 @@ MySQL 维护了一系列 [`Com_` 开头的服务端变量](https://dev.mysql.com
 
 请勿使用这样的变量。在 MySQL 中 `Com_*` 常见的使用场景之一是监控。TiDB 的可观测性较为完善，无需从服务端变量进行查询。如需定制监控工具，可阅读 [TiDB 监控框架概述](/tidb-monitoring-framework.md)来获得更多信息。
 
-### TiDB 错误日志区分 `TIMESTAMP` 与 `DATETIME` 类型
+### 测试错误日志区分 `TIMESTAMP` 与 `DATETIME` 类型
 
 **描述**
 
@@ -52,7 +52,7 @@ TiDB 错误日志区分 `TIMESTAMP` 与 `DATETIME`，而 MySQL 不区分，全�
 
 请勿使用错误日志进行字符串匹配，要使用[错误码](/error-codes.md)进行故障诊断。
 
-### TiDB 不支持 `CHECK TABLE` 语句
+### 测试不支持 `CHECK TABLE` 语句
 
 **描述**
 

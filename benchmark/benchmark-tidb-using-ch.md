@@ -3,8 +3,7 @@ title: 如何对 TiDB 进行 CH-benCHmark 测试
 summary: 本文介绍如何对 TiDB 进行 CH-benCHmark 测试。
 ---
 
-# 如何对 TiDB 进行 CH-benCHmark 测试
-
+# 如何对测试进行 CH-benCHmark 测试
 本文介绍如何对 TiDB 进行 CH-benCHmark 测试。
 
 CH-benCHmark 是包含 [TPC-C](http://www.tpc.org/tpcc/) 和 [TPC-H](http://www.tpc.org/tpch/) 的混合负载，也是用于测试 HTAP 系统的最常见负载。更多信息，请参考 [The mixed workload CH-benCHmark](https://dl.acm.org/doi/10.1145/1988842.1988850)。

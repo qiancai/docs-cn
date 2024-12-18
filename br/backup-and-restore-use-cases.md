@@ -4,7 +4,7 @@ summary: 介绍 TiDB 备份与恢复的具体使用示例，包括推荐环境�
 aliases: ['/docs-cn/dev/br/backup-and-restore-use-cases/','/docs-cn/dev/reference/tools/br/use-cases/','/docs-cn/dev/how-to/maintain/backup-and-restore/br-best-practices/','/docs-cn/dev/reference/tools/br/br-best-practices/','/zh/tidb/dev/backup-and-restore-use-cases-for-maintain/']
 ---
 
-# TiDB 备份与恢复实践示例
+# 测试备份与恢复实践示例
 
 [TiDB 快照备份与恢复使用指南](/br/br-snapshot-guide.md)及 [TiDB 日志备份与 PITR 使用指南](/br/br-pitr-guide.md)系统介绍了 TiDB 提供的备份与恢复方案，即快照（全量）备份与恢复、日志备份和恢复到指定时间点 (Point-in-time recovery, PITR)。本文档将基于具体的使用场景，介绍如何快速上手使用 TiDB 的备份与恢复方案。
 
@@ -15,7 +15,7 @@ aliases: ['/docs-cn/dev/br/backup-and-restore-use-cases/','/docs-cn/dev/referenc
 
 通过 TiDB 提供的 PITR 功能，你可以满足业务团队的需求。
 
-## 部署 TiDB 集群和 br 命令行工具
+## 部署测试集群和 br 命令行工具
 
 使用 PITR 功能，需要部署 v6.2.0 或以上版本的 TiDB 集群，并且更新 br 命令行工具到与 TiDB 集群相同的版本，本文假设使用的是 v8.4.0 版本。
 

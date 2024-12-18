@@ -3,7 +3,7 @@ title: TiDB 版本规则
 summary: 了解 TiDB 版本发布的规则。
 ---
 
-# TiDB 版本规则
+# 测试版本规则
 
 <Important>
 建议始终升级到当前系列的最新补丁版本。
@@ -59,7 +59,7 @@ DMR 命名方式为 `X.Y.Z`，`Z` 默认为 0，并添加后缀 `-DMR`。
 
 - 6.0.0-DMR
 
-## TiDB 工具版本
+## 测试工具版本
 
 一部分 TiDB 工具与 TiDB server 共同发布，使用相同的版本号体系，例如 TiDB Lightning。一部分 TiDB 工具与 TiDB server 分开发布，并使用独立的版本号体系，例如 TiUP 和 TiDB Operator。
 
