@@ -252,7 +252,7 @@ DROP GLOBAL TEMPORARY TABLE top_50_eldest_authors_global;
 
 ## 限制
 
-关于 TiDB 在临时表功能上的一些限制，你可以通过阅读参考文档中的[临时表与其他测试数据库功能的兼容性限制](/temporary-tables.md#与其他测试数据库功能的兼容性限制)小节进行了解。
+关于 TiDB 在临时表功能上的一些限制，你可以通过阅读参考文档中的[临时表与其他 TiDB 功能的兼容性限制](/temporary-tables.md#与其他-tidb-功能的兼容性限制)小节进行了解。
 
 ## 扩展阅读
 

@@ -40,7 +40,7 @@ ProxySQL 的设计目标是快速、高效且易于使用。它完全兼容 MySQ
 本节介绍如何在开发环境中将 TiDB 与 ProxySQL 集成。在满足[前提条件](#前提条件)的情况下，你可以根据 TiDB 集群类型选择以下选项之一开始集成 ProxySQL：
 
 - 选项 1：[集成 TiDB Cloud 与 ProxySQL](#选项-1-集成-tidb-cloud-与-proxysql)
-- 选项 2：[集成本地部署的测试数据库与 ProxySQL](选项-2-集成本地部署的测试数据库与-proxysql)
+- 选项 2：[集成本地部署的 TiDB 与 ProxySQL](#选项-2-集成本地部署的-tidb-与-proxysql)
 
 ### 前提条件
 
@@ -350,7 +350,7 @@ systemctl start docker
                 comment:
     ```
 
-#### 步骤 4. 通过 ProxySQL 连接到测试数据库集群
+#### 步骤 4. 通过 ProxySQL 连接到 TiDB 集群
 
 1. 运行 `proxysql-connect.py` 连接到你的 TiDB 集群。该脚本将自动启动 MySQL 客户端并使用你在[步骤 2](#步骤-2-生成-proxysql-配置文件) 中指定的用户名和密码进行连接。
 
@@ -427,7 +427,7 @@ systemctl start docker
 
     </SimpleTab>
 
-### 选项 2: 集成本地部署的测试数据库与 ProxySQL
+### 选项 2: 集成本地部署的 TiDB 与 ProxySQL
 
 在这个集成中，你将使用 [TiDB](https://hub.docker.com/r/pingcap/tidb) 和 [ProxySQL](https://hub.docker.com/r/proxysql/proxysql) 的 Docker 镜像设置环境。你也可以尝试[其他方式安装 TiDB](/quick-start-with-tidb.md)。
 
@@ -803,7 +803,7 @@ systemctl start docker
 
 > **注意：**
 >
-> 以下步骤使用 TiDB 和 ProxySQL 的容器镜像配置查询规则。如果你还没有拉取这些镜像，请参考[集成本地部署的测试数据库与 ProxySQL](选项-2-集成本地部署的测试数据库与-proxysql) 部分的详细步骤。
+> 以下步骤使用 TiDB 和 ProxySQL 的容器镜像配置查询规则。如果你还没有拉取这些镜像，请参考[集成本地部署的 TiDB 与 ProxySQL](#选项-2-集成本地部署的-tidb-与-proxysql) 部分的详细步骤。
 
 1. 克隆 TiDB 和 ProxySQL 的集成示例代码仓库 [`pingcap-inc/tidb-proxysql-integration`](https://github.com/pingcap-inc/tidb-proxysql-integration)。如果你已经在前面的步骤中克隆了它，请跳过这一步。
 

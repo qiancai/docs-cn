@@ -74,7 +74,7 @@ DESC mysql.user;
     * `User`：指定 TiDB 用户账户的用户名。
 * 权限相关字段：
 
-    以 `_priv` 或 `_Priv` 结尾的字段定义授予用户账户的权限。例如，`Select_priv` 表示用户账户具有全局 `Select` 权限。更多信息，请参考 [测试数据库各操作需要的权限](/privilege-management.md#测试数据库各操作需要的权限)。
+    以 `_priv` 或 `_Priv` 结尾的字段定义授予用户账户的权限。例如，`Select_priv` 表示用户账户具有全局 `Select` 权限。更多信息，请参考 [TiDB 各操作需要的权限](/privilege-management.md#tidb-各操作需要的权限)。
 
 * 安全相关字段：
     * `authentication_string` 和 `plugin`：`authentication_string` 存储用户账户的凭证。凭证根据 `plugin` 字段指定的认证插件进行验证。

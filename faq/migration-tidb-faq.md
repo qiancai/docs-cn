@@ -16,7 +16,7 @@ summary: 介绍 TiDB 迁移中的常见问题。
 
 ## 全量数据导出导入
 
-### 如何将一个运行在 MySQL 上的应用迁移到测试数据库上？
+### 如何将一个运行在 MySQL 上的应用迁移到 TiDB 上？
 
 TiDB 支持绝大多数 MySQL 语法，一般不需要修改代码。
 
@@ -69,11 +69,11 @@ iperf Done.
 
 如果输出的各指标良好，请尝试更新各组件版本。如果更新后仍无法解决问题，请移步 [AskTUG 论坛](https://asktug.com/)寻求帮助。
 
-### 不小心把 MySQL 的 user 表导入到测试数据库了，或者忘记密码，无法登录，如何处理？
+### 不小心把 MySQL 的 user 表导入到 TiDB 了，或者忘记密码，无法登录，如何处理？
 
 重启 TiDB 服务，配置文件中增加 `-skip-grant-table=true` 参数，无密码登录集群后，可以根据情况重建用户，或者重建 mysql.user 表，具体表结构搜索官网。
 
-### 如何导出测试数据库数据？
+### 如何导出 TiDB 数据？
 
 你可以通过以下方式导出 TiDB 数据：
 
@@ -91,7 +91,7 @@ DB2、Oracle 到 TiDB 数据迁移（增量+全量），通常做法有：
 
 目前看来 OGG 最为合适。
 
-### 用 Sqoop 批量写入测试数据库数据，虽然配置了 `--batch` 选项，但还是会遇到 `java.sql.BatchUpdateException:statement count 5001 exceeds the transaction limitation` 的错误，该如何解决？
+### 用 Sqoop 批量写入 TiDB 数据，虽然配置了 `--batch` 选项，但还是会遇到 `java.sql.BatchUpdateException:statement count 5001 exceeds the transaction limitation` 的错误，该如何解决？
 
 - 在 Sqoop 中，`--batch` 是指每个批次提交 100 条 statement，但是默认每个 statement 包含 100 条 SQL 语句，所以此时 100 * 100 = 10000 条 SQL 语句，超出了 TiDB 的事务限制 5000 条，可以增加选项 `-Dsqoop.export.records.per.statement=10` 来解决这个问题，完整的用法如下：
 
@@ -119,7 +119,7 @@ DB2、Oracle 到 TiDB 数据迁移（增量+全量），通常做法有：
 
 在上述情况下，Dumpling 划分导出子范围时，会划分出过大的子范围，从而向上游发送结果过大的查询。请联系 [AskTUG 社区专家](https://asktug.com/)获取实验版本的 Dumpling。
 
-### 测试数据库有像 Oracle 那样的 Flashback Query 功能么，DDL 支持么？
+### TiDB 有像 Oracle 那样的 Flashback Query 功能么，DDL 支持么？
 
 有，也支持 DDL。详细参考 [TiDB 历史数据回溯](/read-historical-data.md)。
 
@@ -135,7 +135,7 @@ DB2、Oracle 到 TiDB 数据迁移（增量+全量），通常做法有：
 
 我们建议通过 [TiDB Data Migration](/dm/dm-overview.md) 进行 MySQL -> TiDB 的业务数据的迁移；业务读写可以按照需求分阶段通过修改网络配置进行流量迁移，建议 DB 上层部署一个稳定的网络 LB（HAproxy、LVS、F5、DNS 等），这样直接修改网络配置就能实现无缝流量迁移。
 
-### 测试数据库总读写流量有限制吗？
+### TiDB 总读写流量有限制吗？
 
 TiDB 读流量可以通过增加 TiDB server 进行扩展，总读容量无限制，写流量可以通过增加 TiKV 节点进行扩容，基本上写容量也没有限制。
 
@@ -151,7 +151,7 @@ TiDB 限制了单条 KV entry 不超过 6MB，可以修改配置文件中的 [`t
 
 导入数据的时候，可以分批插入，每批最好不要超过 1w 行。
 
-### 测试数据库中删除数据后会立即释放空间吗？
+### TiDB 中删除数据后会立即释放空间吗？
 
 DELETE，TRUNCATE 和 DROP 都不会立即释放空间。对于 TRUNCATE 和 DROP 操作，在达到 TiDB 的 GC (garbage collection) 时间后（默认 10 分钟），TiDB 的 GC 机制会删除数据并释放空间。对于 DELETE 操作 TiDB 的 GC 机制会删除数据，但不会释放空间，而是当后续数据写入 RocksDB 且进行 compact 时对空间重新利用。
 
@@ -159,7 +159,7 @@ DELETE，TRUNCATE 和 DROP 都不会立即释放空间。对于 TRUNCATE 和 DRO
 
 不可以，加载数据期间不能对目标表执行任何 DDL 操作，这会导致数据加载失败。
 
-### 测试数据库是否支持 replace into 语法？
+### TiDB 是否支持 replace into 语法？
 
 支持。
 
@@ -171,7 +171,7 @@ DELETE，TRUNCATE 和 DROP 都不会立即释放空间。对于 TRUNCATE 和 DRO
 
 在删除大量数据的时候，建议使用 `Delete from t where xx limit 5000`（xx 建议在满足业务过滤逻辑下，尽量加上强过滤索引列或者直接使用主键选定范围，如 `id >= 5000*n+m and id <= 5000*(n+1)+m` 这样的方案，通过循环来删除，用 `Affected Rows == 0` 作为循环结束条件，这样避免遇到事务大小的限制。如果一次删除的数据量非常大，这种循环的方式会越来越慢，因为每次删除都是从前向后遍历，前面的删除之后，短时间内会残留不少删除标记（后续会被 GC 掉），影响后面的 Delete 语句。如果有可能，建议把 Where 条件细化。可以参考官网[最佳实践](https://pingcap.com/blog-cn/tidb-best-practice/)。
 
-### 测试数据库如何提高数据加载速度？
+### TiDB 如何提高数据加载速度？
 
 主要有两个方面：
 

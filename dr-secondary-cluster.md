@@ -22,7 +22,7 @@ summary: 了解如何使用 TiCDC 构建主备集群进行容灾。
 
 同时，本文还介绍了如何在备用集群上进行业务查询，以及如何在主备集群间进行双向同步。
 
-## 基于 TiCDC 构建测试数据库主备集群
+## 基于 TiCDC 构建 TiDB 主备集群
 
 ### 架构概览
 
@@ -64,7 +64,7 @@ summary: 了解如何使用 TiCDC 构建主备集群进行容灾。
 
 部署 TiCDC 组件需要注意的是，Secondary Cluster 和 TiCDC 需要在一起部署和管理，并且它们之间的网络需要能够连通。
 
-- 如果需要在已有的 Primary Cluster 上部署 TiCDC，请参考[部署 TiCDC 组件](/ticdc/deploy-ticdc.md#使用-tiup-在原有测试数据库集群上新增或扩容-ticdc-组件)。
+- 如果需要在已有的 Primary Cluster 上部署 TiCDC，请参考[部署 TiCDC 组件](/ticdc/deploy-ticdc.md#使用-tiup-在原有-tidb-集群上新增或扩容-ticdc-组件)。
 - 如果部署全新的 Primary Cluster 和 TiCDC 组件，则可以使用以下 TiUP 部署模版，并按照需要修改配置参数：
 
     ```yaml

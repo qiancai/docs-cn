@@ -3,7 +3,7 @@ title: 主从集群一致性读和数据校验
 summary: TiCDC 提供了 Syncpoint 功能，通过利用 TiDB 的 snapshot 特性，在同步过程中维护了一个上下游具有一致性 snapshot 的 `ts-map`。启用 Syncpoint 功能后，可以进行一致性快照读和数据一致性校验。要开启 Syncpoint 功能，只需在创建同步任务时把 TiCDC 的配置项 `enable-sync-point` 设置为 `true`。通过配置 `snapshot` 可以对 TiDB 主从集群的数据进行校验。
 ---
 
-# 测试数据库主从集群数据校验和快照读
+# TiDB 主从集群数据校验和快照读
 
 当你使用 TiCDC 搭建 TiDB 的主从集群时，可能会需要在不停止同步的情况下对上下游进行一致性的快照读或者对数据进行一致性验证。在普通的同步模式中，TiCDC 只提供数据的最终一致性的保证，而无法确保在同步的过程中数据的一致性。因此，对动态变更的数据进行一致性读非常困难，为了满足这一需求，TiCDC 提供了 Syncpoint 功能。
 

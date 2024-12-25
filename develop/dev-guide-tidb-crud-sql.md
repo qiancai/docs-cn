@@ -3,7 +3,7 @@ title: 使用 TiDB 的增删改查 SQL
 summary: 简单介绍 TiDB 的增删改查 SQL。
 ---
 
-# 使用测试数据库的增删改查 SQL
+# 使用 TiDB 的增删改查 SQL
 
 本章将简单介绍 TiDB 的增删改查 SQL 的使用方法。
 

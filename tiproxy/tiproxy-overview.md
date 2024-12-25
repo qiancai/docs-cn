@@ -140,7 +140,7 @@ TiProxy 不适用于以下场景：
 tiup cluster upgrade <cluster-name> <version> --tiproxy-version <tiproxy-version>
 ```
 
-### 重启测试数据库集群
+### 重启 TiDB 集群
 
 使用 [`tiup cluster restart`](/tiup/tiup-component-cluster-restart.md) 重启 TiDB 集群时，TiDB server 不是滚动重启，会导致连接断开，请尽量避免使用。
 

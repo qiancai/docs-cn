@@ -3,7 +3,7 @@ title: TiDB 监控指标
 summary: 了解 Grafana Dashboard 中展示的关键指标。
 ---
 
-# 测试数据库重要监控指标详解
+# TiDB 重要监控指标详解
 
 使用 TiUP 部署 TiDB 集群时，你可以一键部署监控系统 (Prometheus & Grafana)，参考监控架构 [TiDB 监控框架概述](/tidb-monitoring-framework.md)。
 

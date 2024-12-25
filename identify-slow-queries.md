@@ -515,7 +515,7 @@ min(prev_stmt)     |
 digest             | 24bd6d8a9b238086c9b8c3d240ad4ef32f79ce94cf5a468c0b8fe1eb5f8d03df
 ```
 
-## 解析其他的测试数据库慢日志文件
+## 解析其他的 TiDB 慢日志文件
 
 TiDB 通过 session 变量 `tidb_slow_query_file` 控制查询 `INFORMATION_SCHEMA.SLOW_QUERY` 时要读取和解析的文件，可通过修改改 session 变量的值来查询其他慢查询日志文件的内容：
 
@@ -525,7 +525,7 @@ TiDB 通过 session 变量 `tidb_slow_query_file` 控制查询 `INFORMATION_SCHE
 set tidb_slow_query_file = "/path-to-log/tidb-slow.log"
 ```
 
-## 用 `pt-query-digest` 工具分析测试数据库慢日志
+## 用 `pt-query-digest` 工具分析 TiDB 慢日志
 
 可以用 `pt-query-digest` 工具分析 TiDB 慢日志。
 
