@@ -129,7 +129,7 @@ TiProxy 根据自身与 TiDB server 的地理位置，将连接优先路由到�
 
 TiProxy 根据自身和 TiDB server 的 `zone` 标签确定各自的地理位置。你需要同时设置以下配置项：
 
-- 在 TiDB server 的 [`labels`](/tidb-configuration-file.md#labels) 配置项中将 `zone` 设置为当前可用区。配置方式请参阅[设置 TiDB 的 `labels`](/schedule-replicas-by-topology-labels.md#设置-tidb-的-labels可选)。
+- 在 TiDB server 的 [`labels`](/tidb-configuration-file.md#labels) 配置项中将 `zone` 设置为当前可用区。配置方式请参阅[设置测试数据库的 `labels`](/schedule-replicas-by-topology-labels.md#设置测试数据库的-labels可选)。
 - 在 TiProxy 的 [`labels`](/tiproxy/tiproxy-configuration.md#labels) 配置项中将 `zone` 设置为当前可用区。
 
 如果是使用 TiDB Operator 部署的集群，请参考[数据的高可用](https://docs.pingcap.com/zh/tidb-in-kubernetes/stable/configure-a-tidb-cluster#数据的高可用)进行配置。

@@ -31,7 +31,7 @@ TiDB 版本：v3.0.1
 
 Sysbench 版本：1.0.17
 
-### TiDB 参数配置
+### 测试数据库参数配置
 
 TiDB、TiKV 和 PD 均使用 [TiDB Operator](https://github.com/pingcap/tidb-operator) 默认配置。
 

@@ -82,7 +82,7 @@ Value 数据格式默认与 Key 数据格式相同，但是 Value 的 `fields` �
 > - 对于 Insert 事件，编码所有列数据到 Value 部分。
 > - 对于 Update 事件，只编码更新后的所有列数据到 Value 部分。
 
-## TiDB 扩展字段
+## 测试数据库扩展字段
 
 默认情况下，Avro 只编码在 DML 事件中发生数据变更的行的所有列数据信息，不收集数据变更的类型和 TiDB 专有的 CommitTS 事务唯一标识信息。为了解决这个问题，TiCDC 在 Avro 协议格式中附加了 TiDB 扩展字段。当 `sink-uri` 中设置 `enable-tidb-extension` 为 `true` （默认为 `false`）后，TiCDC 生成 Avro 消息时，会在 Value 部分新增三个字段：
 
@@ -103,7 +103,7 @@ cdc cli changefeed create --server=http://127.0.0.1:8300 --changefeed-id="kafka-
  ]
  ```
 
-如果开启了 [TiDB 扩展字段](#tidb-扩展字段)，那么 Value 数据格式将会变成：
+如果开启了 [测试数据库扩展字段](#测试数据库扩展字段)，那么 Value 数据格式将会变成：
 
 ```shell
 {
@@ -297,7 +297,7 @@ TiCDC Avro 协议支持被 [`io.confluent.kafka.serializers.KafkaAvroDeserialize
 消费者程序可以按照如下规则区分 DML 事件类型：
 
 * 只有 Key 部分，则是 Delete 事件。
-* 含有 Value 部分，则是 Insert 或 Update 事件。如果用户开启了 [TiDB 扩展字段功能](#tidb-扩展字段)，可以根据其中的 `_tidb_op` 字段，判断该条事件变更是 Insert 或 Update。如果未开启 TiDB 扩展字段功能，则无法区分。
+* 含有 Value 部分，则是 Insert 或 Update 事件。如果用户开启了 [测试数据库扩展字段功能](#测试数据库扩展字段)，可以根据其中的 `_tidb_op` 字段，判断该条事件变更是 Insert 或 Update。如果未开启 TiDB 扩展字段功能，则无法区分。
 
 ## Topic 分发
 

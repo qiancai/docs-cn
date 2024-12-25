@@ -107,7 +107,7 @@ tikv_servers:
 
 ### 3. 使用 Follower Read 功能读取只读节点
 
-#### 3.1 在 TiDB 中使用 Follower Read
+#### 3.1 在测试数据库中使用 Follower Read
 
 你可以将系统变量 [`tidb_replica_read`](/system-variables.md#tidb_replica_read-从-v40-版本开始引入) 设置为 `learner` 来读取只读节点上的数据：
 
