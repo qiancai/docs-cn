@@ -50,7 +50,7 @@ strict-format = true
 
 另外，如果从 TiDB Lightning 的 log 的最后一条日志显示遇到的错误是 "Context canceled"，需要在日志中搜索第一条 "ERROR" 级别的日志。在这条日志之前，通常也会紧跟有一条 "got signal to exit"，表示 Lightning 是收到中断信号然后退出的。
 
-## 使用 TiDB Lightning 后，TiDB 集群变慢，CPU 占用高
+## 使用 TiDB Lightning 后，测试数据库集群变慢，CPU 占用高
 
 如果 `tidb-lightning` 异常退出，集群可能仍处于“导入模式” (import mode)，该模式不适用于生产环境。此时可执行以下命令查看当前使用的模式：
 

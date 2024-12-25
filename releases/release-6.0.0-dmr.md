@@ -229,7 +229,7 @@ v6.0.0 是 DMR 版本，版本名称为 6.0.0-DMR。
 
     [用户文档](/tidb-lightning/tidb-lightning-error-resolution.md#类型错误-type-error)
 
-### TiDB 数据共享订阅
+### 测试数据库数据共享订阅
 
 - 支持高达 10 万张表的同时同步
 

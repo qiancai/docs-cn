@@ -190,7 +190,7 @@ Snowflake 是一种云原生数据仓库。借助 Confluent 的能力，你只�
 
 6. 在 Snowflake 控制面板中，选择 **Data** > **Database** > **TPCC** > **TiCDC**，可以观察到 TiDB 中的增量数据实时同步到了 Snowflake，如上图。但 Snowflake 中的表结构和 TiDB 中的表结构不同，数据也以“追加”的方式插入 Snowflake 表。在大多数业务场景中，都希望 Snowflake 中的表数据是 TiDB 表的一个副本，而不是存储 TiDB 表的变更日志。该问题将在下一章节解决。
 
-### 在 Snowflake 中创建 TiDB 表对应的数据副本
+### 在 Snowflake 中创建测试数据库表对应的数据副本
 
 在上一章节，TiDB 的增量变更日志已经被同步到 Snowflake 中，本章节将介绍如何借助 Snowflake 的 TASK 和 STREAM 功能，将实时写入 Snowflake 的数据变更日志根据 `INSERT`、`UPDATE` 和 `DELETE` 等事件类型分别处理，写入一个与上游 TiDB 结构相同的表中，从而在 Snowflake 中创建一个数据副本。下面以 `ITEM` 表为例。
 

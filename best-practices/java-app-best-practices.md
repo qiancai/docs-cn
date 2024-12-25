@@ -3,7 +3,7 @@ title: 开发 Java 应用使用 TiDB 的最佳实践
 summary: 本文介绍了开发 Java 应用程序使用 TiDB 的常见问题与解决办法。TiDB 是高度兼容 MySQL 协议的数据库，基于 MySQL 开发的 Java 应用的最佳实践也多适用于 TiDB。
 ---
 
-# 开发 Java 应用使用 TiDB 的最佳实践
+# 开发 Java 应用使用测试数据库的最佳实践
 
 本文主要介绍如何开发 Java 应用程序以更好地使用 TiDB，包括开发中的常见问题与最佳实践。
 

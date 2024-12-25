@@ -23,7 +23,7 @@ tiup cluster display tidb-test
 
 本节介绍如何通过 [TiDB Dashboard](/dashboard/dashboard-intro.md) 和 Grafana 检查集群状态。
 
-### 查看 TiDB Dashboard 检查 TiDB 集群状态
+### 查看 TiDB Dashboard 检查测试数据库集群状态
 
 1. 通过 `{pd-ip}:{pd-port}/dashboard` 登录 TiDB Dashboard，登录用户和口令为 TiDB 数据库 `root` 用户和口令。如果你修改过数据库的 `root` 密码，则以修改后的密码为准，默认密码为空。
 
@@ -33,7 +33,7 @@ tiup cluster display tidb-test
 
     ![TiDB-Dashboard-status](/media/tiup/tidb-dashboard-status.png)
 
-### 查看 Grafana 监控 Overview 页面检查 TiDB 集群状态
+### 查看 Grafana 监控 Overview 页面检查测试数据库集群状态
 
 - 通过 `{Grafana-ip}:3000` 登录 Grafana 监控，默认用户名及密码为 `admin`/`admin`。
 

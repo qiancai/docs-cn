@@ -3,7 +3,7 @@ title: 结合 Jina AI 嵌入模型 API 使用 TiDB 向量搜索
 summary: 了解如何结合 Jina AI 嵌入模型 API 使用 TiDB 向量搜索，以存储向量嵌入信息并执行语义搜索。
 ---
 
-# 结合 Jina AI 嵌入模型 API 使用 TiDB 向量搜索
+# 结合 Jina AI 嵌入模型 API 使用测试数据库向量搜索
 
 本文档将展示如何使用 [Jina AI](https://jina.ai/) 为文本数据生成向量嵌入，然后将向量嵌入存储在 TiDB 中，并根据向量嵌入搜索相似文本。
 
@@ -174,7 +174,7 @@ def generate_embeddings(text: str):
     return response.json()['data'][0]['embedding']
 ```
 
-### 连接到 TiDB 集群
+### 连接到测试数据库集群
 
 通过 SQLAlchemy 连接 TiDB 集群：
 
@@ -249,7 +249,7 @@ with Session(engine) as session:
    session.commit()
 ```
 
-### 使用 Jina AI 生成的向量嵌入在 TiDB 中执行语义搜索
+### 使用 Jina AI 生成的向量嵌入在测试数据库中执行语义搜索
 
 通过 Jina AI 的嵌入 API 生成查询文本的向量嵌入，然后根据**查询文本的向量嵌入**和**向量表中各个向量嵌入**之间的余弦距离搜索最相关的 `document`：
 
