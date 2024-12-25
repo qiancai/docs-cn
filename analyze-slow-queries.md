@@ -159,7 +159,7 @@ mysql> explain analyze select count(*) from t where a=(select max(t1.a) from t t
 
 可以看到有 1 个子查询被提前执行，花费了 `7.76s`。
 
-### TiDB 执行慢
+### 测试数据库执行慢
 
 这里我们假设 TiDB 的执行计划正确（不正确的情况在[分析优化器问题](#分析优化器问题)这一节中说明），但是执行上很慢；
 

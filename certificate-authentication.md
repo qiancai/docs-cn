@@ -3,7 +3,7 @@ title: TiDB 证书鉴权使用指南
 summary: 了解使用 TiDB 的证书鉴权功能。
 ---
 
-# TiDB 证书鉴权使用指南
+# 测试数据库证书鉴权使用指南
 
 TiDB 支持基于证书鉴权的登录方式。采用这种方式，TiDB 对不同用户签发证书，使用加密连接来传输数据，并在用户登录时验证证书。相比 MySQL 用户常用的用户名密码验证方式，与 MySQL 相兼容的证书鉴权方式更安全，因此越来越多的用户使用证书鉴权来代替用户名密码验证。
 
@@ -212,11 +212,11 @@ server-cert.pem: OK
 client-cert.pem: OK
 ```
 
-## 配置 TiDB 和客户端使用证书
+## 配置测试数据库和客户端使用证书
 
 在生成证书后，需要在 TiDB 中配置服务端所使用的证书，同时让客户端程序使用客户端证书。
 
-### 配置 TiDB 服务端
+### 配置测试数据库服务端
 
 修改 TiDB 配置文件中的 `[security]` 段。这一步指定 CA 证书、服务端密钥和服务端证书存放的路径。可将 `path/to/server-cert.pem`、`path/to/server-key.pem` 和 `path/to/ca-cert.pem` 替换成实际的路径。
 
@@ -487,7 +487,7 @@ CA 证书是客户端和服务端相互校验的依据，所以如果需要替�
     sudo openssl x509 -req -in server-req.new.pem -days 365000 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.new.pem
     ```
 
-3. 配置 TiDB 使用上面新生成的服务端密钥和证书并重启。参见[配置 TiDB 服务端](#配置-tidb-服务端)。
+3. 配置 TiDB 使用上面新生成的服务端密钥和证书并重启。参见[配置测试数据库服务端](配置测试数据库服务端)。
 
 ## 基于策略的证书访问控制
 

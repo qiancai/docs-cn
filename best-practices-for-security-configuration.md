@@ -3,7 +3,7 @@ title: TiDB 安全配置最佳实践
 summary: 介绍 TiDB 安全配置的最佳实践，帮助你降低潜在的安全风险。
 ---
 
-# TiDB 安全配置最佳实践
+# 测试数据库安全配置最佳实践
 
 TiDB 的安全性对于保护数据完整性和机密性至关重要。本文提供了 TiDB 集群部署时的安全配置指南。遵循这些最佳实践可以有效降低潜在安全风险、防范数据泄露，并确保 TiDB 数据库系统能够持续稳定、可靠地运行。
 
@@ -118,6 +118,6 @@ sudo iptables -P INPUT DROP
 
 ## 解决第三方扫描器 MySQL 漏洞误报
 
-大多数漏洞扫描器在检测 MySQL 漏洞时，会根据版本信息来匹配 CVE 漏洞。由于 TiDB 仅兼容 MySQL 协议而非 MySQL 本身，基于版本信息的漏洞扫描可能导致误报。建议漏洞扫描应以原理扫描为主。当合规漏洞扫描工具要求 MySQL 版本时，你可以[修改服务器版本号](/faq/high-reliability-faq.md#我们的安全漏洞扫描工具对-mysql-version-有要求tidb-是否支持修改-server-版本号呢)，以满足其要求。
+大多数漏洞扫描器在检测 MySQL 漏洞时，会根据版本信息来匹配 CVE 漏洞。由于 TiDB 仅兼容 MySQL 协议而非 MySQL 本身，基于版本信息的漏洞扫描可能导致误报。建议漏洞扫描应以原理扫描为主。当合规漏洞扫描工具要求 MySQL 版本时，你可以[修改服务器版本号](/faq/high-reliability-faq.md#我们的安全漏洞扫描工具对-mysql-version-有要求测试数据库是否支持修改-server-版本号呢)，以满足其要求。
 
 通过修改服务器版本号，可避免漏洞扫描器产生误报。[`server-version`](/tidb-configuration-file.md#server-version) 的值会被 TiDB 节点用于验证当前 TiDB 的版本。在进行 TiDB 集群升级前，请将 `server-version` 的值设置为空或者当前 TiDB 真实的版本值，避免出现非预期行为。

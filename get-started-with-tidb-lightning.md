@@ -42,7 +42,7 @@ summary: TiDB Lightning 可快速将 MySQL 数据导入到 TiDB 集群中。首�
 
     导出的全量备份数据将保存在 `/data/my_database` 目录中。
 
-## 第 2 步：部署 TiDB 集群
+## 第 2 步：部署测试数据库集群
 
 在开始导入数据之前，你需要先部署一个要进行导入的 TiDB 集群。如果你已经有 TiDB 集群，可以跳过这一步。
 

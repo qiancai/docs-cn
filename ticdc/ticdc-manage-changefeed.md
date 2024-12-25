@@ -254,7 +254,7 @@ cdc cli changefeed resume -c test-cf --server=http://10.0.10.25:8300
 - `resolved-ts` 代表当前 Processor 中已经排序数据的最大 TSO。
 - `checkpoint-ts` 代表当前 Processor 已经成功写入下游的事务的最大 TSO。
 
-## 同步启用了 TiDB 新的 Collation 框架的表
+## 同步启用了测试数据库新的 Collation 框架的表
 
 从 v4.0.15、v5.0.4、v5.1.1 和 v5.2.0 开始，TiCDC 支持同步启用了 TiDB [新的 Collation 框架](/character-set-and-collation.md#新框架下的排序规则支持)的表。
 
