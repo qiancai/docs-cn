@@ -7,11 +7,11 @@ summary: 介绍 SQL 操作相关的常见问题。
 
 本文档介绍 TiDB 中常见的 SQL 操作问题。
 
-## TiDB 是否支持二级键？
+## 测试数据库是否支持二级键？
 
 支持。你可以在具有唯一[二级索引](/develop/dev-guide-create-secondary-indexes.md)的非主键列上设置 [`NOT NULL` 约束](/constraints.md#非空约束)。在这种情况下，该列用作二级键。
 
-## TiDB 在对大表执行 DDL 操作时，性能表现如何？
+## 测试数据库在对大表执行 DDL 操作时，性能表现如何？
 
 TiDB 在对大表执行 DDL 操作时，一般不会有什么问题。TiDB 支持在线 DDL 操作，且这些 DDL 操作不会阻塞 DML 操作。
 
@@ -56,11 +56,11 @@ DROP GLOBAL BINDING for
     SELECT * FROM t1, t2 WHERE t1.id = t2.id;
 ```
 
-## TiDB 对哪些 MySQL variables 兼容？
+## 测试数据库对哪些 MySQL variables 兼容？
 
 详细可参考[系统变量](/system-variables.md)。
 
-## 省略 `ORDER BY` 条件时 TiDB 中返回结果的顺序与 MySQL 中的不一致
+## 省略 `ORDER BY` 条件时测试数据库中返回结果的顺序与 MySQL 中的不一致
 
 这不是 bug。返回结果的顺序视不同情况而定，不保证顺序统一。
 
@@ -124,7 +124,7 @@ MySQL 中，返回结果的顺序可能较为固定，因为查询是通过单�
 
 在 TiDB 中，你还可以使用系统变量 [`tidb_enable_ordered_result_mode`](/system-variables.md#tidb_enable_ordered_result_mode) 来指定是否对最终的输出结果进行自动排序。
 
-## TiDB 是否支持 `SELECT FOR UPDATE`？
+## 测试数据库是否支持 `SELECT FOR UPDATE`？
 
 支持。当 TiDB 使用悲观锁（自 TiDB v3.0.8 起默认使用）时，TiDB 中 `SELECT FOR UPDATE` 的行为与 MySQL 中的基本一致。
 
@@ -132,7 +132,7 @@ MySQL 中，返回结果的顺序可能较为固定，因为查询是通过单�
 
 详情参考 [SELECT 语句语法元素说明](/sql-statements/sql-statement-select.md#语法元素说明)。
 
-## TiDB 的 codec 能保证 UTF8 的字符串是 memcomparable 的吗？我们的 key 需要支持 UTF8，有什么编码建议吗？
+## 测试数据库的 codec 能保证 UTF8 的字符串是 memcomparable 的吗？我们的 key 需要支持 UTF8，有什么编码建议吗？
 
 TiDB 的默认字符集是 `utf8mb4`，字符串是 memcomparable 格式。关于字符集的更多信息，参见[字符集和排序规则](/character-set-and-collation.md)。
 
@@ -142,18 +142,18 @@ TiDB 的默认字符集是 `utf8mb4`，字符串是 memcomparable 格式。关�
 
 在使用乐观事务并开启事务重试的情况下，默认限制 5000，可通过 [`stmt-count-limit`](/tidb-configuration-file.md#stmt-count-limit) 调整。
 
-## TiDB 中，为什么出现后插入数据的自增 ID 反而小？
+## 测试数据库中，为什么出现后插入数据的自增 ID 反而小？
 
 TiDB 的自增 ID (`AUTO_INCREMENT`) 只保证自增且唯一，并不保证连续分配。TiDB 目前采用批量分配的方式，所以如果在多台 TiDB server 上同时插入数据，分配的自增 ID 会不连续。当多个线程并发往不同的 TiDB server 插入数据的时候，有可能会出现后插入的数据自增 ID 小的情况。此外，TiDB 允许给整型类型的字段指定 AUTO_INCREMENT，且一个表只允许一个属性为 `AUTO_INCREMENT` 的字段。详情可参考[自增 ID](/mysql-compatibility.md#自增-id)和 [AUTO_INCREMENT](/auto-increment.md)。
 
-## 如何在 TiDB 中修改 `sql_mode`？
+## 如何在测试数据库中修改 `sql_mode`？
 
 TiDB 支持在会话或全局作用域上修改 [`sql_mode`](/system-variables.md#sql_mode) 系统变量。
 
 - 对全局作用域变量的修改，设置后将作用于集群中的其它服务器，并且重启后更改依然有效。因此，你无需在每台 TiDB 服务器上都更改 `sql_mode` 的值。
 - 对会话作用域变量的修改，设置后只影响当前会话，重启后更改消失。
 
-## 用 Sqoop 批量写入 TiDB 数据，虽然配置了 `--batch` 选项，但还是会遇到 `java.sql.BatchUpdateException:statement count 5001 exceeds the transaction limitation` 的错误，该如何解决？
+## 用 Sqoop 批量写入测试数据库数据，虽然配置了 `--batch` 选项，但还是会遇到 `java.sql.BatchUpdateException:statement count 5001 exceeds the transaction limitation` 的错误，该如何解决？
 
 问题原因：在 Sqoop 中，`--batch` 是指每个批次提交 100 条 statement，但是默认每个 statement 包含 100 条 SQL 语句，所以此时 100 * 100 = 10000 条 SQL 语句，超出了 TiDB 的事务限制 5000 条。
 
@@ -174,11 +174,11 @@ TiDB 支持在会话或全局作用域上修改 [`sql_mode`](/system-variables.m
 
 - 也可以选择增大 TiDB 的单个事物语句数量限制，不过此操作会导致内存增加。详情参见 [SQL 语句的限制](/tidb-limitations.md#sql-statements-的限制)。
 
-## TiDB 有像 Oracle 那样的 Flashback Query 功能么，DDL 支持么？
+## 测试数据库有像 Oracle 那样的 Flashback Query 功能么，DDL 支持么？
 
 有，也支持 DDL。详细参考[使用 AS OF TIMESTAMP 语法读取历史数据](/as-of-timestamp.md)。
 
-## TiDB 中删除数据后会立即释放空间吗？
+## 测试数据库中删除数据后会立即释放空间吗？
 
 在 TiDB 中使用 `DELETE`，`TRUNCATE` 和 `DROP` 语句删除数据都不会立即释放空间。对于 `TRUNCATE` 和 `DROP` 操作，在达到 TiDB 的 GC (garbage collection) 时间后（默认 10 分钟），TiDB 的 GC 机制会删除数据并释放空间。对于 DELETE 操作，TiDB 的 GC 机制会删除数据，但不会立即释放空间，而是等到后续进行 compaction 时释放空间。
 
@@ -198,7 +198,7 @@ TiDB 中的 `SHOW PROCESSLIST` 与 MySQL 中的 `SHOW PROCESSLIST` 显示内容�
 
 + 在查询执行期间，TiDB 中的 `State` 列不会持续更新。由于 TiDB 支持并行查询，每个语句可能同时处于多个状态，因此很难显示为某一种状态。
 
-## 在 TiDB 中如何控制或改变 SQL 提交的执行优先级？
+## 在测试数据库中如何控制或改变 SQL 提交的执行优先级？
 
 TiDB 支持改变[全局](/system-variables.md#tidb_force_priority)或单个语句的优先级。优先级包括：
 
@@ -224,7 +224,7 @@ TiDB 支持改变[全局](/system-variables.md#tidb_force_priority)或单个语�
 
 2. 全表扫会自动调整为低优先级，[`ANALYZE`](/sql-statements/sql-statement-analyze-table.md) 也是默认低优先级。
 
-## 在 TiDB 中 `auto analyze` 的触发策略是怎样的？
+## 在测试数据库中 `auto analyze` 的触发策略是怎样的？
 
 当一张表或分区表的单个分区达到 1000 条记录，且表或分区的（修改数/当前总行数）比例大于 [`tidb_auto_analyze_ratio`](/system-variables.md#tidb_auto_analyze_ratio) 的时候，会自动触发 [`ANALYZE`](/sql-statements/sql-statement-analyze-table.md) 语句。
 
@@ -326,7 +326,7 @@ TiDB 在执行 SQL 语句时，会根据隔离级别确定一个对象的 `schem
 
 ## SQL 优化
 
-### TiDB 执行计划解读
+### 测试数据库执行计划解读
 
 详细解读[理解 TiDB 执行计划](/explain-overview.md)。
 
@@ -371,7 +371,7 @@ RUNNING_JOBS: ID:121, Type:add index, State:running, SchemaState:write reorganiz
 - `ADMIN SHOW DDL JOBS`：用于查看当前 DDL 作业队列中的所有结果（包括正在运行以及等待运行的任务）以及已执行完成的 DDL 作业队列中的最近十条结果。
 - `ADMIN SHOW DDL JOBS QUERIES 'job_id' [, 'job_id'] ...`：用于显示 `job_id` 对应的 DDL 任务的原始 SQL 语句。此 `job_id` 只搜索正在执行中的任务以及 DDL 历史作业队列中的最近十条结果。
 
-### TiDB 是否支持基于 COST 的优化 (CBO)？如果支持，实现到什么程度？
+### 测试数据库是否支持基于 COST 的优化 (CBO)？如果支持，实现到什么程度？
 
 是的，TiDB 基于成本的优化器 (CBO) 对代价模型、统计信息进行持续优化。除此之外，TiDB 还支持 hash join、sort-merge join 等 join 算法。
 
@@ -383,7 +383,7 @@ RUNNING_JOBS: ID:121, Type:add index, State:running, SchemaState:write reorganiz
 
 ID 没什么规律，只要是唯一就行。不过在生成执行计划时，有一个计数器，生成一个计划 ID 后序号就加 1，执行的顺序和序号无关。整个执行计划是一颗树，执行时从根节点开始，不断地向上返回数据。要理解执行计划，请参考[理解 TiDB 执行计划](/explain-overview.md)。
 
-### TiDB 执行计划中，task cop 在一个 root 下，这个是并行的吗？
+### 测试数据库执行计划中，task cop 在一个 root 下，这个是并行的吗？
 
 目前 TiDB 的计算任务隶属于两种不同的 task：cop task 和 root task。cop task 是指被下推到 KV 端分布式执行的计算任务，root task 是指在 TiDB 端单点执行的计算任务。
 
@@ -393,11 +393,11 @@ ID 没什么规律，只要是唯一就行。不过在生成执行计划时，�
 
 ## 数据库优化
 
-### TiDB 参数及调整
+### 测试数据库参数及调整
 
 详情参考 [TiDB 配置参数](/command-line-flags-for-tidb-configuration.md)。
 
-### 如何避免热点问题并实现负载均衡？TiDB 中是否有热分区或热范围问题？
+### 如何避免热点问题并实现负载均衡？测试数据库中是否有热分区或热范围问题？
 
 要了解热点问题的场景，请参考[常见热点问题](/troubleshoot-hot-spot-issues.md#常见热点场景)。TiDB 的以下特性旨在帮助解决热点问题：
 

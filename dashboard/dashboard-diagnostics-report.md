@@ -216,7 +216,7 @@ TiDB 内置自动诊断的结果，具体各字段含义以及介绍可以参考
 
 这部分包括了 TiDB/PD/TiKV 更多的具体的监控信息。
 
-#### TiDB 相关监控信息
+#### 测试数据库相关监控信息
 
 ##### Time Consumed by TiDB Component
 

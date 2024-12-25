@@ -3,7 +3,7 @@ title: 如何对 TiDB 进行 CH-benCHmark 测试
 summary: 本文介绍如何对 TiDB 进行 CH-benCHmark 测试。
 ---
 
-# 如何对 TiDB 进行 CH-benCHmark 测试
+# 如何对测试数据库进行 CH-benCHmark 测试
 
 本文介绍如何对 TiDB 进行 CH-benCHmark 测试。
 

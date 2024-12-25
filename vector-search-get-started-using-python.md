@@ -51,7 +51,7 @@ pip install sqlalchemy pymysql sentence-transformers tidb-vector python-dotenv
 - `tidb-vector`：用于与 TiDB 向量搜索交互的 Python 客户端。
 - [`sentence-transformers`](https://sbert.net)：提供预训练模型的 Python 库，用于从文本生成[向量嵌入](/vector-search-overview.md#向量嵌入)。
 
-### 第 3 步：配置 TiDB 集群的连接字符串
+### 第 3 步：配置测试数据库集群的连接字符串
 
 根据不同的 TiDB 集群部署方式，配置集群的连接字符串。
 
@@ -134,7 +134,7 @@ def text_to_embedding(text):
     return embedding.tolist()
 ```
 
-### 第 5 步：连接到 TiDB 集群
+### 第 5 步：连接到测试数据库集群
 
 使用 `TiDBVectorClient` 类连接到 TiDB 集群，并创建一个包含向量列的表 `embedded_documents`。
 

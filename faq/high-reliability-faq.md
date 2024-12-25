@@ -7,11 +7,11 @@ summary: 介绍高可靠相关的常见问题。
 
 本文档介绍高可靠相关的常见问题。
 
-## TiDB 是否支持数据加密？
+## 测试数据库是否支持数据加密？
 
 支持。要加密传输中的数据，可以[在 TiDB 客户端和服务器之间启用 TLS](/enable-tls-between-clients-and-servers.md)。要加密存储引擎中的数据，可以启用[透明数据加密 (TDE)](/encryption-at-rest.md)。
 
-## 我们的安全漏洞扫描工具对 MySQL version 有要求，TiDB 是否支持修改 server 版本号呢？
+## 我们的安全漏洞扫描工具对 MySQL version 有要求，测试数据库是否支持修改 server 版本号呢？
 
 TiDB 在 v3.0.8 后支持通过 TiDB 配置文件中的 [`server-version`](/tidb-configuration-file.md#server-version) 配置项来修改 server 版本号。
 
@@ -25,7 +25,7 @@ server_configs:
 
 修改完成后，使用 `tiup cluster reload <cluster-name> -R tidb` 命令使得以上修改生效，以避免出现安全漏洞扫描不通过的问题。
 
-## TiDB 支持哪些认证协议？过程是怎样的？
+## 测试数据库支持哪些认证协议？过程是怎样的？
 
 TiDB 和 MySQL 一样，在用户登录认证时使用 SASL 认证协议对密码进行处理。
 

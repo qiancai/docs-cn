@@ -3,7 +3,7 @@ title: 使用 TiDB 读取 TiFlash
 summary: 了解如何使用 TiDB 读取 TiFlash 副本。
 ---
 
-# 使用 TiDB 读取 TiFlash
+# 使用测试数据库读取 TiFlash
 
 本文档介绍如何使用 TiDB 读取 TiFlash 副本。
 

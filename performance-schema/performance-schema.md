@@ -31,7 +31,7 @@ TiDB 实现了兼容 MySQL 的 performance schema 表。
 | `setup_instruments`|  |
 | `setup_objects` |  |
 
-## TiDB 中的扩展表
+## 测试数据库中的扩展表
 
 | 表名 | 描述 |
 | ------------------------- | ----------- |
