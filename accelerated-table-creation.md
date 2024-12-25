@@ -3,7 +3,7 @@ title: 提升 TiDB 建表性能
 summary: 介绍 TiDB 加速建表中的概念、原理、实现和影响。
 ---
 
-# 提升测试数据库建表性能
+# 提升 TiDB 建表性能
 
 TiDB v7.6.0 引入了系统变量 [`tidb_ddl_version`](https://docs.pingcap.com/zh/tidb/v7.6/system-variables#tidb_ddl_version-从-v760-版本开始引入) 实现支持加速建表，可提升大批量建表的速度。从 v8.0.0 开始，该系统变量更名为 [`tidb_enable_fast_create_table`](/system-variables.md#tidb_enable_fast_create_table-从-v800-版本开始引入)。
 
@@ -11,7 +11,7 @@ TiDB v7.6.0 引入了系统变量 [`tidb_ddl_version`](https://docs.pingcap.com/
 
 合并后的批量建表语句在同一个事务内执行，如果其中一个语句失败，所有语句都会失败。
 
-## 与测试数据库工具的兼容性
+## 与 TiDB 工具的兼容性
 
 - 在 TiDB v8.3.0 之前的版本中，[TiCDC](/ticdc/ticdc-overview.md) 不支持同步通过 TiDB 加速创建的表。从 v8.3.0 开始，TiCDC 可以正常同步这类表。
 

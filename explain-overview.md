@@ -3,7 +3,7 @@ title: TiDB 执行计划概览
 summary: 了解 TiDB 中 EXPLAIN 语句返回的执行计划。
 ---
 
-# 测试数据库执行计划概览
+# TiDB 执行计划概览
 
 > **注意：**
 >

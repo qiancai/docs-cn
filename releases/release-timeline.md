@@ -3,7 +3,7 @@ title: TiDB 版本发布时间线
 summary: 了解 TiDB 的版本发布时间线。
 ---
 
-# 测试数据库版本发布时间线
+# TiDB 版本发布时间线
 
 <EmailSubscriptionWrapper />
 

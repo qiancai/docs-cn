@@ -695,7 +695,7 @@ PARTITIONS 2;
 
 但是，如果唯一键列未被定义为 `NOT NULL`，上述语句将失败。
 
-### 测试数据库对 Linear Hash 分区的处理
+### TiDB 对 Linear Hash 分区的处理
 
 在 v6.4.0 之前，如果在 TiDB 上执行 [MySQL Linear Hash 分区](https://dev.mysql.com/doc/refman/8.0/en/partitioning-linear-hash.html) 的 DDL 语句，TiDB 只能创建非分区表。在这种情况下，如果你仍然想要在 TiDB 中创建分区表，你需要修改这些 DDL 语句。
 
@@ -705,7 +705,7 @@ PARTITIONS 2;
 
 - 对于 MySQL Linear Hash 分区的其他 SQL 语句，TiDB 将正常返回对应的 Hash 分区的查询结果。但当分区数不是 2 的幂（意味着分区表中行的分布情况与 MySQL 不同）时，[分区选择](#分区选择)、`TRUNCATE PARTITION`、`EXCHANGE PARTITION` 返回的结果将和 MySQL 有所差异。
 
-### 测试数据库对 Linear Key 分区的处理
+### TiDB 对 Linear Key 分区的处理
 
 TiDB 从 v7.0.0 开始支持 Key 分区，并支持解析 MySQL 的 `PARTITION BY LINEAR  KEY` 语法，但会忽略其中的 `LINEAR` 关键字，只采用非线性 Hash 算法。
 

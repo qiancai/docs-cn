@@ -3,7 +3,7 @@ title: TiDB 事务概览
 summary: 了解 TiDB 中的事务。
 ---
 
-# 测试数据库事务概览
+# TiDB 事务概览
 
 TiDB 支持分布式事务，提供[乐观事务](/optimistic-transaction.md)与[悲观事务](/pessimistic-transaction.md)两种事务模式。TiDB 3.0.8 及以后版本，TiDB 默认采用悲观事务模式。
 

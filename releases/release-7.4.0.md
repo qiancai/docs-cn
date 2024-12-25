@@ -290,7 +290,7 @@ TiDB 版本：7.4.0
 
 - 升级到 TiFlash v7.4.0 后，不支持原地降级到之前的版本。这是因为，从 v7.4.0 开始，为了减少数据整理时产生的读、写放大，TiFlash 对 PageStorage V3 数据整理时的逻辑进行了优化，导致底层部分存储文件名发生了改动。详情请参考 [TiFlash 升级帮助](/tiflash-upgrade-guide.md#从-v6x-或-v7x-升级至-v74-或以上版本)。
 
-- 新增函数 [`TIDB_PARSE_TSO_LOGICAL()`](/functions-and-operators/tidb-functions.md#测试数据库特有的函数)，用于从 TiDB TSO 时间戳中提取逻辑时间戳。
+- 新增函数 [`TIDB_PARSE_TSO_LOGICAL()`](/functions-and-operators/tidb-functions.md#tidb-特有的函数)，用于从 TiDB TSO 时间戳中提取逻辑时间戳。
 
 - 新增表 [`information_schema.CHECK_CONSTRAINTS`](/information-schema/information-schema-check-constraints.md)，提高与 MySQL 8.0 的兼容性。
 - 对于包含多条变更的事务，如果 Update 事件的主键或者非空唯一索引的列值发生改变，TiCDC 会将该其拆分为 Delete 和 Insert 两条事件，并确保将所有事件有序，以保证 Delete 事件在 Insert 事件之前。更多信息，请参考[用户文档](/ticdc/ticdc-split-update-behavior.md#含有多条-update-变更的事务拆分)。

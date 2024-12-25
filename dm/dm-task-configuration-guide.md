@@ -29,7 +29,7 @@ mysql-instances:
   - source-id: "mysql-replica-02"  # 从 source-id = mysql-replica-02 的数据源迁移数据
 ```
 
-## 配置迁移的目标测试数据库集群
+## 配置迁移的目标 TiDB 集群
 
 仿照下面的 `target-database:` 示例定义迁移的目标 TiDB 集群。
 
@@ -119,7 +119,7 @@ target-database:       # 目标 TiDB 配置
         filter-rules: ["filter-rule-2"]  # 过滤数据源特定操作的规则，可以配置多个过滤规则
     ```
 
-## 配置需要数据源表到目标测试数据库表的映射
+## 配置需要数据源表到目标 TiDB 表的映射
 
 如果不需要将数据源表路由到不同名的目标 TiDB 表，可以跳过该项配置。分库分表合并迁移的场景必须配置该规则。
 

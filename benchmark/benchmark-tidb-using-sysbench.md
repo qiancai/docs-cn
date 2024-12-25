@@ -9,7 +9,7 @@ summary: 使用 Sysbench 1.0 或更新版本测试 TiDB 性能。调整 TiDB 和
 
 ## 测试方案
 
-### 测试数据库配置
+### TiDB 配置
 
 升高日志级别，可以减少打印日志数量，对 TiDB 的性能有积极影响。具体在 TiUP 配置文件中加入：
 
@@ -182,7 +182,7 @@ TiKV 的其他模块，如 storage readpool、coprocessor 和 gRPC 的最大并�
 
 通过 Grafana 的 TiKV Thread CPU 监控面板可以观察到其实际使用率。如出现多线程模块瓶颈，可以通过增加该模块并发度进行调整。
 
-### 在高并发压力下，TiKV 也未达到 CPU 使用瓶颈，为什么测试数据库的 CPU 利用率依然很低？
+### 在高并发压力下，TiKV 也未达到 CPU 使用瓶颈，为什么 TiDB 的 CPU 利用率依然很低？
 
 在某些高端设备上，使用的是 NUMA 架构的 CPU，跨 CPU 访问远端内存将极大降低性能。TiDB 默认将使用服务器所有 CPU，goroutine 的调度不可避免地会出现跨 CPU 内存访问。
 

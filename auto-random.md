@@ -27,7 +27,7 @@ CREATE TABLE t (a BIGINT AUTO_RANDOM(5, 54), b VARCHAR(255), PRIMARY KEY (a));
 CREATE TABLE t (a BIGINT AUTO_RANDOM(5, 54), b VARCHAR(255), PRIMARY KEY (a, b));
 ```
 
-`AUTO_RANDOM` 关键字可以被包裹在 TiDB 可执行注释中，注释语法请参考 [测试数据库可执行注释](/comment-syntax.md#测试数据库可执行的注释语法)。
+`AUTO_RANDOM` 关键字可以被包裹在 TiDB 可执行注释中，注释语法请参考 [TiDB 可执行注释](/comment-syntax.md#tidb-可执行的注释语法)。
 
 ```sql
 CREATE TABLE t (a bigint /*T![auto_rand] AUTO_RANDOM */, b VARCHAR(255), PRIMARY KEY (a));

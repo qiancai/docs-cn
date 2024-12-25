@@ -3,11 +3,11 @@ title: TiDB 工具下载
 summary: 本文介绍如何下载 TiDB 工具包。TiDB 工具包包含常用工具如 Dumpling、TiDB Lightning、BR 等。如果部署环境能访问互联网，可直接通过 TiUP 命令一键部署所需的 TiDB 工具。操作系统需为 Linux，架构为 amd64 或 arm64。下载步骤包括访问 TiDB 社区版页面，找到 TiDB-community-toolkit 软件包并点击立即下载。注意，点击立即下载后默认下载当前 TiDB 的最新发布版本。根据要使用的工具选择安装对应的离线包。
 ---
 
-# 测试数据库工具下载
+# TiDB 工具下载
 
 本文介绍如何下载 TiDB 工具包。关于 TiDB 工具包的内容，请查看 [TiDB 离线包](/binary-package.md)。
 
-## 测试数据库工具包下载
+## TiDB 工具包下载
 
 TiDB 工具包中包含了一些常用的 TiDB 工具，例如数据导出工具 Dumpling、数据导入工具 TiDB Lightning、备份恢复工具 BR。
 
@@ -31,7 +31,7 @@ TiDB 工具包中包含了一些常用的 TiDB 工具，例如数据导出工具
 > - 如需在 Kubernetes 上部署运维 TiDB，无需下载 TiDB-community-toolkit 软件包，请参考[离线安装 TiDB Operator](https://docs.pingcap.com/zh/tidb-in-kubernetes/stable/deploy-tidb-operator#离线安装-tidb-operator)。
 > - 如需使用 [PD Control](/pd-control.md) 工具 `pd-ctl`，请下载 **TiDB-community-server 软件包**。
 
-### 测试数据库工具包说明
+### TiDB 工具包说明
 
 在 TiDB 工具包中，你可以依据要使用的工具，选择安装对应的离线包。
 

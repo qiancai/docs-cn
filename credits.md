@@ -3,11 +3,11 @@ title: TiDB 社区荣誉列表
 summary: 了解 TiDB 社区贡献者列表及角色。
 ---
 
-# 测试数据库社区荣誉列表
+# TiDB 社区荣誉列表
 
 每一位贡献者都是推动 TiDB 健壮发展的重要成员，我们感谢所有为 TiDB 提交代码、撰写或翻译文档的贡献者。
 
-## 测试数据库开发者
+## TiDB 开发者
 
 TiDB 开发者为 TiDB 的新功能开发、性能优化、稳定性保障做出了贡献。以下链接包含了 TiDB 相关 repo 的贡献者名单：
 
@@ -25,7 +25,7 @@ TiDB 开发者为 TiDB 的新功能开发、性能优化、稳定性保障做出
 - [tidb-incubator/TiBigData](https://github.com/tidb-incubator/TiBigData/graphs/contributors)
 - [ti-community-infra](https://github.com/orgs/ti-community-infra/people)
 
-## 测试数据库文档写作者和译员
+## TiDB 文档写作者和译员
 
 TiDB 文档写作者和译员为 TiDB 及相关项目撰写文档、提供翻译。以下链接包含了 TiDB 文档相关 repo 的贡献者名单：
 

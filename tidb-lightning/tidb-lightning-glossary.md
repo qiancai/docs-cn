@@ -119,7 +119,7 @@ TiDB Lightning 通过引擎将数据传送到 TiKV Importer 中。TiDB Lightning
 
 导入模式。指通过降低读取速度和减少空间使用，来优化 TiKV 写入的配置模式。
 
-导入过程中，TiDB Lightning 自动在导入模式和[普通模式](#normal-mode)中来回切换。如果 TiKV 卡在导入模式，你可以使用 `tidb-lightning-ctl` [强制切换回普通模式](/tidb-lightning/troubleshoot-tidb-lightning.md#使用-tidb-lightning-后测试数据库集群变慢cpu-占用高)。
+导入过程中，TiDB Lightning 自动在导入模式和[普通模式](#normal-mode)中来回切换。如果 TiKV 卡在导入模式，你可以使用 `tidb-lightning-ctl` [强制切换回普通模式](/tidb-lightning/troubleshoot-tidb-lightning.md#使用-tidb-lightning-后tidb-集群变慢cpu-占用高)。
 
 ### Index engine
 

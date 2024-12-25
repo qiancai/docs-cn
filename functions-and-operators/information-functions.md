@@ -7,7 +7,7 @@ summary: TiDB 支持 MySQL 8.0 中提供的大部分信息函数。
 
 TiDB 支持使用 MySQL 8.0 中提供的大部分[信息函数](https://dev.mysql.com/doc/refman/8.0/en/information-functions.html)。
 
-## 测试数据库支持的 MySQL 信息函数
+## TiDB 支持的 MySQL 信息函数
 
 | 函数名 | 功能描述                                 |
 | ------ | ---------------------------------------- |
@@ -279,7 +279,7 @@ Store: tikv
 
 如需更改该函数返回的版本，可以修改 [`server-version`](/tidb-configuration-file.md#server-version) 配置项。
 
-## 测试数据库特有的信息函数
+## TiDB 特有的信息函数
 
 下列函数为 TiDB 中特有的信息函数，MySQL 中无对应的函数。
 
@@ -287,7 +287,7 @@ Store: tikv
 | ------ | ---------------------------------------- |
 | [`CURRENT_RESOURCE_GROUP()`](/functions-and-operators/tidb-functions.md#current_resource_group) | 返回当前连接的资源组名 |
 
-## 测试数据库不支持的信息函数
+## TiDB 不支持的信息函数
 
 * `CHARSET()`
 * `COERCIBILITY()`

@@ -50,7 +50,7 @@ Information Schema 提供了一种查看系统元数据的 ANSI 标准方法。�
 | [`VARIABLES_INFO`](/information-schema/information-schema-variables-info.md)                                               | 提供 TiDB 系统变量的信息。                                               |
 | [`VIEWS`](/information-schema/information-schema-views.md)                                                                 | 提供当前用户可见的视图列表。类似于 `SHOW FULL TABLES WHERE table_type = 'VIEW'`。 |
 
-## 测试数据库中的扩展表
+## TiDB 中的扩展表
 
 | 表名                                                                                    | 描述                                                           |
 | --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |

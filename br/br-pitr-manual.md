@@ -3,7 +3,7 @@ title: TiDB 日志备份与 PITR 命令行手册
 summary: 介绍 TiDB 日志备份与 PITR 的命令行。
 ---
 
-# 测试数据库日志备份与 PITR 命令行手册
+# TiDB 日志备份与 PITR 命令行手册
 
 本文介绍 TiDB 日志备份和 PITR (Point-in-time recovery) 命令行。
 

@@ -218,7 +218,7 @@ TiDB 会定时采集 TTL 的运行时信息，并在 Grafana 中提供了相关�
 
   其中列 `table_id` 为分区表 ID，而 `parent_table_id` 为表的 ID，与 `information_schema.tables` 表中的 ID 对应。`table_schema`、`table_name`、`partition_name` 分别对应表示数据库、表名、分区名。`create_time`、`finish_time`、`ttl_expire` 分别表示 TTL 任务的创建时间、结束时间和过期时间。`expired_rows` 与 `deleted_rows` 表示过期行数与成功删除的行数。
 
-## 测试数据库数据迁移工具兼容性
+## TiDB 数据迁移工具兼容性
 
 TTL 功能能够与 TiDB 的迁移、备份、恢复工具一同使用。
 
@@ -228,7 +228,7 @@ TTL 功能能够与 TiDB 的迁移、备份、恢复工具一同使用。
 | TiDB Lightning | v6.6.0 | 导入后如果表中有 TTL 属性，会自动将表的 `TTL_ENABLE` 属性设置为 `OFF`，关闭 TTL。这样可以防止 TiDB 在导入后立即删除过期的数据。此时你需要手动重新配置 `TTL_ENABLE` 属性来重新开启各个表的 TTL。 |
 | TiCDC | v7.0.0 | 上游的 TTL 删除将会同步至下游。因此，为了防止重复删除，下游表的 `TTL_ENABLE` 属性将被强制设置为 `OFF`。 |
 
-## 与测试数据库其他特性的兼容性
+## 与 TiDB 其他特性的兼容性
 
 | 特性名称 | 说明 |
 | :-- | :---- |

@@ -3,7 +3,7 @@ title: TiDB 数据库的存储
 summary: 了解 TiDB 数据库的存储层。
 ---
 
-# 测试数据库数据库的存储
+# TiDB 数据库的存储
 
 本文主要介绍 [TiKV](https://github.com/tikv/tikv) 的一些设计思想和关键概念。
 

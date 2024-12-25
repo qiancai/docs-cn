@@ -3,7 +3,7 @@ title: 在 LlamaIndex 中使用 TiDB 向量搜索
 summary: 了解如何在 LlamaIndex 中使用 TiDB 向量搜索。
 ---
 
-# 在 LlamaIndex 中使用测试数据库向量搜索
+# 在 LlamaIndex 中使用 TiDB 向量搜索
 
 本文档将展示如何在 [LlamaIndex](https://www.llamaindex.ai) 中使用 [TiDB 向量搜索](/vector-search-overview.md)。
 
@@ -168,7 +168,7 @@ for index, document in enumerate(documents):
 
 ### 第 5 步：生成并存储文档向量
 
-#### 5.1 初始化测试数据库向量存储
+#### 5.1 初始化 TiDB 向量存储
 
 以下代码将在 TiDB 中创建一个 `paul_graham_test` 表，该表针对向量搜索进行了优化。
 

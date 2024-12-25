@@ -33,7 +33,7 @@ summary: TiDB v6.2.0 和 v6.1.0 在 OLTP 场景下的 Sysbench 性能对比测�
 
 两个版本使用相同的配置。
 
-#### 测试数据库参数配置
+#### TiDB 参数配置
 
 {{< copyable "" >}}
 
@@ -56,7 +56,7 @@ server.grpc-concurrency: 6
 readpool.unified.max-thread-count: 10
 ```
 
-#### 测试数据库全局变量配置
+#### TiDB 全局变量配置
 
 {{< copyable "sql" >}}
 

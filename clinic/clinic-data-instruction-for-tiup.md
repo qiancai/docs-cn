@@ -14,18 +14,18 @@ Clinic Server 是部署在云端的云服务，根据数据存储的位置不同
 - [Clinic Server 中国区](https://clinic.pingcap.com.cn)：如果你把采集的数据上传到了 Clinic Server 中国区，这些数据将存储于 PingCAP 设立在 AWS 中国区（北京）的 S3 服务。PingCAP 对数据访问权限进行了严格的访问控制，只有经授权的内部技术人员可以访问该数据。
 - [Clinic Server 美国区](https://clinic.pingcap.com)：如果你把采集的数据上传到了 Clinic Server 美国区，这些数据将存储于 PingCAP 设立在 AWS 美国区的 S3 服务。PingCAP 对数据访问权限进行了严格的访问控制，只有经授权的内部技术人员可以访问该数据。
 
-## 测试数据库集群
+## TiDB 集群
 
 本节列出了 [Diag](https://github.com/pingcap/diag) 在使用 TiUP 部署的 TiDB 集群中能够采集的诊断数据类型。
 
-### 测试数据库集群信息
+### TiDB 集群信息
 
 | 诊断数据类型 | 输出文件 | PingCAP Clinic 采集参数 |
 | :------ | :------ |:-------- |
 | 集群基础信息，包括集群 ID | `cluster.json` | 每次收集默认采集 |
 | 集群详细信息 | `meta.yaml` | 每次收集默认采集 |
 
-### 测试数据库诊断数据
+### TiDB 诊断数据
 
 | 诊断数据类型 | 输出文件 | PingCAP Clinic 采集参数 |
 | :------ | :------ |:-------- |
@@ -80,7 +80,7 @@ Clinic Server 是部署在云端的云服务，根据数据存储的位置不同
 | 所有的 Metrics 数据 | `{metric_name}.json` | `--include=monitor` |
 | Alert 列表 | `alerts.json` | `--include=monitor` |
 
-### 测试数据库系统变量
+### TiDB 系统变量
 
 | 诊断数据类型 | 输出文件 | PingCAP Clinic 采集参数 |
 | :------ | :------ |:-------- |
