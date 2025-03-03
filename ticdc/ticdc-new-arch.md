@@ -79,7 +79,7 @@ NOTE: 在使用 TiCDC 老架构时，请勿在配置文件中添加 `newarch` �
 > 
 > 升级至TiCDC新架构后，将不再支持回退至旧架构。
 
-1. 下载 v9.0.0 或者以上版本的 TiCDC 二进制文件。
+1. 下载 v9.0.0 或者以上版本的 TiCDC 二进制文。
 
     该文件下载链接格式为 `https://tiup-mirrors.pingcap.com/cdc-${version}-${os}-${arch}.tar.gz`，其中，{version} 为 TiCDC 版本号，${os} 为你的操作系统，{arch} 为组件运行的平台（`amd64` 或 `arm64`）。
 
