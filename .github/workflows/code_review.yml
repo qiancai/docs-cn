@@ -1,0 +1,23 @@
+name: AI Code Reviewer
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+permissions: write-all
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: AI Code Reviewer
+        uses: your-username/ai-code-reviewer@main
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          API_PROVIDER: "deepseek"
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          DEEPSEEK_API_MODEL: "deepseek-coder-33b-instruct" # Optional: defaults to "deepseek-coder-33b-instruct"
+          exclude: "**/*.json, **/*.md" # Optional: exclude patterns separated by commas
