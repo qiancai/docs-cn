@@ -20,4 +20,4 @@ jobs:
           API_PROVIDER: "deepseek"
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           DEEPSEEK_API_MODEL: "deepseek-coder-33b-instruct" # Optional: defaults to "deepseek-coder-33b-instruct"
-          exclude: "**/*.json, **/*.md" # Optional: exclude patterns separated by commas
+          exclude: "**/*.json" # Optional: exclude patterns separated by commas
