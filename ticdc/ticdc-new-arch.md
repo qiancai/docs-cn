@@ -135,7 +135,7 @@ cdc cli changefeed query -s --server=http://127.0.0.1:8300 --changefeed-id=simpl
 
 - 在 TiCDC 的老架构中，DDL 的同步是完全串行进行的，因此同步进度仅需通过 Changefeed 的 `CheckpointTs` 来标识。然而，在新架构中，为了提高 DDL 同步效率，TiCDC 会尽可能并行同步不同表的 DDL 变更。为了在下游 MySQL 兼容数据库中准确记录各表的 DDL 同步进度，TiCDC 新架构会在下游数据库中创建一张名为 `tidb_cdc.ddl_ts_v1` 的表，专门用于存储 Changefeed 的 DDL 同步进度信息。
 
-- 作为实验性特性，TiCDC v9.0 的新架构尚未完全实现旧架构中的所有功能，这些功能将在后续的 GA 版本中完整实现，具体包括：
+- 作为实验性特性，TiCDC v9.0 的新架尚未完全实现旧架构中的所有功能，这些功能将在后续的 GA 版本中完整实现，具体包括：
 
     - [拆分 Update 事件](/ticdc/ticdc-split-update-behavior.md)
     - [灾难场景的最终一致性复制](/ticdc/ticdc-sink-to-mysql.md#灾难场景的最终一致性复制)
