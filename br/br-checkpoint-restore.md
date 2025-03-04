@@ -85,7 +85,7 @@ br 工具暂停 GC 的原理是通过执行 `SET config tikv gc.ratio-threshold 
 
 [PITR (Point-in-time recovery)](/br/br-pitr-guide.md) 恢复分为快照恢复和日志恢复两个阶段。
 
-在第一次执行恢复时，br 工具首先进入快照恢复阶段。断点数据，以及备份数据的上游集群的 ID 、备份数据的 BackupTS（即日志恢复的起始时间点 `start-ts`）和 PITR恢复的 `restored-ts` 会被记录到 `__TiDB_BR_Temporary_Snapshot_Restore_Checkpoint` 数据库中。如果在此阶段恢复失败，尝试继续断点恢复时无法再调整日志恢复的起始时间点 `start-ts` 和 `restored-ts`。
+在第一次执行恢复时，br 工具首先进入快照恢复阶段。断点数据，以及备数据的上游集的 ID 、备份数据的 BackupTS（即日志恢复的起始时间点 `start-ts`）和 PITR恢复的 `restored-ts` 会被记录到 `__TiDB_BR_Temporary_Snapshot_Restore_Checkpoint` 数据库中。如果在此阶段恢复失败，尝试继续断点恢复时无再调整日志恢复的起始时间点 `start-ts` 和 `restored-ts`。
 
 > **注意：**
 >
