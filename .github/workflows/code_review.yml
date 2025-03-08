@@ -1,0 +1,26 @@
+name: AI Code Review
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions: write-all
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: AI Code Reviewer
+        uses: qiancai/ai-codereviewer@test
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          API_PROVIDER: "deepseek"  # or "openai" if you want to use OpenAI
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          DEEPSEEK_API_MODEL: "deepseek-chat"  # Updated model name
+          exclude: "**/*.json"  # Optional: exclude patterns separated by commas
