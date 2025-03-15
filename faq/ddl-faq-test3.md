@@ -64,5 +64,4 @@ mysql> SHOW CONFIG WHERE type = 'tidb' AND name = 'temp-dir';
    TiDB 系统变量设置:
    - [`tidb_ddl_enable_fast_reorg`](/system-variables.md#tidb_ddl_enable_fast_reorg-从-v630-版本开始引入)
    这个系统变量在 TiDB v6.5 默认打开。
-   - [`tidb_ddl_disk_quota`](/system-variables.md#tidb_ddl_disk_quota-从-v630-版本开始引入)
-   这个系统变量用来控制快速加索引方式本地磁盘能够使用的限额，对于 on Premises 用户来说可以根据实际情况增加这个值。
+   - [`tidb_ddl_disk_quota`](/system-variables.md#tidb_ddl_disk_quota-从-v630-版本开始引入)：这个系统变量用来控制快速加索引方式本地磁盘能够使用的限额，对于 on Premises 用户来说可以根实际情况增加这个值。
