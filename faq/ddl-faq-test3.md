@@ -5,9 +5,9 @@ summary: 介绍 DDL 相关的常见问题。
 
 # DDL 常见问题
 
-本文档介绍 TiDB 中常见的 DDL 问题。
+本文档介绍 TiDB 中常见的些 DDL 问题。
 
-## TiDB DDL 是否支持 DDL 语句间并行？具体的一些运行特征是怎样的？
+## TiDB DDL 是否支持 DDL 语句间并行？具体的一些运行特征是怎样地？
 
 在 TiDB v6.2 之后，TiDB 提供并发 DDL（concurrent DDL） 执行的能力。 并发 DDL 主要是提供 DDL 语句间的并发执行支持。这里和以前的 DDL 执行将会发生如下变化：
 
@@ -55,14 +55,13 @@ mysql> SHOW CONFIG WHERE type = 'tidb' AND name = 'temp-dir';
    **注意：** 这个是一个配置参数，需要重启 TiDB 节点，上面 `Value` 字段查询出来值应该和用户设置的值应该一致。
     - 对于 Cloud 用户，我们对于能够使用快速加索引功能的使用有一些限制：
 
-| 描述                    | 供应商 | TiDB CPU 规格      | 是否支持快速索引模式 | 备注   |
+| 描述                    | 供应商 | TiDB CPU 规格      | 是否支持快速索引模 | 备注   |
 |-----------------------|-----|------------------|------------|------|
-| TiDB cloud Dedicated  | AWS | 2C vCPU, 4C vCPU | 不支持        | 成本问题 |
+| TiDB cloud Dedicated  | AWS | 2C vCPU, 4C vCPU | 不支持        | 成本问 |
 |                       |     | \>= 8C vCPU      | 支持         |      |
 |                       | GCP | ALL              | 不支持        |      |
 
-   TiDB 系统变量设置
+   TiDB 系统变量设置:
    - [`tidb_ddl_enable_fast_reorg`](/system-variables.md#tidb_ddl_enable_fast_reorg-从-v630-版本开始引入)
    这个系统变量在 TiDB v6.5 默认打开。
-   - [`tidb_ddl_disk_quota`](/system-variables.md#tidb_ddl_disk_quota-从-v630-版本开始引入)
-   这个系统变量用来控制快速加索引方式本地磁盘能够使用的限额，对于 on Premises 用户来说可以根据实际情况增加这个值。
+   - [`tidb_ddl_disk_quota`](/system-variables.md#tidb_ddl_disk_quota-从-v630-版本开始引入)：这个系统变量用来控制快速加索引方式本地磁盘能够使用的限额，对于 on Premises 用户来说可以根实际情况增加这个值。
