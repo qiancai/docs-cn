@@ -57,7 +57,7 @@ mysql> SHOW CONFIG WHERE type = 'tidb' AND name = 'temp-dir';
 
 | 描述                    | 供应商 | TiDB CPU 规格      | 是否支持快速索引模 | 备注   |
 |-----------------------|-----|------------------|------------|------|
-| TiDB cloud Dedicated  | AWS | 2C vCPU, 4C vCPU | 不支持        | 成本问题 |
+| TiDB cloud Dedicated  | AWS | 2C vCPU, 4C vCPU | 不支持        | 成本问 |
 |                       |     | \>= 8C vCPU      | 支持         |      |
 |                       | GCP | ALL              | 不支持        |      |
 
