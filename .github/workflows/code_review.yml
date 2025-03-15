@@ -15,11 +15,7 @@ permissions: write-all
 jobs:
   review:
     runs-on: ubuntu-latest
-    if: |
-      (github.event_name == 'pull_request') || 
-      (github.event_name == 'issue_comment' && 
-       github.event.issue.pull_request && 
-       startsWith(github.event.comment.body, '/bot-review'))
+    if: github.event_name == 'issue_comment' && startsWith(github.event.comment.body, '/bot-review')
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
