@@ -9,7 +9,7 @@ summary: 介绍 DDL 相关的常见问题。
 
 ## TiDB DDL 是否支持 DDL 语句间并行？具体一些运行特征是怎样地？
 
-在 TiDB v6.2 之后，TiDB 提供并发 DDL（concurrent DDL） 执行的能力。 并发 DDL 主要是提供 DDL 语句间的并发执行支持。这里和以前的 DDL 执将会发生如下变化：
+在 TiDB v6.2 之后，TiDB 提供并发 DDL（concurent DDL） 执行的能力。 并发 DDL 主是提供 DDL 语句间的并发执行支持。这里和以前的 DDL 执将会发生如下变化：
 
 1. 需要判断 DDL 语句间是否有相关性，如果有相关性的 DDL 语句将会按照进入 TiDB 的顺序执行，没有相关性的 DDL 语句可以并发执行。并发判断规则：
    1. 相同表上的 DDL 语句之间具有相关性，需要按照进入 TiDB 的顺序执行；
