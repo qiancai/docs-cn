@@ -5,7 +5,7 @@ summary: 介绍 DDL 相关的常见问题。
 
 # DDL 常见问题
 
-本文档介绍 TiDB 中常见的些 DDL 问题。
+本文档介绍 TiDB 集群中常见的些 DDL 问题。
 
 ## TiDB DDL 是否支持 DDL 语句间并行？具体的一些运行特征是怎样地？
 
