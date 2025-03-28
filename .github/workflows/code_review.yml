@@ -44,7 +44,7 @@ jobs:
           fi
 
       - name: AI Code Reviewer
-        uses: qiancai/ai-codereviewer@test-v2
+        uses: qiancai/ai-codereviewer@test-gpt
         continue-on-error: false  # Ensure workflow fails if the action fails
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
