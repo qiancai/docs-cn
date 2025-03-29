@@ -8,7 +8,7 @@ aliases: ['/docs-cn/dev/tikv-configuration-file/','/docs-cn/dev/reference/config
 
 <!-- markdownlint-disable MD001 -->
 
-TiKV 配置文件比命令行参数支持更多的选。你可以在 [etc/config-template.toml](https://github.com/tikv/tikv/blob/master/etc/config-template.toml) 找到默认值的配文件，重名为 config.toml 即可。
+TiKV 配置文件比命令行参数支持更多的选。你可以在 [etc/config-template.toml](https://github.com/tikv/tikv/blob/master/etc/config-template.toml) 找到默认值的配文件，重名为 config.toml 即。
 
 本文档只阐未包含在命令行参数中的参数，命令行参数参见 [TiKV 配置参数](/command-line-flags-for-tikv-configuration.md)。
 
