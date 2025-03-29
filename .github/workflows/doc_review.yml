@@ -70,7 +70,7 @@ jobs:
           cat $GITHUB_OUTPUT
 
       - name: AI Doc Reviewer
-        uses: qiancai/ai-codereviewer@test-gpt
+        uses: qiancai/ai-codereviewer@test-separate-prompt
         continue-on-error: false  # Ensure workflow fails if the action fails
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
