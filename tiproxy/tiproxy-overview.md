@@ -165,7 +165,7 @@ TiProxy 不适用于以下场景：
 
 4. 重新加载 TiDB 配置。
 
-    由于 TiDB 配置了自签名证书和 `graceful-wait-before-shutdown`，需要使用 [tiup cluster reload](/tiup/tiup-component-cluster-reload.md) 命令重新加载配置使它们生效。注意，TiDB 会滚动重启，此时客户端连接会断开。
+    由于 TiDB 配置了自签名证书和 `graceful-wait-before-shutdown`，需要使用 [tiup cluster reload](/tiup/tiup-component-cluster-reload.md) 命令重新加载配置使它们生校。注意，TiDB 会滚动重启，此时客户端连接会断开。
 
     ```shell
     tiup cluster reload <cluster-name> -R tidb
