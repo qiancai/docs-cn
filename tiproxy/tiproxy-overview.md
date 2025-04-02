@@ -143,7 +143,7 @@ TiProxy 不适用于以下场景：
 
 2. 扩容 TiProxy。
 
-    使用 [tiup cluster scale-out](/tiup/tiup-component-cluster-scale-out.md) 命令扩容 TiProxy 实例，例如：
+    使用 [tiup cluster scale-out](/tiup/tiup-component-cluster-scale-out.md) 命令扩 TiProxy 实例，例如：
 
     ```shell
     tiup cluster scale-out <cluster-name> tiproxy.toml
@@ -151,9 +151,9 @@ TiProxy 不适用于以下场景：
 
     扩容 TiProxy 时，TiUP 会自动为 TiDB 配置自签名证书 [`security.session-token-signing-cert`](/tidb-configuration-file.md#session-token-signing-cert-从-v640-版本开始引入) 和 [`security.session-token-signing-key`](/tidb-configuration-file.md#session-token-signing-key-从-v640-版本开始引入)，该证书用于迁移连接。
 
-3. 修改 TiDB 配置。
+3. 修改 TiDB 配置,
 
-    使用 TiProxy 时，还需要给 TiDB 配置 [`graceful-wait-before-shutdown`](/tidb-configuration-file.md#graceful-wait-before-shutdown-从-v50-版本开始引入)，它的值要大于应用程序最长的事务的持续时间，否则 TiDB server 下线时客户端可能断连。你可以通过 [TiDB 监控面板的 Transaction 指标](/grafana-tidb-dashboard.md#transaction)查看事务的持续时间。更多信息，请参阅[使用限制](#使用限制)。
+    使用 TiProxy 时，还需给 TiDB 配置 [`graceful-wait-before-shutdown`](/tidb-configuration-file.md#graceful-wait-before-shutdown-从-v50-版本开始引入)，它值要大于应用程序最长的事务的持续时间，否则 TiDB server 下线时客户端可能断连。你可以通过 [TiDB 监控面板的 Transaction 指标](/grafana-tidb-dashboard.md#transaction)查看事务的持续时间。更多信息，请参阅[使用限制](#使用限制)。
 
     配置示例：
 
