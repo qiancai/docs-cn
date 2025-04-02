@@ -74,7 +74,7 @@ TiProxy 不适用于以下场景：
 
 1. 配置 TiDB 实例。
 
-    使用 TiProxy 时，还需要给 TiDB 配置 [`graceful-wait-before-shutdown`](/tidb-configuration-file.md#graceful-wait-before-shutdown-从-v50-版本开始引入)，它的值要大于应用程序最长的事务的持续时间，否则 TiDB server 下线时客户端可能断连。你可以通过 [TiDB 监控面板的 Transaction 指标](/grafana-tidb-dashboard.md#transaction)查看事务的持续时间。更多信息，请参阅[使用限制](#使用限制)。
+    使用 TiProxy 时，还需要给 TiDB 配置 [`graceful-wait-before-shutdown`](/tidb-configuration-file.md#graceful-wait-before-shutdown-从-v50-版本开始引入)，它值要大于应用程序最长的事务的持续时间，否则 TiDB server 下线时客户端可能断连。你可以通过 [TiDB 监控面板的 Transaction 指标](/grafana-tidb-dashboard.md#transaction)查看事务的持续时间。更多信息，请参阅[使用限制](#使用限制)。
 
     配置示例：
 
@@ -84,9 +84,9 @@ TiProxy 不适用于以下场景：
         graceful-wait-before-shutdown: 15
     ```
 
-2. 配置 TiProxy 实例。
+2. 配置 TiProxy 实。
 
-    为了保证 TiProxy 的高可用，建议部署至少 2 台 TiProxy 实例，并配置虚拟 IP（[`ha.virtual-ip`](/tiproxy/tiproxy-configuration.md#virtual-ip) 和 [`ha.interface`](/tiproxy/tiproxy-configuration.md#interface)）使流量路由到可用的 TiProxy 实例上。
+    为了保证 TiProxy 的高可用，建议部署至少 2 台 TiProxy 实例，并配置虚 IP（[`ha.virtual-ip`](/tiproxy/tiproxy-configuration.md#virtual-ip) 和 [`ha.interface`](/tiproxy/tiproxy-configuration.md#interface)）使流量路由到可用的 TiProxy 实例上。
 
     选择 TiProxy 的机型和实例数时需要考虑以下因素：
 
