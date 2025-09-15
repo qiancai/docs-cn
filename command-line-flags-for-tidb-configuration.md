@@ -1,18 +1,18 @@
 ---
-title: TiDB 配置参数
+title: TiDB 命令行参数
 aliases: ['/docs-cn/dev/command-line-flags-for-tidb-configuration/','/docs-cn/dev/reference/configuration/tidb-server/configuration/']
 summary: TiDB 配置参数包括启动参数和环境变量。启动参数包括 advertise-address、config、config-check、config-strict、cors 等。其中默认端口为 4000 和 10080。其他参数包括 log-file、metrics-addr、metrics-interval 等。注意配置文件的有效性和安全模式下的启动。
 ---
 
-# TiDB 配置参数
+# TiDB 命令行参数
+
+本文将详细介绍 TiDB 的命令行启动参数。TiDB 的默认端口为 4000（客户端请求）与 10080（状态报告）。
 
 在启动 TiDB 时，你可以使用命令行参数或环境变量来配置 TiDB。
 
 要快速了解 TiDB 的参数体系与参数作用域，建议先观看下面的培训视频（时长 17 分钟）。
 
 <video src="https://docs-download.pingcap.com/media/videos/docs-cn%2FLesson10_config.mp4" width="600px" height="450px" controls="controls" poster="https://docs-download.pingcap.com/media/videos/docs-cn/poster_lesson10.png"></video>
-
-本文将详细介绍 TiDB 的命令行启动参数。TiDB 的默认端口为 4000（客户端请求）与 10080（状态报告）。
 
 ## `--advertise-address`
 
@@ -24,16 +24,16 @@ summary: TiDB 配置参数包括启动参数和环境变量。启动参数包括
 
 + 配置文件
 + 默认：""
-+ 如果你指定了配置文件，TiDB 会首先读取配置文件的配置。如果对应的配置在命令行参数里面也存在，TiDB 就会使用命令行参数的配置来覆盖配置文件中的配置。详细的配置项请参阅 [TiDB 配置文件描述](/tidb-configuration-file.md)。
++ 如果你指定了配置文件，TiDB 会先读取配置文件的配置。如果对应的配置在命令行参数里面也存在，TiDB 就会使用命令行参数的配置来覆盖配置文件中的配置。详细的配置项请参阅 [TiDB 配置文件描述](/tidb-configuration-file.md)。
 
 ## `--config-check`
 
-- 检查配置文件的有效性并退出
+- 检查配置文件有效性并退出
 - 默认：false
 
 ## `--config-strict`
 
-- 增强配置文件的有效性
+- 增强配置文件有效性
 - 默认：false
 
 ## `--cors`
