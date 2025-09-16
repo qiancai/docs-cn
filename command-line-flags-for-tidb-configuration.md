@@ -41,11 +41,16 @@ summary: TiDB 配置参数包括启动参数和环境变量。启动参数包括
 + 用于设置 TiDB HTTP 状态服务的 Access-Control-Allow-Origin
 + 默认：""
 
-## `--host`
+## `--hosts`
 
-+ TiDB 服务监听的 host
++ TiDB 服务监听的 hosts
 + 默认："0.0.0.0"
 + 0.0.0.0 默认会监听所有的网卡地址。如果有多块网卡，可以指定对外提供服务的网卡，如 192.168.100.113
+
+## `--file`
+
++ 用于指定 TiDB 服务监听的文件
++ 默认：""
 
 ## `--initialize-insecure`
 
@@ -61,6 +66,11 @@ summary: TiDB 配置参数包括启动参数和环境变量。启动参数包括
 
 - 用于指定 TiDB 集群初次启动时执行的 SQL 脚本。参考[配置项 `initialize-sql-file`](/tidb-configuration-file.md#initialize-sql-file-从-v660-版本开始引入)
 - 默认：""
+
+## `--initialize-sql`
+
++ 用于指定 TiDB 集群初次启动时执行的 SQL 语句
++ 默认：""
 
 ## `-L`
 
@@ -162,12 +172,6 @@ summary: TiDB 配置参数包括启动参数和环境变量。启动参数包括
 + tidb-server 是否运行 DDL 语句，集群内至少需要有一台 tidb-server 设置该参数
 + 默认：true
 + 值可以为 `true` 或者 `false`。设置为 `true` 表明自身会运行 DDL；设置为 `false` 表明自身不会运行 DDL
-
-## `--socket string`
-
-+ TiDB 服务使用 unix socket file 方式接受外部连接
-+ 默认：""
-+ 例如可以使用 "/tmp/tidb.sock" 来打开 unix socket file
 
 ## `--status`
 
