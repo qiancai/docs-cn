@@ -585,8 +585,17 @@ PD 中内置的 [Resource Control](/tidb-resource-control-ru-groups.md) 相关�
 + 默认值: 1/1024
 + 1 RU = 1 KiB 写入字节
 
-#### `read-cpu-ms-cost`
+#### `read-cpu-ms-cost-pu`
 
 + CPU 转换成 RU 的基准系数
 + 默认值: 1/3
-+ 1 RU = 3 毫秒 CPU 时间
++ 1 RU = 3 毫秒 CPU 时间    
+
+#### `read-per-batch-base-cost`
+
++ 每次读请求转换成 RU 的基准系数
++ 默认值: 0.5
+
+### `write-cpu-ms-cost`
+
++ 对于写操作，CPU 转换成 RU 的基准系数
