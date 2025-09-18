@@ -318,6 +318,21 @@ pd-server 相关配置项。
 + 控制单个 store 最多同时接收或发送的 snapshot 数量，调度受制于这个配置来防止抢占正常业务的资源。
 + 默认：64
 
+### `min-snapshot-rate`
+
++ 控制单个 store 最少同时接收或发送的 snapshot 数量，调度受制于这个配置来防止抢占正常业务的资源。
++ 默认：10
+
+### `min-pending-peer-count`
+
++ 控制单个 store 最少同时接收或发送的 pending peer 数量。
++ 默认：10
+
+### `min-pending-learner-count`
+
++ 控制单个 store 最少同时接收或发送的 pending learner 数量。
++ 默认：10
+
 ### `max-pending-peer-count`
 
 + 控制单个 store 的 pending peer 上限，调度受制于这个配置来防止在部分节点产生大量日志落后的 Region。
