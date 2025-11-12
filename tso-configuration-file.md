@@ -60,14 +60,14 @@ TSO 节点用于提供 PD 的 `tso` 微服务。本文档仅在 PD 开启微服�
 
 安全相关配置项。
 
-### `cacert-path`
-
-- CA 文件路径
-- 默认值：""
-
 ### `cert-path`
 
 - 包含 X.509 证书的 PEM 文件路径
+- 默认值：""
+
+### `cacert-path`
+
+- CA 文件路径
 - 默认值：""
 
 ### `key-path`
@@ -127,7 +127,7 @@ TSO 节点用于提供 PD 的 `tso` 微服务。本文档仅在 PD 开启微服�
 
 ## metric
 
-监控相关的配置项。
+`metric` 相关的配置项。
 
 ### `interval`
 
