@@ -187,7 +187,9 @@
     - [与 Confluent Cloud 和 Snowflake 进行数据集成](/ticdc/integrate-confluent-using-ticdc.md)
     - [与 Apache Kafka 和 Apache Flink 进行数据集成](/replicate-data-to-kafka.md)
   - 参考指南
-    - [TiCDC 架构设计与原理](/ticdc/ticdc-architecture.md)
+    - TiCDC 架构设计与原理
+      - [TiCDC 新架构](/ticdc/ticdc-architecture.md)
+      - [TiCDC 老架构](/ticdc/ticdc-classic-architecture.md)
     - [TiCDC 数据同步能力详解](/ticdc/ticdc-data-replication-capabilities.md)
     - [TiCDC Server 配置参数](/ticdc/ticdc-server-config.md)
     - [TiCDC Changefeed 配置参数](/ticdc/ticdc-changefeed-config.md)
@@ -1087,6 +1089,7 @@
   - [外部存储服务的 URI 格式](/external-storage-uri.md)
   - [TiDB Workload Repository](/workload-repository.md)
   - [线上负载与 `ADD INDEX` 相互影响测试](/benchmark/online-workloads-and-add-index-operations.md)
+  - [内嵌于 DDL 的 Analyze](/ddl_embedded_analyze.md)
 - 常见问题解答 (FAQ)
   - [FAQ 汇总](/faq/faq-overview.md)
   - [产品 FAQ](/faq/tidb-faq.md)
