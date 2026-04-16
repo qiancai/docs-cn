@@ -10,7 +10,7 @@ TiDB 扩展了 MySQL 语法以支持[向量搜索](/ai/concepts/vector-search-ov
 
 本文档演示了如何仅使用 SQL 语句快速上手 TiDB 向量搜索。你将学习如何使用 [MySQL 命令行客户端](https://dev.mysql.com/doc/refman/8.4/en/mysql.html)完成以下操作：
 
-- 连接到你的 TiDB 集群。
+- 连接到 TiDB。
 - 创建向量表。
 - 存储向量嵌入。
 - 执行向量搜索查询。
@@ -29,10 +29,48 @@ TiDB 扩展了 MySQL 语法以支持[向量搜索](/ai/concepts/vector-search-ov
 
 **如果你还没有 TiDB 集群，可以按如下方式创建：**
 
-- （推荐）参考[创建 TiDB Cloud Starter 集群](/develop/dev-guide-build-cluster-in-cloud.md)来创建属于你自己的 TiDB Cloud 集群。
-- 参考[部署本地测试 TiDB 集群](/quick-start-with-tidb.md#deploy-a-local-test-cluster)或[部署生产环境 TiDB 集群](/production-deployment-using-tiup.md)来创建本地集群。
+- （推荐）[创建 TiDB Cloud Starter 实例](/develop/dev-guide-build-cluster-in-cloud.md)。
+- [部署本地测试 TiDB Self-Managed 集群](/quick-start-with-tidb.md#deploy-a-local-test-cluster)或[部署生产环境 TiDB Self-Managed 集群](/production-deployment-using-tiup.md)。
 
 ## 快速上手
+
+## 快速上手
+
+### 步骤 1. 连接到 TiDB {#step-1-connect-to-tidb}
+
+根据你选择的 TiDB 部署选项连接到 TiDB。
+
+<SimpleTab>
+<div label="{{{ .starter }}}">
+
+1. 导航到 [**My TiDB**](https://tidbcloud.com/tidbs) 页面，然后点击目标 {{{ .starter }}} 实例的名称进入其概览页面。
+
+2. 点击右上角的 **Connect**。连接对话框会显示出来。
+
+3. 在连接对话框中，从 **Connect With** 下拉列表中选择 **MySQL CLI**，并保持 **Connection Type** 的默认设置为 **Public**。
+
+4. 如果尚未设置密码，点击 **Generate Password** 生成一个随机密码。
+
+5. 复制连接命令并粘贴到你的终端中。以下是一个 macOS 的示例：
+
+    ```bash
+    mysql -u '<prefix>.root' -h '<host>' -P 4000 -D 'test' --ssl-mode=VERIFY_IDENTITY --ssl-ca=/etc/ssl/cert.pem -p'<password>'
+    ```
+
+</div>
+<div label="TiDB Self-Managed" value="tidb">
+
+在你的 TiDB Self-Managed 集群启动后，在终端中执行你的集群连接命令。
+
+以下是一个 macOS 的连接命令示例：
+
+```bash
+mysql --comments --host 127.0.0.1 --port 4000 -u root
+```
+
+</div>
+
+</SimpleTab>
 
 ### 步骤 1. 连接到 TiDB 集群
 
@@ -69,29 +107,6 @@ mysql --comments --host 127.0.0.1 --port 4000 -u root
 </div>
 
 </SimpleTab>
-
-### 步骤 2. 创建向量表
-
-在创建表时，你可以通过指定 `VECTOR` 数据类型，将某一列定义为[向量](/ai/concepts/vector-search-overview.md#vector-embedding)列。
-
-例如，要创建一个包含三维 `VECTOR` 列的 `embedded_documents` 表，可在 MySQL CLI 中执行如下 SQL 语句：
-
-```sql
-USE test;
-CREATE TABLE embedded_documents (
-    id        INT       PRIMARY KEY,
-    -- Column to store the original content of the document.
-    document  TEXT,
-    -- Column to store the vector representation of the document.
-    embedding VECTOR(3)
-);
-```
-
-预期输出如下：
-
-```text
-Query OK, 0 rows affected (0.27 sec)
-```
 
 ### 步骤 3. 向表中插入向量嵌入
 
