@@ -1,55 +1,55 @@
 ---
-title: System Variables
-summary: Use system variables to optimize performance or alter running behavior.
+title: 系统变量
+summary: 使用 TiDB 系统变量来优化性能或修改运行行为。
 ---
 
-# System Variables
+# 系统变量
 
-TiDB system variables behave similar to MySQL, in that settings apply on a `SESSION` or `GLOBAL` scope:
+TiDB 系统变量的行为与 MySQL 相似，变量的作用范围可以是会话级别有效 (Session Scope) 或全局范围有效 (Global Scope)。其中：
 
-- Changes on a `SESSION` scope will only affect the current session.
-- Changes on a `GLOBAL` scope apply immediately. If this variable is also`SESSION` scoped, all sessions (including your session) will continue to use their current session value.
-- Changes are made using the [`SET` statement](/sql-statements/sql-statement-set-variable.md):
+- 对 `SESSION` 作用域变量的更改，设置后**只影响当前会话**。
+- 对 `GLOBAL` 作用域变量的更改，设置后立即生效。如果该变量也有 `SESSION` 作用域，已经连接的所有会话 (包括当前会话) 将继续使用会话当前的 `SESSION` 变量值。
+- 要设置变量值，可使用 [`SET` 语句](/sql-statements/sql-statement-set-variable.md)。
 
 ```sql
-# These two identical statements change a session variable
+# 以下两个语句等价地改变一个 Session 变量
 SET tidb_distsql_scan_concurrency = 10;
 SET SESSION tidb_distsql_scan_concurrency = 10;
 
-# These two identical statements change a global variable
+# 以下两个语句等价地改变一个 Global 变量
 SET @@global.tidb_distsql_scan_concurrency = 10;
 SET GLOBAL tidb_distsql_scan_concurrency = 10;
 ```
 
-> **Note:**
+> **注意：**
 >
-> Several `GLOBAL` variables persist to the TiDB cluster. Some variables in this document have a `Persists to cluster` setting, which can be configured to `Yes` or `No`.
+> 部分 `GLOBAL` 作用域的变量会持久化到 TiDB 集群中。文档中的变量有一个“是否持久化到集群”的说明，可以为“是”或者“否”。
 >
-> - For variables with the `Persists to cluster: Yes` setting, when a global variable is changed, a notification is sent to all TiDB servers to refresh their system variable cache. When you add additional TiDB servers or restart existing TiDB servers, the persisted configuration value is automatically used.
-> - For variables with the `Persists to cluster: No` setting, changes only apply to the local TiDB instance that you are connected to. To retain any values set, you need to specify the variables in your `tidb.toml` configuration file.
+> - 对于持久化到集群的变量，当该全局变量被修改后，会通知所有 TiDB 服务器刷新其系统变量缓存。在集群中增加一个新的 TiDB 服务器时，或者重启现存的 TiDB 服务器时，都将自动使用该持久化变量。
+> - 对于不持久化到集群的变量，对变量的修改只对当前连接的 TiDB 实例生效。如果需要保留设置过的值，需要在 `tidb.toml` 配置文件中声明。
 >
-> Additionally, TiDB presents several MySQL variables as both readable and settable. This is required for compatibility, because it is common for both applications and connectors to read MySQL variables. For example, JDBC connectors both read and set query cache settings, despite not relying on the behavior.
+> 此外，由于应用和连接器通常需要读取 MySQL 变量，为了兼容这一需求，在 TiDB 中，部分 MySQL 的变量既可读取也可设置。例如，尽管 JDBC 连接器不依赖于查询缓存 (query cache) 的行为，但仍然可以读取和设置查询缓存。
 
-> **Note:**
+> **注意：**
 >
-> Larger values do not always yield better performance. It is also important to consider the number of concurrent connections that are executing statements, because most settings apply to each connection.
+> 变量取较大值并不总会带来更好的性能。由于大部分变量对单个连接生效，设置变量时，还应考虑正在执行语句的并发连接数量。
 >
-> Consider the unit of a variable when you determine safe values:
+> 确定安全值时，应考虑变量的单位：
 >
-> * For threads, safe values are typically up to the number of CPU cores.
-> * For bytes, safe values are typically less than the amount of system memory.
-> * For time, pay attention that the unit might be seconds or milliseconds.
+> * 如果单位为线程，安全值通常取决于 CPU 核的数量。
+> * 如果单位为字节，安全值通常小于系统内存的总量。
+> * 如果单位为时间，单位可能为秒或毫秒。
 >
-> Variables using the same unit might compete for the same set of resources.
+> 单位相同的多个变量可能会争夺同一组资源。
 
-Starting from v7.4.0, you can temporarily modify the value of some `SESSION` variables during statement execution using [`SET_VAR`](/optimizer-hints.md#set_varvar_namevar_value). After the statement is executed, the value of the system variable in the current session is automatically changed back to the original value. This hint can be used to modify some system variables related to the optimizer and executor. Variables in this document have a `Applies to hint SET_VAR` setting, which can be configured to `Yes` or `No`.
+从 v7.4.0 开始，部分 `SESSION` 作用域的变量可以通过 [`SET_VAR`](/optimizer-hints.md#set_varvar_namevar_value) Hint 在语句执行期间临时修改变量的值。当语句执行完成后，系统变量将在当前会话中自动恢复为原始值。通过这个 Hint 可以修改一部分与优化器、执行器相关的系统变量行为。文档中的变量有一个“是否受 Hint [`SET_VAR`](/optimizer-hints.md#set_varvar_namevar_value) 控制”的说明，可以为“是”或者“否”。
 
-- For variables with the `Applies to hint SET_VAR: Yes` setting, you can use the [`SET_VAR`](/optimizer-hints.md#set_varvar_namevar_value) hint to modify the value of the system variable in the current session during statement execution.
-- For variables with the `Applies to hint SET_VAR: No` setting, you cannot use the [`SET_VAR`](/optimizer-hints.md#set_varvar_namevar_value) hint to modify the value of the system variable in the current session during statement execution.
+- 对于受 Hint SET_VAR 控制的变量，你可以在语句中使用 `/*+ SET_VAR(...) */` 修改语句执行期间变量的值。
+- 对于不受 Hint SET_VAR 控制的变量，你不能在语句中使用 `/*+ SET_VAR(...) */` 修改语句执行期间变量的值。
 
-For more information about the `SET_VAR` hint, see [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value).
+关于 SET_VAR Hint 的更多说明，参考 [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value)。
 
-## Variable reference
+## 变量参考
 
 ### `allow_auto_random_explicit_insert` <span class="version-mark">从 v4.0.3 版本开始引入</span>
 
@@ -396,7 +396,7 @@ mysql> SELECT * FROM t1;
 <CustomContent platform="tidb">
 
 - Scope: NONE
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: it depends on the component and the deployment method.
     - `/tmp/tidb`: when you set `"unistore"` for [`--store`](/command-line-flags-for-tidb-configuration.md#--store) or if you don't set `--store`.
     - `${pd-ip}:${pd-port}`: when you use TiKV, which is the default storage engine for TiUP and TiDB Operator for Kubernetes deployments.
@@ -407,7 +407,7 @@ mysql> SELECT * FROM t1;
 <CustomContent platform="tidb-cloud">
 
 - Scope: NONE
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: it depends on the component and the deployment method.
     - `/tmp/tidb`: when you set `"unistore"` for [`--store`](https://docs.pingcap.com/tidb/stable/command-line-flags-for-tidb-configuration#--store) or if you don't set `--store`.
     - `${pd-ip}:${pd-port}`: when you use TiKV, which is the default storage engine for TiUP and TiDB Operator for Kubernetes deployments.
@@ -427,7 +427,7 @@ mysql> SELECT * FROM t1;
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `300`
 - Range: `[0, 2147483647]`
@@ -438,7 +438,7 @@ mysql> SELECT * FROM t1;
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Enumeration
 - Default value: `mysql_native_password`
 - Possible values: `mysql_native_password`, `caching_sha2_password`, `tidb_sm3_password`, `tidb_auth_token`, `authentication_ldap_sasl`, and `authentication_ldap_simple`.
@@ -488,7 +488,7 @@ For more possible values of this variable, see [Authentication plugin status](/s
 ### disconnect_on_expired_password <span class="version-mark">New in v6.5.0</span>
 
 - Scope: GLOBAL
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable is read-only. It indicates whether TiDB disconnects the client connection when the password is expired. If the variable is set to `ON`, the client connection is disconnected when the password is expired. If the variable is set to `OFF`, the client connection is restricted to the "sandbox mode" and the user can only execute the password reset operation.
@@ -719,7 +719,7 @@ For more possible values of this variable, see [Authentication plugin status](/s
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: Integer
 - Default value: `0`
 - Range: `[0, 2147483647]`
@@ -842,7 +842,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF` for TiDB Self-Managed and [TiDB Cloud Dedicated](https://docs.pingcap.com/tidbcloud/select-cluster-tier#tidb-cloud-dedicated), `ON` for [{{{ .starter }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#starter) and [{{{ .essential }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#essential)
 
@@ -901,7 +901,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 - This variable controls whether to enforce the requirement that a table has a primary key. After this variable is enabled, attempting to create or alter a table without a primary key will produce an error.
@@ -930,7 +930,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 <CustomContent platform="tidb">
 
 - Scope: NONE
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: ""
 - The location of the certificate authority file (if there is one). The value of this variable is defined by the TiDB configuration item [`ssl-ca`](/tidb-configuration-file.md#ssl-ca).
 
@@ -939,7 +939,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 <CustomContent platform="tidb-cloud">
 
 - Scope: NONE
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: ""
 - The location of the certificate authority file (if there is one). The value of this variable is defined by the TiDB configuration item [`ssl-ca`](https://docs.pingcap.com/tidb/stable/tidb-configuration-file#ssl-ca).
 
@@ -950,7 +950,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 <CustomContent platform="tidb">
 
 - Scope: NONE
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: ""
 - The location of the certificate file (if there is a file) that is used for SSL/TLS connections. The value of this variable is defined by the TiDB configuration item [`ssl-cert`](/tidb-configuration-file.md#ssl-cert).
 
@@ -959,7 +959,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 <CustomContent platform="tidb-cloud">
 
 - Scope: NONE
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: ""
 - The location of the certificate file (if there is a file) that is used for SSL/TLS connections. The value of this variable is defined by the TiDB configuration item [`ssl-cert`](https://docs.pingcap.com/tidb/stable/tidb-configuration-file#ssl-cert).
 
@@ -970,7 +970,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 <CustomContent platform="tidb">
 
 - Scope: NONE
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: ""
 - The location of the private key file (if there is one) that is used for SSL/TLS connections. The value of this variable is defined by TiDB configuration item [`ssl-key`](/tidb-configuration-file.md#ssl-cert).
 
@@ -979,7 +979,7 @@ mysql> SHOW GLOBAL VARIABLES LIKE 'max_prepared_stmt_count';
 <CustomContent platform="tidb-cloud">
 
 - Scope: NONE
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: ""
 - The location of the private key file (if there is one) that is used for SSL/TLS connections. The value of this variable is defined by TiDB configuration item [`ssl-key`](https://docs.pingcap.com/tidb/stable/tidb-configuration-file#ssl-key).
 
@@ -1078,7 +1078,7 @@ MPP 是 TiFlash 引擎提供的分布式计算框架，允许节点之间的数�
 </CustomContent>
 
 - Scope: SESSION
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 - This variable is used to set whether the `AUTO_INCREMENT` property of a column is allowed to be removed by executing `ALTER TABLE MODIFY` or `ALTER TABLE CHANGE` statements. It is not allowed by default.
@@ -1127,7 +1127,7 @@ MPP 是 TiFlash 引擎提供的分布式计算框架，允许节点之间的数�
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `2`
 - Range: `[1, 2]`
@@ -1279,7 +1279,7 @@ mysql> SELECT job_info FROM mysql.analyze_jobs ORDER BY end_time DESC LIMIT 1;
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `2`
 - Range: `[0, 2147483647]`
@@ -1419,7 +1419,7 @@ mysql> SELECT job_info FROM mysql.analyze_jobs ORDER BY end_time DESC LIMIT 1;
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable is used to enforce that the `utf8` character set only stores values from the [Basic Multilingual Plane (BMP)](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane). To store characters outside the BMP, it is recommended to use the `utf8mb4` character set.
@@ -1455,7 +1455,7 @@ mysql> SELECT job_info FROM mysql.analyze_jobs ORDER BY end_time DESC LIMIT 1;
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: ""
 - This variable is read-only. It is used to obtain the configuration information of the current TiDB server.
 
@@ -1511,7 +1511,7 @@ mysql> SELECT job_info FROM mysql.analyze_jobs ORDER BY end_time DESC LIMIT 1;
 ### tidb_constraint_check_in_place_pessimistic <span class="version-mark">New in v6.3.0</span>
 
 - Scope: SESSION
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 
 <CustomContent platform="tidb">
@@ -1615,7 +1615,7 @@ mysql> SELECT job_info FROM mysql.analyze_jobs ORDER BY end_time DESC LIMIT 1;
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `107374182400` (100 GiB)
 - Range: `[107374182400, 1125899906842624]` ([100 GiB, 1 PiB])
@@ -1632,7 +1632,7 @@ mysql> SELECT job_info FROM mysql.analyze_jobs ORDER BY end_time DESC LIMIT 1;
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable controls whether to enable the acceleration of `ADD INDEX` and `CREATE INDEX` to improve the speed of backfilling for index creation. Setting this variable value to `ON` can bring performance improvement for index creation on tables with a large amount of data.
@@ -1677,7 +1677,7 @@ mysql> SELECT job_info FROM mysql.analyze_jobs ORDER BY end_time DESC LIMIT 1;
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: `ON`
 - This variable is used to control whether to enable the [TiDB Distributed eXecution Framework (DXF)](/tidb-distributed-execution-framework.md). After the framework is enabled, the DXF tasks such as DDL and import will be distributedly executed and completed by multiple TiDB nodes in the cluster.
 - Starting from TiDB v7.1.0, the DXF supports distributedly executing the [`ADD INDEX`](/sql-statements/sql-statement-add-index.md) statement for partitioned tables.
@@ -1757,7 +1757,7 @@ mysql> SELECT job_info FROM mysql.analyze_jobs ORDER BY end_time DESC LIMIT 1;
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: String
 - Default value: `0`
 - Range: `[0, 1PiB]`
@@ -1806,7 +1806,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `4`
 - Range: `[1, 256]`
@@ -1849,7 +1849,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable is used to set whether to disable the automatic retry of explicit optimistic transactions. The default value of `ON` means that transactions will not automatically retry in TiDB and `COMMIT` statements might return errors that need to be handled in the application layer.
@@ -2067,7 +2067,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable controls whether to record the execution information of each operator in the slow query log and whether to record the [usage statistics of indexes](/information-schema/information-schema-tidb-index-usage.md).
@@ -2088,7 +2088,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 ### tidb_enable_enhanced_security
 
 - Scope: NONE
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 
 <CustomContent platform="tidb">
@@ -2218,7 +2218,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 - Possible values: `OFF`, `ON`
@@ -2237,7 +2237,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 - Possible values: `OFF`, `ON`
@@ -2364,7 +2364,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable is used to set whether to enable the [Metadata lock](/metadata-lock.md) feature. Note that when setting this variable, you need to make sure that there are no running DDL statements in the cluster. Otherwise, the data might be incorrect or inconsistent.
@@ -2566,7 +2566,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable controls whether to enable the `PLAN REPLAYER CAPTURE` feature. The default value `ON` means to enable the `PLAN REPLAYER CAPTURE` feature.
@@ -2577,7 +2577,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable controls whether to enable the [`PLAN REPLAYER CAPTURE` feature](/sql-plan-replayer.md#use-plan-replayer-capture-to-capture-target-plans). The default value `ON` means to enable the `PLAN REPLAYER CAPTURE` feature.
@@ -2590,7 +2590,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 - This variable controls whether to enable the `PLAN REPLAYER CONTINUOUS CAPTURE` feature. The default value `OFF` means to disable the feature.
@@ -2601,7 +2601,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 - This variable controls whether to enable the [`PLAN REPLAYER CONTINUOUS CAPTURE` feature](/sql-plan-replayer.md#use-plan-replayer-continuous-capture). The default value `OFF` means to disable the feature.
@@ -2639,7 +2639,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: Boolean
 - Default value: `OFF`
 - This variable controls the behavior of the optimizer on using statistics of a table when the statistics are outdated.
@@ -2663,7 +2663,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 - This variable controls whether to enable the dynamic memory control feature for the operator that reads data. By default, this operator enables the maximum number of threads that [`tidb_distsql_scan_concurrency`](/system-variables.md#tidb_distsql_scan_concurrency) allows to read data. When the memory usage of a single SQL statement exceeds [`tidb_mem_quota_query`](/system-variables.md#tidb_mem_quota_query) each time, the operator that reads data stops one thread.
@@ -2718,7 +2718,7 @@ Assume that you have a cluster with 4 TiDB nodes and multiple TiKV nodes. In thi
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable is used to control whether to enable the slow log feature.
@@ -2795,7 +2795,7 @@ Query OK, 0 rows affected (0.09 sec)
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`. Starting from v8.5.3, the default value is changed from `OFF` to `ON`.
 
@@ -2832,7 +2832,7 @@ Query OK, 0 rows affected (0.09 sec)
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 
@@ -2897,7 +2897,7 @@ Query OK, 0 rows affected (0.09 sec)
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 
@@ -2918,7 +2918,7 @@ Query OK, 0 rows affected (0.09 sec)
 ### tidb_enforce_mpp <span class="version-mark">New in v5.1</span>
 
 - Scope: SESSION
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: Boolean
 - Default value: `OFF`
 
@@ -3022,7 +3022,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `60`
 - Range: `[10, 2147483647]`
@@ -3043,7 +3043,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `600`
 - Range: `[60, 2147483647]`
@@ -3058,7 +3058,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Enumeration
 - Default value: `NO_PRIORITY`
 - Possible values: `NO_PRIORITY`, `LOW_PRIORITY`, `HIGH_PRIORITY`, `DELAYED`
@@ -3107,7 +3107,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Duration
 - Default value: `10m0s`
 - Range: `[10m0s, 8760h0m0s]` for TiDB Self-Managed and [TiDB Cloud Dedicated](https://docs.pingcap.com/tidbcloud/select-cluster-tier#tidb-cloud-dedicated), `[10m0s, 168h0m0s]` for [{{{ .starter }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#starter) and [{{{ .essential }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#essential)
@@ -3153,7 +3153,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Enumeration
 - Default value: `LEGACY`
 - Possible values: `PHYSICAL`, `LEGACY`
@@ -3180,7 +3180,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 
@@ -3596,7 +3596,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: `"1s"`
 - Range: `[0s, 1h]`
 - Type: String
@@ -3608,7 +3608,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: `"1s"`
 - Range: `[0s, 1h]`
 - Type: String
@@ -3647,7 +3647,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `0`
 - Range: `[0, 2147483647]`
@@ -3700,7 +3700,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: Integer
 - Default value: `-1`
 - Range: `[-1, 9223372036854775807]`
@@ -3728,7 +3728,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: Integer
 - Default value: `-1`
 - Range: `[-1, 9223372036854775807]`
@@ -3756,7 +3756,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: Integer
 - Default value: `-1`
 - Range: `[-1, 9223372036854775807]`
@@ -3843,7 +3843,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Enumeration
 - Default value: `CANCEL`
 - Possible values: `CANCEL`, `LOG`
@@ -3910,7 +3910,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `1073741824` (1 GiB)
 - Range: `[-1, 9223372036854775807]`
@@ -3960,7 +3960,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Float
 - Default value: `0.7`
 - Range: `[0.0, 1.0]`
@@ -3996,7 +3996,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: `5`
 - Range: `[1, 10000]`
 - When the tidb-server memory usage exceeds the memory alarm threshold and triggers an alarm, TiDB only retains the status files generated during the recent 5 alarms by default. You can adjust this number with this variable.
@@ -4036,7 +4036,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 > This TiDB variable is not applicable to TiDB Cloud.
 
 - Scope: SESSION
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `60`
 - Range: `[10, 216000]`
@@ -4050,7 +4050,7 @@ v5.0 后，用户仍可以单独修改以上系统变量（会有废弃警告）
 > This TiDB variable is not applicable to TiDB Cloud.
 
 - Scope: SESSION
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `60`
 - Range: `[10, 216000]`
@@ -4344,7 +4344,7 @@ mysql> desc select count(distinct a) from test.t;
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: String
 - Default value: `""`
 - This variable is used to control some internal behaviors of the optimizer.
@@ -4357,7 +4357,7 @@ mysql> desc select count(distinct a) from test.t;
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: String
 - Default value: `""`
 - This variable is used to control some internal behaviors of the optimizer.
@@ -5019,7 +5019,7 @@ SHOW WARNINGS;
 ### tidb_opt_use_invisible_indexes <span class="version-mark">New in v8.0.0</span>
 
 - Scope: SESSION
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: Boolean
 - Default value: `OFF`
 - This variable controls whether the optimizer can select [invisible indexes](/sql-statements/sql-statement-create-index.md#invisible-index) for query optimization in the current session. Invisible indexes are maintained by DML statements, but will not be used by the query optimizer. This is useful in scenarios where you want to double-check before removing an index permanently. When the variable is set to `ON`, the optimizer can select invisible indexes for query optimization in the session.
@@ -5031,7 +5031,7 @@ SHOW WARNINGS;
 > This TiDB variable is not applicable to TiDB Cloud.
 
 - Scope: SESSION
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: Boolean
 - Default value: `OFF`
 - This variable is used to control whether to allow `INSERT`, `REPLACE`, and `UPDATE` statements to operate on the `_tidb_rowid` column. This variable can be used only when you import data using TiDB tools.
@@ -5329,7 +5329,7 @@ SHOW WARNINGS;
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `0`
 - Range: `[0, 1]`
@@ -5456,7 +5456,7 @@ SHOW WARNINGS;
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `ON`
 - This variable is used to control whether to include the execution plan of slow queries in the slow log.
@@ -5469,7 +5469,7 @@ SHOW WARNINGS;
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Enumeration
 - Default value: `OFF`
 - Possible values: `OFF`, `ON`, `MARKER`
@@ -5519,7 +5519,7 @@ SHOW WARNINGS;
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): Yes
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：是
 - Type: Enumeration
 - Default value: `leader`
 - Possible values: `leader`, `follower`, `leader-and-follower`, `prefer-leader`, `closest-replicas`, `closest-adaptive`, and `learner`. The `learner` value is introduced in v6.6.0.
@@ -5534,7 +5534,7 @@ SHOW WARNINGS;
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 - `tidb_restricted_read_only` and [`tidb_super_read_only`](#tidb_super_read_only-new-in-v531) behave similarly. In most cases, you should use [`tidb_super_read_only`](#tidb_super_read_only-new-in-v531) only.
@@ -5590,7 +5590,7 @@ SHOW WARNINGS;
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `2`
 - Range: `[1, 2]`
@@ -5695,7 +5695,7 @@ SHOW WARNINGS;
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: String
 - Default value: ""
 - Optional value: a string with a length of up to 64 characters. Valid characters include digits `0-9`, letters `a-zA-Z`, underscores `_`, and hyphens `-`. Starting from v8.5.6, the value of this variable is case-insensitive. TiDB converts the input value to lowercase for storage and comparison.
@@ -5840,7 +5840,7 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
 
 - Scope: GLOBAL
 - Persists to cluster: No, only applicable to the current TiDB instance that you are connecting to.
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `300`
 - Range: `[-1, 9223372036854775807]`
@@ -5854,7 +5854,7 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
 > This TiDB variable is not applicable to TiDB Cloud.
 
 - Scope: SESSION
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: ""
 - When `INFORMATION_SCHEMA.SLOW_QUERY` is queried, only the slow query log name set by `slow-query-file` in the configuration file is parsed. The default slow query log name is "tidb-slow.log". To parse other logs, set the `tidb_slow_query_file` session variable to a specific file path, and then query `INFORMATION_SCHEMA.SLOW_QUERY` to parse the slow query log based on the set file path.
 
@@ -5885,7 +5885,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `1`
 - Range: `[1, 15]`
@@ -5948,7 +5948,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 > Statements summary persistence is an experimental feature. It is not recommended that you use it in the production environment. This feature might be changed or removed without prior notice. If you find a bug, you can report an [issue](https://github.com/pingcap/tidb/issues) on GitHub.
 
 - Scope: GLOBAL
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Boolean
 - Default value: `OFF`
 - This variable is read-only. It controls whether to enable [statements summary persistence](/statement-summary-tables.md#persist-statements-summary).
@@ -5974,7 +5974,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 > Statements summary persistence is an experimental feature. It is not recommended that you use it in the production environment. This feature might be changed or removed without prior notice. If you find a bug, you can report an [issue](https://github.com/pingcap/tidb/issues) on GitHub.
 
 - Scope: GLOBAL
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: String
 - Default value: `"tidb-statements.log"`
 - This variable is read-only. It specifies the file to which persistent data is written when [statements summary persistence](/statement-summary-tables.md#persist-statements-summary) is enabled.
@@ -6000,7 +6000,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 > Statements summary persistence is an experimental feature. It is not recommended that you use it in the production environment. This feature might be changed or removed without prior notice. If you find a bug, you can report an [issue](https://github.com/pingcap/tidb/issues) on GitHub.
 
 - Scope: GLOBAL
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `0`
 - This variable is read-only. It specifies the maximum number of data files that can be persisted when [statements summary persistence](/statement-summary-tables.md#persist-statements-summary) is enabled.
@@ -6026,7 +6026,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 > Statements summary persistence is an experimental feature. It is not recommended that you use it in the production environment. This feature might be changed or removed without prior notice. If you find a bug, you can report an [issue](https://github.com/pingcap/tidb/issues) on GitHub.
 
 - Scope: GLOBAL
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `3`
 - Unit: day
@@ -6053,7 +6053,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 > Statements summary persistence is an experimental feature. It is not recommended that you use it in the production environment. This feature might be changed or removed without prior notice. If you find a bug, you can report an [issue](https://github.com/pingcap/tidb/issues) on GitHub.
 
 - Scope: GLOBAL
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `64`
 - Unit: MiB
@@ -6092,7 +6092,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `4096`
 - Range: `[0, 2147483647]`
@@ -6118,7 +6118,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `3000`
 - Range: `[1, 32767]`
@@ -6241,7 +6241,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `5000`
 - Range: `[1, 10000]`
@@ -6270,7 +6270,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `100`
 - Range: `[1, 5000]`
@@ -6462,7 +6462,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `16384`
 - Range: `[1, 1073741824]`
@@ -6484,7 +6484,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `0`
 - Range: `[0, 125829120]`
@@ -6631,7 +6631,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: SESSION | GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Enumeration
 - Default value: `all_replicas`
 - Value options: `all_replicas`, `closest_adaptive`, or `closest_replicas`
@@ -6736,7 +6736,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 > This variable is read-only for [{{{ .starter }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#starter) and [{{{ .essential }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#essential) instances.
 
 - Scope: SESSION
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Default value: `global`
 - Value options: `global` and `local`
 - This variable is used to set whether the current session transaction is a global transaction or a local transaction.
@@ -6777,7 +6777,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `8`
 - Range: `[0, 2147483647]` for TiDB Self-Managed and [TiDB Cloud Dedicated](https://docs.pingcap.com/tidbcloud/select-cluster-tier#tidb-cloud-dedicated), `[8, 2147483647]` for [{{{ .starter }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#starter) and [{{{ .essential }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#essential)
@@ -6789,7 +6789,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `1`
 - Range: `[0, 2147483647]` for TiDB Self-Managed and [TiDB Cloud Dedicated](https://docs.pingcap.com/tidbcloud/select-cluster-tier#tidb-cloud-dedicated), `[1, 2147483647]` for [{{{ .starter }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#starter) and [{{{ .essential }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#essential)
@@ -6800,7 +6800,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `1`
 - Range: `[0, 2147483647]` for TiDB Self-Managed and [TiDB Cloud Dedicated](https://docs.pingcap.com/tidbcloud/select-cluster-tier#tidb-cloud-dedicated), `[1, 2147483647]` for [{{{ .starter }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#starter) and [{{{ .essential }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#essential)
@@ -6810,7 +6810,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Enumeration
 - Default value: `1`
 - Value options: `0`, `1`, and `2` for TiDB Self-Managed and [TiDB Cloud Dedicated](https://docs.pingcap.com/tidbcloud/select-cluster-tier#tidb-cloud-dedicated); `1` and `2` for [{{{ .starter }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#starter) and [{{{ .essential }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#essential)
@@ -6824,7 +6824,7 @@ For details, see [Identify Slow Queries](/identify-slow-queries.md).
 
 - Scope: GLOBAL
 - Persists to cluster: Yes
-- Applies to hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value): No
+- 是否受 Hint [SET_VAR](/optimizer-hints.md#set_varvar_namevar_value) 控制：否
 - Type: Integer
 - Default value: `1`
 - Range: `[0, 2147483647]` for TiDB Self-Managed and [TiDB Cloud Dedicated](https://docs.pingcap.com/tidbcloud/select-cluster-tier#tidb-cloud-dedicated), `[1, 2147483647]` for [{{{ .starter }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#starter) and [{{{ .essential }}}](https://docs.pingcap.com/tidbcloud/select-cluster-tier#essential)
