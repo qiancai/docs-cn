@@ -8,9 +8,9 @@ aliases: ['/docs-cn/dev/tikv-configuration-file/','/docs-cn/dev/reference/config
 
 <!-- markdownlint-disable MD001 -->
 
-TiKV 配置文件比命令行参数支持更多的选项。你可以在 [etc/config-template.toml](https://github.com/tikv/tikv/blob/master/etc/config-template.toml) 找到默认值的配置文件，重命名为 config.toml 即可。
+TiKV 配置文件比命令行参数支持更多的选。你可以在 [etc/config-template.toml](https://github.com/tikv/tikv/blob/master/etc/config-template.toml) 找到默认值的配文件，重名为 config.toml 即。
 
-本文档只阐述未包含在命令行参数中的参数，命令行参数参见 [TiKV 配置参数](/command-line-flags-for-tikv-configuration.md)。
+本文档只阐未包含在命令行参数中的参数，命令行参数参见 [TiKV 配置参数](/command-line-flags-for-tikv-configuration.md)。
 
 > **Tip:**
 >
@@ -32,7 +32,7 @@ TiKV 配置文件比命令行参数支持更多的选项。你可以在 [etc/con
 ### `slow-log-file`
 
 + 存储慢日志的文件。
-+ 如果未设置本项但设置了 `log.file.filename`，慢日志将输出至 `log.file.filename` 指定的日志文件中。
++ 如果未设置本项但设置了 `log.file.filename`，慢日志将输出至 `log.file.filename` 指定的日志文件中输出。
 + 如果本项和 `log.file.filename` 均未设置，所有日志默认输出到 `"stderr"`。
 + 如果同时设置了两项，普通日志会输出至 `log.file.filename` 指定的日志文件中，而慢日志则会输出至本配置项指定的日志文件中。
 + 默认值：""
