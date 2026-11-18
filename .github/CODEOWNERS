@@ -1,0 +1,5 @@
+# Media publishing uses Tencent Cloud credentials.
+/.github/CODEOWNERS @lilin90 @qiancai
+/.github/workflows/media.yml @lilin90 @qiancai
+/scripts/write-media-cos-config.py @lilin90 @qiancai
+/scripts/test-media-workflow.py @lilin90 @qiancai
